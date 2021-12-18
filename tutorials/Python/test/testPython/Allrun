@@ -1,0 +1,15 @@
+echo "Blockmesh starts"
+blockMesh >> log 2>&1
+
+echo "Setrandomfield starts"
+setRandomField >> log 2>&1
+
+echo "Simpledarcyfoam starts"
+simpleDarcyFoam -noFunctionObjects >> log 2>&1
+
+find ./ -name 'U' | while read U ; do cp "$U" ./0 ; done
+
+echo "Scalartransportfoam starts"
+scalarTransportFoam >> log 2>&1
+
+echo "Finish"

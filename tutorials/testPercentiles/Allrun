@@ -1,0 +1,44 @@
+#!/bin/sh
+
+echo "Blockmesh starts"
+blockMesh >> log 2>&1
+
+# Sequential running #################################################################################
+#
+#echo "Setrandomfield starts"
+#setRandomField >> log 2>&1
+#
+#echo "Simpledarcyfoam starts"
+#simpleDarcyFoam -noFunctionObjects >> log 2>&1
+#
+#find ./ -name 'U' | while read U ; do cp "$U" ./0 ; done
+#
+#echo "adaptiveScalarTransportFoam starts"
+#adaptiveScalarTransportFoam >> log 2>&1
+#
+## Parallel running ####################################################################################
+
+echo "Decomposition of the domain starts"
+decomposePar >> log 2>&1
+
+echo "Setrandomfield starts"
+mpirun --oversubscribe -np 4 setRandomField -parallel >> log 2>&1
+
+echo "Simpledarcyfoam starts"
+mpirun --oversubscribe -np 4 simpleDarcyFoam -parallel  >> log 2>&1
+
+for i in processor*; do
+    cd ./$i
+    find ./ -name 'U' | while read U ; do cp "$U" ./0 ; done
+    cd ..
+done
+
+echo "adaptiveScalarTransportFoam starts"
+mpirun --oversubscribe -np 4 adaptiveScalarTransportFoam -parallel  >> log 2>&1
+
+## Postprocessing metrics #############################################################################
+#
+#echo "FieldMetrics strats"
+#mpirun --oversubscribe -np 12 postProcess -time 0 -dict system/fieldMetricsDict -parallel >> log 2>&1
+
+echo "Finish"

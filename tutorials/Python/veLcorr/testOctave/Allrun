@@ -1,0 +1,19 @@
+echo "Blockmesh starts"
+blockMesh >> log 2>&1
+
+echo "Decomposition of the domain starts"
+decomposePar >> log 2>&1
+
+echo "Setrandomfield starts"
+mpirun --oversubscribe -np 12 setRandomField -parallel >> log 2>&1
+
+//echo "Setrandomfield starts"
+//setRandomField >> log 2>&1
+
+echo "Simpledarcyfoam starts"
+mpirun --oversubscribe -np 12 simpleDarcyFoam -noFunctionObjects -parallel  >> log 2>&1
+
+//echo "Simpledarcyfoam starts"
+//simpleDarcyFoam -noFunctionObjects >> log 2>&1
+
+echo "Finish"

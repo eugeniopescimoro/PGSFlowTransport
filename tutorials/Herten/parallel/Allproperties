@@ -1,0 +1,8 @@
+# Duplication of the original files to keep track of the initial settings
+cp system/setRandomFieldDict.orig system/setRandomFieldDict 
+cp 0/K.orig 0/K
+# Populating specific fields of the cloned files with input values (i.e. './Allproperties 0.1 0.1 0.05 0.1')
+sed -i "s/Lcorr/$1/$2/$3/g" system/setRandomFieldDict # It prompts the user to insert the correlation length along X
+sed -i "s/LcorrY/$2/g" system/setRandomFieldDict # It prompts the user to insert the correlation length along Y
+sed -i "s/LcorrZ/$3/g" system/setRandomFieldDict # It prompts the user to insert the correlation length along Z
+sed -i "s/Kz/$4/g" 0/K # It prompts the user to insert the ratio Kz/Kx = Kz/Ky

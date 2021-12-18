@@ -1,0 +1,24 @@
+echo "Blockmesh starts"
+blockMesh >> log 2>&1
+
+echo "TopoSet starts"
+topoSet >> log 2>&1
+
+echo "SetsToZones starts"
+setsToZones >> log 2>&1
+
+echo "Demposition of the domain starts"
+decomposePar >> log 2>&1
+
+echo "Setrandomfield starts"
+mpirun --oversubscribe -np 6 setRandomField -parallel >> log 2>&1
+
+echo "Simpledarcyfoam starts"
+mpirun --oversubscribe -np 6 simpleDarcyFoam -noFunctionObjects -parallel  >> log 2>&1
+
+for i in {0..5} ; do cd processor$i ; find ./ -name 'U' | while read U ; do cp "$U" ./0 ; done ;  cd .. ; done 
+
+echo "Scalartransportfoam starts"
+mpirun --oversubscribe -np 6 scalarTransportFoam -parallel >> log 2>&1
+
+echo "Finish"

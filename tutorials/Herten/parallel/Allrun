@@ -1,0 +1,19 @@
+echo "Blockmesh starts"
+blockMesh >> log 2>&1
+
+echo "Demposition of the domain starts"
+decomposePar >> log 2>&1
+
+echo "Setrandomfield starts"
+mpirun --oversubscribe -np 12 setRandomField -parallel >> log 2>&1
+
+echo "Simpledarcyfoam starts"
+mpirun --oversubscribe -np 12 simpleDarcyFoam -noFunctionObjects -parallel  >> log 2>&1
+
+# find ./ -name 'U' | while read U ; do cp "$U" ./0 ; done
+for i in {0..11} ; do cd processor$i ; find ./ -name 'U' | while read U ; do cp "$U" ./0 ; done ;  cd .. ; done # To be used when working in parallel on 12 processors
+
+echo "Scalartransportfoam starts"
+mpirun --oversubscribe -np 12 scalarTransportFoam -parallel >> log 2>&1
+
+echo "Finish"

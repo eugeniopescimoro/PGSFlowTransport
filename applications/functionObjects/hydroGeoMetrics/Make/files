@@ -1,0 +1,3 @@
+hydroGeoMetrics.C
+
+LIB = $(FOAM_USER_LIBBIN)/libhydroGeoMetricsFunctionObject

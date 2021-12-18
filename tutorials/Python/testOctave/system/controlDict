@@ -1,0 +1,91 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | foam-extend: Open Source CFD                    |
+|  \\    /   O peration     | Version:     4.0                                |
+|   \\  /    A nd           | Web:         http://www.foam-extend.org         |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application simpleFoam;
+
+startFrom       startTime;
+
+startTime       0;
+
+stopAt          endTime;
+
+endTime         3.2e6; // #calc "86400*0.5";
+
+deltaT          100;
+
+writeControl    timeStep;//runTime;
+
+writeInterval   1e5;
+
+purgeWrite      1;
+
+writeFormat     binary;
+
+writePrecision  6;
+
+writeCompression uncompressed;
+
+timeFormat      general;
+
+timePrecision   6;
+
+runTimeModifiable no;
+
+functions
+{
+    breakthrough
+    {
+        // Load the library containing the 'coded' functionObject
+        libs            ("libutilityFunctionObjects.so");
+
+        type coded;
+
+        // Name of on-the-fly generated functionObject
+        name breakthrough;
+
+        codeWrite
+        #{
+            // Lookup c
+            //Info<< "Looking up field c\n" << endl;
+            const volScalarField& c = mesh().lookupObject<volScalarField>("T");
+	        const volVectorField& U = mesh().lookupObject<volVectorField>("U");
+
+            //Get outlet patch
+	        label patchId = mesh().boundaryMesh().findPatchID("outlet");
+	        const scalarField& cOut(c.boundaryField()[patchId]);
+	        const vectorField& Sf( mesh().Sf().boundaryField()[patchId]);
+            const vectorField& Uout(U.boundaryField()[patchId]);
+
+	        scalarField fluxOut((Uout&Sf));
+
+            scalar totalMass( (fvc::domainIntegrate(c)).value() );
+	        vector meanVel( (fvc::domainIntegrate(U)).value() / gSum(mesh().V()) );
+	        scalar cFluxOut(gSum(cOut*(Sf&Uout))/gSum(fluxOut) );
+
+
+
+            //std::ofstream file;
+            //file.open("breakthrough.dat", std::ios::out | std::ios::app);
+            //file << mesh().time().timeName()
+            Info   << "Total mass =  " << totalMass << endl;
+            Info   << "Mean vel = " << meanVel << endl;
+            Info   << "Flux out = " << cFluxOut << endl;
+        #};
+    }
+}
+
+
+// ************************************************************************* //

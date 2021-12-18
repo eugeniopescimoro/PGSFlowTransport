@@ -1,0 +1,50 @@
+#!/bin/sh
+
+#SBATCH --job-name=lowContrast
+#SBATCH --partition=defq
+#SBATCH --nodes=8
+#SBATCH --ntasks-per-node=12
+#SBATCH --mem=20g
+#SBATCH --time=168:00:00
+
+echo "Blockmesh starts"
+blockMesh >> log 2>&1
+
+# Sequential running
+
+#echo "Setrandomfield starts"
+#setRandomField >> log 2>&1
+
+#echo "Simpledarcyfoam starts"
+#simpleDarcyFoam -noFunctionObjects >> log 2>&1
+
+#find ./ -name 'U' | while read U ; do cp "$U" ./0 ; done
+
+echo "Decomposition of the domain starts"
+decomposePar >> log 2>&1
+
+echo "Setrandomfield starts"
+mpirun --oversubscribe -np 12 setRandomField -parallel >> log 2>&1
+
+echo "Simpledarcyfoam starts"
+mpirun --oversubscribe -np 12 simpleDarcyFoam -parallel  >> log 2>&1
+
+for i in processor*; do
+    cd ./$i
+    find ./ -name 'U' | while read U ; do cp "$U" ./0 ; done 
+    cd ..
+done
+
+echo "adaptiveScalarTransportFoam starts"
+mpirun --oversubscribe -np 12 adaptiveScalarTransportFoam -parallel  >> log 2>&1
+
+echo "FieldMetrics strats"
+mpirun --oversubscribe -np 12 postProcess -time 0 -dict system/fieldMetricsDict -parallel >> log 2>&1
+
+mkdir LOGs
+cat log | grep 'Adaptive time =' | cut -d ' ' -f4 > LOGs/logTime
+cat log | grep 'Total mass =' | cut -d ' ' -f4 > LOGs/logMass
+cat log | grep 'Mean vel =' | cut -d ' ' -f4 | tr -d '(' > LOGs/logVelx
+cat log | grep 'Flux out =' | cut -d ' ' -f4 > LOGs/logFlux
+
+echo "Finish"

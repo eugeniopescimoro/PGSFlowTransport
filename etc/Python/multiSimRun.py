@@ -1,0 +1,56 @@
+#!/usr/bin/env python3
+#import numpy as np
+import os
+import shutil
+import re
+import subprocess
+import pathlib
+n = 3
+os.chdir("/data/PGSFlowTransport/tutorials/RESULTS/stopConcAdapTmstp_4")
+Lcorr = [
+ ["0.4", "0.1", "0.1"],
+ ["0.6", "0.1", "0.1"],
+ ["0.8", "0.1", "0.1"]
+ ]
+kzAniso = ["1","1","1"]
+# Remove old directories
+for i in range(1, n+1):
+    if os.path.exists('TS%d' % i):
+        shutil.rmtree('TS%d' % i)
+# Copy 'baseCase' directory n times  
+for i in range(1, n+1):
+    shutil.copytree("baseCase/", "TS%d" % i)
+    os.system("cp TS%d/system/setRandomFieldDict.orig TS%d/system/setRandomFieldDict" % (i, i)) 
+    os.system("cp TS%d/0/K.orig TS%d/0/K" % (i, i))
+    with open('TS%d/system/setRandomFieldDict' % i, 'r') as srfd:
+        filedata = srfd.read()
+    filedata = filedata.replace('LcorrX', Lcorr[i-1][0])
+    filedata = filedata.replace('LcorrY', Lcorr[i-1][1])
+    filedata = filedata.replace('LcorrZ', Lcorr[i-1][2])    
+    with open('TS%d/system/setRandomFieldDict' % i, 'w') as srfd:
+        srfd.write(filedata)            
+    with open("TS%d/0/K" % i, 'r') as pr:
+        filedata = pr.read()
+    filedata = filedata.replace('Kz', kzAniso[i-1])
+    with open("TS%d/0/K" % i, 'w') as pr:
+        pr.write(filedata) 
+    
+    os.chdir("TS%d" % i)
+    current_dir = os.getcwd()
+    subprocess.run(os.path.join(current_dir,"Allrun"))
+    os.mkdir("./LOGs")
+    subprocess.run(['/bin/bash', '-c', 'cat log | grep \'Adaptive time =\' | cut -d\' \' -f4 > LOGs/logTime'])
+    subprocess.run(['/bin/bash', '-c', 'cat log | grep \'Total mass =\' | cut -d\' \' -f4 > LOGs/logMass'])
+    subprocess.run(['/bin/bash', '-c', 'cat log | grep \'Mean vel =\' | cut -d\' \' -f4 | tr -d \'(\' > LOGs/logVelx'])
+    subprocess.run(['/bin/bash', '-c', 'cat log | grep \'Flux out =\' | cut -d\' \' -f4 > LOGs/logFlux'])    
+    os.chdir("..")
+    
+#########################################################################
+################ ORIGINAL Allproperties EXECUTABLE FILE #################
+#os.system("cp system/setRandomFieldDict.orig system/setRandomFieldDict") 
+#os.system("cp 0/K.orig 0/K")
+#os.system("sed -i "s/LcorrX/$1/g" system/setRandomFieldDict") 
+#os.system("sed -i "s/LcorrY/$2/g" system/setRandomFieldDict") 
+#os.system("sed -i "s/LcorrY/$3/g" system/setRandomFieldDict") 
+#os.system("s/Kz/$4/g" 0/K") 
+
