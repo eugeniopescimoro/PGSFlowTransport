@@ -1,0 +1,32 @@
+% Internship Eugenio Pescimoro
+%
+% Compute transiograms and transition matrices from the most probable
+% facies map of the Herten data case.
+%
+% Dimitri D'Or - Ephesia Consult - 08/09/2020
+% Eugenio Pescimoro - University of Nottingham - 13/01/2022
+
+clear;clc
+close all
+
+% appinfo = matlab.apputil.install('./TransitionMatrix.mlappinstall');
+% cd (appinfo.location);
+% matlab.apputil.run('TransitionMatrixAPP')
+
+%% Transform OpenFOAM permeability matrix K into categories
+
+
+%% Parameters
+
+datafilename='Kcategories';  % Name of the file containing the map
+% fileID = fopen('best4PropMapKhomo','r');
+% formatSpec = '%d';
+% datafilename = cell2mat(textscan(fileID, formatSpec));
+
+%% Computing the transition matrix
+
+[Z,transitionmatrix]=TransitionMatrix(datafilename, 7);
+
+%% Viewing the data set
+
+view3d
