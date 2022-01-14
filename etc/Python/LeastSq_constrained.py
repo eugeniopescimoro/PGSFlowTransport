@@ -90,15 +90,15 @@ def err_cumInvGau(paramsCIG, t, c):
 # LOOP THROUGH THE SIMULATIONS ################################################ 
 # simPath = ['variableMecDisp/varMecDisp3D/lowCont_seed100', 'variableMecDisp/varMecDisp3D/highCont_seed100']
 # simPath = ['stopConcAdapTmstp/scat_6-sameDomain/highCont_seed100']
-simPath = ['stopConcAdapTmstp/scat_5-lowContrast/TS3']
-# simPath = ['stopConcAdapTmstp/scat_3-highContrast/TS3']
+# simPath = ['stopConcAdapTmstp/scat_5-lowContrast/TS3']
+simPath = ['stopConcAdapTmstp/scat_3-highContrast/TS2']
 for i in range(0, sim, interval):
 # Paths 
     # simPath = Path('scat_6-sameDomain/lowCont_seed100')
     # simPath = Path('scat_3-highContrast/TS%d' % (FS+i))
     latexFolderPath = Path('/home/pmxep5/OneDrive/Nottingham/Write/Articles/PGSFoam/')
-    saveFolderPath = Path(os.path.join('/data/PGSFlowTransport/tutorials/', simPath[FS-1]))
-    homeFolderPath = Path(os.path.join('/data/PGSFlowTransport/tutorials/RESULTS/', simPath[FS-1]))
+    saveFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/', simPath[FS-1]))
+    homeFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/', simPath[FS-1]))
     # simPath = Path('TS%d' % (FS+i))
     # saveFolderPath = Path(os.path.join('/data/PGSFlowTransport/tutorials/variableMecDisp/varMecDisp3D', simPath))
     # homeFolderPath = Path(os.path.join('/data/PGSFlowTransport/tutorials/RESULTS/variableMecDisp/varMecDisp3D', simPath))
@@ -162,7 +162,7 @@ for i in range(0, sim, interval):
     # paramsIGnoun.add('m', value=1)    
     minnerIGnoun = Minimizer(err_InvGau, paramsIGnoun, fcn_args=(np.array(tt[i]), dC[i]))
     resultIG = minnerIGnoun.minimize()    
-    # finalIG[i] = dCnorm[i] + resultIG.residual   
+    # finalIG[i] = dC[i] + resultIG.residual   
     finalIG[i] = invGaussianPDF(np.array(tt[i][:-s]), minnerIGnoun.values['l'], minnerIGnoun.values['mu'], 1)# minnerIGnoun.values['m'])
     mass.append(np.trapz(dC[i], x=tt[i][:-s])) # Check on total mass -> should be around max(c[i])
     mu1IG = abs(dd[i][0]/vIG - mu1)/mu1*100
@@ -258,12 +258,12 @@ font = {'size': 30}
 plt.rc('font', **font)
 #plt.tight_layout()
 
-ax[0][0].set_ylabel('$c [-]$')
-ax[1][0].set_ylabel('$dc/dt [-]$')
-ax[2][0].set_ylabel('$1-c [-]$')
-ax[2][0].set_xlabel('$t/t* [-]$')
-ax[2][1].set_xlabel('$t/t* [-]$')
-ax[2][2].set_xlabel('$t/t* [-]$')
+ax[0][0].set_ylabel('$c* [-]$')
+ax[1][0].set_ylabel('$dc*/dt* [-]$')
+ax[2][0].set_ylabel('$1-c* [-]$')
+ax[2][0].set_xlabel('$t* [-]$')
+ax[2][1].set_xlabel('$t* [-]$')
+ax[2][2].set_xlabel('$t* [-]$')
 
 for i in [ax[0][0], ax[0][1], ax[0][2], ax[2][0], ax[2][1], ax[2][2]]:
     i.set_ylim([min(min(Y)), max(max(Y))+0.1*max(max(Y))]) # Conc interval (Y-axis)
@@ -376,8 +376,8 @@ plt.xlim([min(tt[i][:-s][tt[i][:-s]*cBoolean != 0])-0.05*min(tt[i][:-s][tt[i][:-
 plt.ylim([min(dC[i][dC[i]*cBoolean != 0]), max(dC[i][dC[i]*cBoolean != 0])+0.05*max(dC[i][dC[i]*cBoolean != 0])])
 # plt.xlim([3e-2, max(max(tt, key=max))]) 
 # plt.ylim([1e-3, max(max(dC, key=max))+0.5*max(max(dC, key=max))])
-plt.xlabel("t/t* [-]")
-plt.ylabel("dc/dt [1/s]")
+plt.xlabel("t* [-]")
+plt.ylabel("dc*/dt* [1/s]")
 plt.legend()
 
 os.makedirs(os.path.join(saveFolderPath, "images"), exist_ok = True)
