@@ -10,7 +10,7 @@ import numpy as np
 import pandas as pd
 #import os
 
-def processConc(path, dd, mvel, c, t, Xbox, s, D, Y, dCnorm, dC, tt, Tadv):
+def processConc(path, dd, mvel, c, t, Xbox, s, D, Y, dCnorm, dC, tt, Tadv, dc):
     Ymin = 0 # 1-max(c) # Y minimum plotted value
     # Select significant concentration 
     cBoolean = np.logical_and(np.array(c)>Ymin, np.array(c)<1) 
@@ -24,11 +24,12 @@ def processConc(path, dd, mvel, c, t, Xbox, s, D, Y, dCnorm, dC, tt, Tadv):
     
     # CONCENTRATION TIME DERIVATIVE OPTIONS
     n = 1 # Derivative smoothing factor
-    dc = np.array([(c[j+n]-c[j])/(ndT[j+n]-ndT[j]) for j, val in enumerate(c[:-n])]) # Smooth derivative
-    dc = pd.Series(dc).rolling(window=n).mean().iloc[s-1:].values
+    sdc = np.array([(c[j+n]-c[j])/(ndT[j+n]-ndT[j]) for j, val in enumerate(c[:-n])]) # Smooth derivative
+    sdc = (pd.Series(sdc).rolling(window=n).mean().iloc[s-1:].values)
+    dc.append(sdc)
     
-    tThrs = [val for z, val in enumerate(ndT[:-s]) if cBoolean[z]] # it selects the time only if cBoolean is True
-    dcThrs = [val for z, val in enumerate(dc) if cBoolean[z]]
+    tThrs = [round(val, 11) for z, val in enumerate(ndT[:-s]) if cBoolean[z]] # it selects the time only if cBoolean is True
+    dcThrs = [val for z, val in enumerate(sdc) if cBoolean[z]]
     logSpacing = np.logspace(np.log10(min(tThrs)), np.log10(max(tThrs)), 100, endpoint=True)
     logSpacing = np.insert(logSpacing, 0, 0) # it adds 0 at the 0th position
     tLog = []
@@ -66,4 +67,4 @@ def processConc(path, dd, mvel, c, t, Xbox, s, D, Y, dCnorm, dC, tt, Tadv):
     mu1NoUnit = c[-1]*ndT[-1]-np.sum(c_Dt)
     mu2NoUnit = (c[-1]*(ndT[-1])**2)-2*np.sum(cDt_t)    
     lamNoUnit = mu1NoUnit**3/(mu2NoUnit-mu1NoUnit**2)
-    return mu1, mu1NoUnit, mu2, lam, lamNoUnit, T, tLog, dcLog
+    return mu1, mu1NoUnit, mu2, lam, lamNoUnit, T

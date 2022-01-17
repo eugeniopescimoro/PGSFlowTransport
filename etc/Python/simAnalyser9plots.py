@@ -41,6 +41,7 @@ ndHD = []
 mvel = []
 Tadv = []
 dC = []
+dc = []
 
 # LOOP THROUGH THE SIMULATIONS ################################################
 # simPath = ['stopConcAdapTmstp/scat_6-sameDomain/highCont_lowPe_seed100', 'stopConcAdapTmstp/scat_6-sameDomain/highCont_seed100', 'stopConcAdapTmstp/scat_6-sameDomain/highCont_highPe_seed100']
@@ -80,7 +81,7 @@ for i in range(0, sim, interval):
     deltaPx = parseInitialConditions(homeFolderPath)
 # Processing ##################################################################
     # Compute statistical parameters, Cumulative Inverse Gaussian and its derivatives    
-    mu1, mu1NoUnit, mu2, lam, lamNoUnit, T, tLog, dcLog = processConc(homeFolderPath, dd[i], mvel[i], cc[i], t[i], Xbox, s, D, Y, dCnorm, dC, tt, Tadv)
+    mu1, mu1NoUnit, mu2, lam, lamNoUnit, T = processConc(homeFolderPath, dd[i], mvel[i], cc[i], t[i], Xbox, s, D, Y, dCnorm, dC, tt, Tadv, dc)
     y[i] = invGaussianCDF(tt[i], mu1NoUnit, lamNoUnit)
     dY = [(y[i][j+s]-y[i][j])/(tt[i][j+s]-tt[i][j]) for j, val in enumerate(y[i][:-s])] # Smooth derivative
     dYnorm = np.array(dY)/np.array(sum(dY)) # Normalisation of the derivative
@@ -193,14 +194,14 @@ lab = ['Low k contrast', 'High k contrast']
 col = ['0.15', '0.85']
 # col = ['orange', 'red']
 for j in range(0, sim, interval):
-    plt.plot(tt[j][:-s], dC[j], ls="%s" % lin[j], color="%s" % col[j], lw=4, label="%s" % lab[j])
+    plt.plot(tt[j][:], dC[j], ls="%s" % lin[j], color="%s" % col[j], lw=4, label="%s" % lab[j])
     plt.axis([0, 2, 0, max(max(dC, key=max))+0.05*max(max(dC, key=max))])
     plt.xlabel("t* [-]")
     plt.ylabel("dc*/dt* [1/s]")
     plt.legend()
 for j in range(0, sim, interval):
     zoom = plt.axes([.45, .3, .4, .4])
-    zoom.plot(tt[j][:-s], dC[j], ls="%s" % lin[j], color="%s" % col[j], lw=2)
+    zoom.plot(tt[j][:], dC[j], ls="%s" % lin[j], color="%s" % col[j], lw=2)
     zoom.axis([-0.02*max(max(tt, key=max)), max(max(tt, key=max)), 0, max(max(dC, key=max))+0.05*max(max(dC, key=max))])
 os.makedirs(os.path.join(saveFolderPath, "../images"), exist_ok = True)
 # plt.savefig(os.path.join(saveFolderPath, "../images/PDF.pdf"))
@@ -209,7 +210,7 @@ os.makedirs(os.path.join(saveFolderPath, "../images"), exist_ok = True)
 
 plt.figure(figsize=(14, 9))
 for j in range(0, sim, interval):
-    plt.loglog(tt[j][:-s], dC[j], ls="%s" % lin[j], color="%s" % col[j], lw=4, label="%s" % lab[j])
+    plt.loglog(tt[j][:], dC[j], ls="%s" % lin[j], color="%s" % col[j], lw=4, label="%s" % lab[j])
     plt.axis([0.1, max(max(tt, key=max)), 1e-2, max(max(dC, key=max))+0.5*max(max(dC, key=max))])
     plt.xlabel("t* [-]")
     plt.ylabel("dc*/dt* [1/s]")
@@ -223,7 +224,7 @@ os.makedirs(os.path.join(saveFolderPath, "../images"), exist_ok = True)
 plt.figure(figsize=(14, 9))
 for j in range(0, sim, interval):
     cBoolean = np.logical_and(np.array(dC[j])>1e-2, np.array(dC[j])<1)
-    tThrs = [val for z, val in enumerate(tt[j][:-s]) if cBoolean[z]] # it selects the time only if cBoolean is True
+    tThrs = [val for z, val in enumerate(tt[j][:]) if cBoolean[z]] # it selects the time only if cBoolean is True
     dcThrs = [val for z, val in enumerate(dC[j]) if cBoolean[z]]
     # logSpacing = np.logspace(np.log10(min(tThrs)), np.log10(max(tThrs)), 100, endpoint=True)
     # logSpacing = np.insert(logSpacing, 0, 0) # it adds 0 at the 0th position
@@ -246,8 +247,8 @@ for j in range(0, sim, interval):
 
 plt.figure(figsize=(14, 9))
 for j in range(0, sim, interval):
-    cBoolean = np.logical_and(np.array(dC[j])>1e-2, np.array(dC[j])<1)
-    tThrs = [val for z, val in enumerate(tt[j][:-s]) if cBoolean[z]] # it selects the time only if cBoolean is True
+    cBoolean = np.logical_and(np.array(dc[j])>1e-2, np.array(dc[j])<1)
+    tThrs = [val for z, val in enumerate(t[j][:-s]) if cBoolean[z]] # it selects the time only if cBoolean is True
     cThrs = [val for z, val in enumerate(cc[j][:-s]) if cBoolean[z]]
     plt.loglog(tThrs, cThrs, ls="%s" % lin[j], color="%s" % col[j], lw=4, label="%s" % lab[j])
     plt.xlabel("t* [-]")
@@ -270,7 +271,7 @@ for j in range(0, sim, interval):
 # lab = ['Lx = 0.4', 'Lx = 0.6', 'Lx = 0.8', 'Lx = 1.0']
 # col = ['green', 'yellow', 'blue', 'orange']
 # for j in range(0, sim, interval):
-#     plt.loglog(tt[j][:-s], dCnorm[j], ls="%s" % lin[j], color="%s" % col[j], lw=4, label="%s" % lab[j])
+#     plt.loglog(tt[j][:], dCnorm[j], ls="%s" % lin[j], color="%s" % col[j], lw=4, label="%s" % lab[j])
 #     plt.axis([0.1, 20, 1e-5, 1.6e-3])
 #     plt.xlabel("t/t* [-]")
 #     plt.ylabel("c [-]")
@@ -334,12 +335,12 @@ for i in range(0, sim, interval):
     # ax[0][1].semilogy(tt[i], yVG[i], '-.', color=color, label=mylabelVG)
     # ax[0][2].loglog(tt[i], yVG[i], '-.', color=color, label=mylabelVG)
     
-    ax[1][0].plot(tt[i][:-s], dCnorm[i], color=color, label=mylabelExp)
-    ax[1][1].semilogy(tt[i][:-s], dCnorm[i], color=color, label=mylabelExp)
-    ax[1][2].loglog(tt[i][:-s], dCnorm[i], color=color, label=mylabelExp)  
-    ax[1][0].plot(tt[i][:-s], dYYnorm[i], '--', color=color, label=mylabelIG)
-    ax[1][1].semilogy(tt[i][:-s], dYYnorm[i], '--', color=color, label=mylabelIG)
-    ax[1][2].loglog(tt[i][:-s], dYYnorm[i], '--', color=color, label=mylabelIG)
+    ax[1][0].plot(tt[i][:], dCnorm[i], color=color, label=mylabelExp)
+    ax[1][1].semilogy(tt[i][:], dCnorm[i], color=color, label=mylabelExp)
+    ax[1][2].loglog(tt[i][:], dCnorm[i], color=color, label=mylabelExp)  
+    ax[1][0].plot(tt[i][:], dYYnorm[i], '--', color=color, label=mylabelIG)
+    ax[1][1].semilogy(tt[i][:], dYYnorm[i], '--', color=color, label=mylabelIG)
+    ax[1][2].loglog(tt[i][:], dYYnorm[i], '--', color=color, label=mylabelIG)
     
     ax[2][0].plot(tt[i], [1-i for i in cc[i]], color=color, label=mylabelExp)
     ax[2][1].semilogy(tt[i], [1-i for i in cc[i]], color=color, label=mylabelExp)
