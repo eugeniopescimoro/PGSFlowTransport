@@ -80,7 +80,7 @@ for i in range(0, sim, interval):
     deltaPx = parseInitialConditions(homeFolderPath)
 # Processing ##################################################################
     # Compute statistical parameters, Cumulative Inverse Gaussian and its derivatives    
-    mu1, mu1NoUnit, mu2, lam, lamNoUnit, T = processConc(homeFolderPath, dd[i], mvel[i], cc[i], t[i], Xbox, s, D, Y, dCnorm, dC, tt, Tadv)
+    mu1, mu1NoUnit, mu2, lam, lamNoUnit, T, tLog, dcLog = processConc(homeFolderPath, dd[i], mvel[i], cc[i], t[i], Xbox, s, D, Y, dCnorm, dC, tt, Tadv)
     y[i] = invGaussianCDF(tt[i], mu1NoUnit, lamNoUnit)
     dY = [(y[i][j+s]-y[i][j])/(tt[i][j+s]-tt[i][j]) for j, val in enumerate(y[i][:-s])] # Smooth derivative
     dYnorm = np.array(dY)/np.array(sum(dY)) # Normalisation of the derivative
@@ -225,20 +225,20 @@ for j in range(0, sim, interval):
     cBoolean = np.logical_and(np.array(dC[j])>1e-2, np.array(dC[j])<1)
     tThrs = [val for z, val in enumerate(tt[j][:-s]) if cBoolean[z]] # it selects the time only if cBoolean is True
     dcThrs = [val for z, val in enumerate(dC[j]) if cBoolean[z]]
-    logSpacing = np.logspace(np.log10(min(tThrs)), np.log10(max(tThrs)), 100, endpoint=True)
-    logSpacing = np.insert(logSpacing, 0, 0) # it adds 0 at the 0th position
-    tLog = []
-    cLog = []
-    for k in range(0, len(logSpacing)-1, 1):
-        Tlog = []
-        Clog = []
-        tBoolean = np.logical_and(tThrs>logSpacing[k], tThrs<=logSpacing[k+1])
-        Tlog.append([val for j, val in enumerate(tThrs) if tBoolean[j]])
-        Clog.append([val for j, val in enumerate(dcThrs) if tBoolean[j]])
-        tLog.append(np.mean(Tlog))
-        cLog.append(np.mean(Clog))        
-    plt.loglog(tLog, cLog, ls="%s" % lin[j], color="%s" % col[j], lw=4, label="%s" % lab[j])
-    # plt.loglog(tThrs, dcThrs, ls="%s" % lin[j], color="%s" % col[j], lw=4, label="%s" % lab[j])
+    # logSpacing = np.logspace(np.log10(min(tThrs)), np.log10(max(tThrs)), 100, endpoint=True)
+    # logSpacing = np.insert(logSpacing, 0, 0) # it adds 0 at the 0th position
+    # tLog = []
+    # dcLog = []
+    # for k in range(0, len(logSpacing)-1, 1):
+    #     Tlog = []
+    #     dClog = []
+    #     tBoolean = np.logical_and(tThrs>logSpacing[k], tThrs<=logSpacing[k+1])
+    #     Tlog.append([val for j, val in enumerate(tThrs) if tBoolean[j]])
+    #     dClog.append([val for j, val in enumerate(dcThrs) if tBoolean[j]])
+    #     tLog.append(np.mean(Tlog))
+    #     dcLog.append(np.mean(dClog))        
+    # plt.loglog(tLog, dcLog, ls="%s" % lin[j], color="%s" % col[j], lw=4, label="%s" % lab[j]) 
+    plt.loglog(tThrs, dcThrs, ls="%s" % lin[j], color="%s" % col[j], lw=4, label="%s" % lab[j])
     plt.xlabel("t* [-]")
     plt.ylabel("dc*/dt* [1/s]")
     plt.legend()

@@ -137,6 +137,7 @@ for i in range(0, sim, interval):
     MD = dd[i][0]**2/(2*lam)
 
     # LEAST SQUARES METHOD
+    # Van Genuchten
     paramsVG = Parameters()
     paramsVG.add('u0', value=1e-06, min=0)
     # paramsVG.add('X', value=2, min=0)

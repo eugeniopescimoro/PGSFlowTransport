@@ -20,14 +20,32 @@ def processConc(path, dd, mvel, c, t, Xbox, s, D, Y, dCnorm, dC, tt, Tadv):
     Tadv.append(np.array(tadv))
     T = [val/tadv for j, val in enumerate(t) if cBoolean[j]] # it selects the time only if cBoolean is True
     ndT = [val/tadv for j, val in enumerate(t)]
-    tt.append(np.array(ndT))
+    # tt.append(np.array(ndT))
     
     # CONCENTRATION TIME DERIVATIVE OPTIONS
     n = 1 # Derivative smoothing factor
     dc = np.array([(c[j+n]-c[j])/(ndT[j+n]-ndT[j]) for j, val in enumerate(c[:-n])]) # Smooth derivative
     dc = pd.Series(dc).rolling(window=n).mean().iloc[s-1:].values
-    dC.append(dc)
-    dCnorm.append(dc/sum(dc))
+    
+    tThrs = [val for z, val in enumerate(ndT[:-s]) if cBoolean[z]] # it selects the time only if cBoolean is True
+    dcThrs = [val for z, val in enumerate(dc) if cBoolean[z]]
+    logSpacing = np.logspace(np.log10(min(tThrs)), np.log10(max(tThrs)), 100, endpoint=True)
+    logSpacing = np.insert(logSpacing, 0, 0) # it adds 0 at the 0th position
+    tLog = []
+    dcLog = []
+    for k in range(0, len(logSpacing)-1, 1):
+        Tlog = []
+        dClog = []
+        tBoolean = np.logical_and(tThrs>logSpacing[k], tThrs<=logSpacing[k+1])
+        Tlog.append([val for j, val in enumerate(tThrs) if tBoolean[j]])
+        dClog.append([val for j, val in enumerate(dcThrs) if tBoolean[j]])
+        tLog.append(np.mean(Tlog))
+        dcLog.append(np.mean(dClog))                                     
+    tt.append(np.array(tLog))
+    dC.append(dcLog)
+    dCnorm.append(dcLog/sum(dcLog))
+    # dC.append(dc)
+    # dCnorm.append(dc/sum(dc))
     
     # Inverse Gaussian parameters estimation
     c_DT = [] # Needed to perform the dot product
@@ -48,4 +66,4 @@ def processConc(path, dd, mvel, c, t, Xbox, s, D, Y, dCnorm, dC, tt, Tadv):
     mu1NoUnit = c[-1]*ndT[-1]-np.sum(c_Dt)
     mu2NoUnit = (c[-1]*(ndT[-1])**2)-2*np.sum(cDt_t)    
     lamNoUnit = mu1NoUnit**3/(mu2NoUnit-mu1NoUnit**2)
-    return mu1, mu1NoUnit, mu2, lam, lamNoUnit, T
+    return mu1, mu1NoUnit, mu2, lam, lamNoUnit, T, tLog, dcLog
