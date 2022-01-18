@@ -11,7 +11,7 @@ import pandas as pd
 #import os
 from logAveraging import logAve
 
-def processConc(path, dd, mvel, c, t, Xbox, s, D, Y, dCnorm, dC, tt, Tadv, tLS, dcLS, dcLSnorm):
+def processConc(path, dd, mvel, c, t, Xbox, s, D, Y, dCnorm, dc, tt, Tadv, tLS, dcLS, dcLSnorm):
     Ymin = 0 # 1-max(c) # Y minimum plotted value
     # Select significant concentration 
     cBoolean = np.logical_and(np.array(c)>Ymin, np.array(c)<1) 
@@ -25,11 +25,11 @@ def processConc(path, dd, mvel, c, t, Xbox, s, D, Y, dCnorm, dC, tt, Tadv, tLS, 
     
     # CONCENTRATION TIME DERIVATIVE OPTIONS
     n = 1 # Derivative smoothing factor
-    dc = np.array([(c[j+n]-c[j])/(ndT[j+n]-ndT[j]) for j, val in enumerate(c[:-n])]) # Smooth derivative of the concentration every "n" data
-    dc = pd.Series(dc).rolling(window=n).mean().iloc[s-1:].values # Rolling window average
-    dC.append(dc)
-    dCnorm.append(dc/sum(dc))    
-    tLS, cdLS, cdLSnorm = logAve(ndT, cBoolean, dc, s, tLS, dcLS, dcLSnorm) # Log binning and averaging function. It smooths the noise of the concentration derivative tails
+    sdc = np.array([(c[j+n]-c[j])/(ndT[j+n]-ndT[j]) for j, val in enumerate(c[:-n])]) # Smooth derivative of the concentration every "n" data
+    sdc = pd.Series(sdc).rolling(window=n).mean().iloc[s-1:].values # Rolling window average
+    dc.append(sdc)
+    dCnorm.append(sdc/sum(sdc))    
+    tLS, cdLS, cdLSnorm = logAve(ndT, cBoolean, sdc, s, tLS, dcLS, dcLSnorm) # Log binning and averaging function. It smooths the noise of the concentration derivative tails
     
     # Inverse Gaussian parameters estimation
     c_DT = [] # Needed to perform the dot product

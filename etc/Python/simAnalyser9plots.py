@@ -22,10 +22,11 @@ sim = 2 # Number of simulations to analyse
 FS = 1 # Number of the First Simulation to analyse
 interval = 1 # Interval between increasing simulations
 s = 10 # Moving average window size -> smoothness factor
-tt = []
-cc = []
+t = [] # List which sotres dimensional times
+tt = [] # List which sotres non-dimensional times
+c = []
+dc = []
 dCnorm = []
-t = []
 m = []
 dYYnorm = [[]]*sim
 y = [[]]*sim
@@ -40,8 +41,6 @@ HD = []
 ndHD = []
 mvel = []
 Tadv = []
-dC = []
-dc = []
 tLS = []
 dcLS = []
 dcLSnorm = []
@@ -69,7 +68,7 @@ for i in range(0, sim, interval):
 # Parse #######################################################################
     # bashParseLog(sim, FS, homeFolderPath) # Import bashParse.py to use bashParseLog
 # parseLog function parses the log file from OpenFOAM and stores the relevant data in different lists
-    kvol, kval = parseLog(homeFolderPath, s, cl, dd, mvel, cc, t, m)
+    kvol, kval = parseLog(homeFolderPath, s, cl, dd, mvel, c, t, m)
     Kave = []
     for n1, n2 in zip(kval, kvol): Kave.append(n1*n2)
     kave.append(sum(Kave)) # Average volumetric permeability [m2]
@@ -84,7 +83,7 @@ for i in range(0, sim, interval):
     deltaPx = parseInitialConditions(homeFolderPath)
 # Processing ##################################################################
     # Compute statistical parameters, Cumulative Inverse Gaussian and its derivatives    
-    mu1, mu1NoUnit, mu2, lam, lamNoUnit, T = processConc(homeFolderPath, dd[i], mvel[i], cc[i], t[i], Xbox, s, D, Y, dCnorm, dC, tt, Tadv, tLS, dcLS, dcLSnorm)
+    mu1, mu1NoUnit, mu2, lam, lamNoUnit, T = processConc(homeFolderPath, dd[i], mvel[i], c[i], t[i], Xbox, s, D, Y, dCnorm, dc, tt, Tadv, tLS, dcLS, dcLSnorm)
     y[i] = invGaussianCDF(tt[i], mu1NoUnit, lamNoUnit)
     dY = [(y[i][j+s]-y[i][j])/(tt[i][j+s]-tt[i][j]) for j, val in enumerate(y[i][:-s])] # Smooth derivative
     dYnorm = np.array(dY)/np.array(sum(dY)) # Normalisation of the derivative
@@ -113,7 +112,7 @@ for i in range(0, sim, interval):
     medPeY = cl[i][1]*mvel[i][1]/D[0]
     medPeZ = cl[i][2]*mvel[i][2]/D[0]
     # Concentration vector norm
-    normC = np.linalg.norm(cc[i])
+    normC = np.linalg.norm(c[i])
     normY = np.linalg.norm(y[i])
     # Effective permeatbility
     kxeff.append(-mvel[i][0]*Mu[0]/(deltaPx/dd[i][0]-rho[0]*g[2]))
@@ -237,9 +236,9 @@ for j in range(0, sim, interval):
 
 plt.figure(figsize=(14, 9))
 for j in range(0, sim, interval):
-    cBoolean = np.logical_and(np.array(dC[j])>1e-2, np.array(dC[j])<1)
+    cBoolean = np.logical_and(np.array(dc[j])>1e-2, np.array(dc[j])<1)
     tThrs = [val for z, val in enumerate(tt[j][:-s]) if cBoolean[z]] # it selects the time only if cBoolean is True
-    cThrs = [val for z, val in enumerate(cc[j][:-s]) if cBoolean[z]]
+    cThrs = [val for z, val in enumerate(c[j][:-s]) if cBoolean[z]]
     plt.loglog(tThrs, cThrs, ls="%s" % lin[j], color="%s" % col[j], lw=4, label="%s" % lab[j])
     plt.xlabel("t* [-]")
     plt.ylabel("c* [-]")
@@ -248,7 +247,7 @@ for j in range(0, sim, interval):
 
 # plt.figure(figsize=(14, 9))
 # plt.plot(tt[i], yVG[i], color='r', label="vanGenuchten")
-# plt.plot(tt[i], cc[i], color='b', label="sim_BTC")
+# plt.plot(tt[i], c[i], color='b', label="sim_BTC")
 # plt.xlabel("t [s]")
 # plt.ylabel("c [-]")
 # plt.legend()
@@ -315,9 +314,9 @@ for i in range(0, sim, interval):
         mylabelIG = 'TS%d cum inv Gau' % (FS+i)
         mylabelVG = 'TS%d van Genuchten' % (FS+i)
 
-    ax[0][0].plot(tt[i], cc[i], color=color, label=mylabelExp)
-    ax[0][1].semilogy(tt[i], cc[i], color=color, label=mylabelExp)
-    ax[0][2].loglog(tt[i], cc[i], color=color, label=mylabelExp)
+    ax[0][0].plot(tt[i], c[i], color=color, label=mylabelExp)
+    ax[0][1].semilogy(tt[i], c[i], color=color, label=mylabelExp)
+    ax[0][2].loglog(tt[i], c[i], color=color, label=mylabelExp)
     ax[0][0].plot(tt[i], y[i], '--', color=color, label=mylabelIG)
     ax[0][1].semilogy(tt[i], [i for i in y[i]], '--', color=color, label=mylabelIG)
     ax[0][2].loglog(tt[i], [i for i in y[i]], '--', color=color, label=mylabelIG)
@@ -332,9 +331,9 @@ for i in range(0, sim, interval):
     ax[1][1].semilogy(tt[i][:-s], dYYnorm[i], '--', color=color, label=mylabelIG)
     ax[1][2].loglog(tt[i][:-s], dYYnorm[i], '--', color=color, label=mylabelIG)
     
-    ax[2][0].plot(tt[i], [1-i for i in cc[i]], color=color, label=mylabelExp)
-    ax[2][1].semilogy(tt[i], [1-i for i in cc[i]], color=color, label=mylabelExp)
-    ax[2][2].loglog(tt[i], [1-i for i in cc[i]], color=color, label=mylabelExp)
+    ax[2][0].plot(tt[i], [1-i for i in c[i]], color=color, label=mylabelExp)
+    ax[2][1].semilogy(tt[i], [1-i for i in c[i]], color=color, label=mylabelExp)
+    ax[2][2].loglog(tt[i], [1-i for i in c[i]], color=color, label=mylabelExp)
     ax[2][0].plot(tt[i], 1-y[i], '--', color=color, label=mylabelIG)
     ax[2][1].semilogy(tt[i], [1-i for i in y[i]], '--', color=color, label=mylabelIG)
     ax[2][2].loglog(tt[i], [1-i for i in y[i]], '--', color=color, label=mylabelIG)
