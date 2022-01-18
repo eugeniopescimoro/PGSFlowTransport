@@ -22,7 +22,7 @@ FS = 1 # Number of the First Simulation to analyse
 interval = 1 # Interval between increasing simulations
 tt = []
 c = []
-dC = []
+dc = []
 t = []
 m = []
 dCnorm = []
@@ -47,6 +47,9 @@ y = []
 mass = []
 dY = []
 dYlsq = []
+tLS = []
+dcLS = []
+dcLSnorm = []
 
 ###############################################################################
 def err_invGauVG(paramsVG, t, c):
@@ -57,9 +60,9 @@ def err_invGauVG(paramsVG, t, c):
     return yVanG-c
 
 ###############################################################################
-def err_InvGau(paramsIG, t, dc):
-    l = paramsIG['l']
-    mu = paramsIG['mu']
+def err_InvGau(parIG, t, dc):
+    l = parIG['l']
+    mu = parIG['mu']
     m = 1
     yInvGau = invGaussianPDF(t, l, mu, m)
     return yInvGau[:-s]-dc
@@ -127,7 +130,7 @@ for i in range(0, sim, interval):
     deltaPx = parseInitialConditions(homeFolderPath)
 
 # Processing ##################################################################
-    mu1, mu1NoUnit, mu2, lam, lamNoUnit, T = processConc(homeFolderPath, dd[i], mvel[i], c[i], t[i], Xbox, s, D, Y, dCnorm, dC, tt, Tadv) # Compute statistical parameters, Cumulative Inverse Gaussian and its derivatives
+    mu1, mu1NoUnit, mu2, lam, lamNoUnit, T = processConc(homeFolderPath, dd[i], mvel[i], c[i], t[i], Xbox, s, D, Y, dCnorm, dc, tt, Tadv, tLS, dcLS, dcLSnorm) # Compute statistical parameters, Cumulative Inverse Gaussian and its derivatives
     
     # MOMENTS METHOD
     y.append(invGaussianCDF(tt[i], mu1NoUnit, lamNoUnit)) # CDF estimated with parameters computed on non-dimensional times
@@ -153,7 +156,7 @@ for i in range(0, sim, interval):
     paramsIG.add('l', value=lam, min=0)
     paramsIG.add('mu', value=mu1, min=0)
     # paramsIG.add('m', value=1)    
-    minnerIG = Minimizer(err_InvGau, paramsIG, fcn_args=(np.array(t[i]), dC[i]))
+    minnerIG = Minimizer(err_InvGau, paramsIG, fcn_args=(np.array(t[i]), dc[i]))
     resultIG = minnerIG.minimize()
     vIG = dd[i][0]/minnerIG.values['mu']
     MDig = dd[i][0]**2/(2*minnerIG.values['l'])
@@ -161,11 +164,11 @@ for i in range(0, sim, interval):
     paramsIGnoun.add('l', value=lamNoUnit, min=0)
     paramsIGnoun.add('mu', value=mu1NoUnit, min=0)
     # paramsIGnoun.add('m', value=1)    
-    minnerIGnoun = Minimizer(err_InvGau, paramsIGnoun, fcn_args=(np.array(tt[i]), dC[i]))
-    resultIG = minnerIGnoun.minimize()    
-    # finalIG[i] = dC[i] + resultIG.residual   
+    minnerIGnoun = Minimizer(err_InvGau, paramsIGnoun, fcn_args=(np.array(tLS[i]), dcLS[i][:-s]))
+    resultIGnoun = minnerIGnoun.minimize()    
+    # finalIG[i] = dc[i] + resultIG.residual   
     finalIG[i] = invGaussianPDF(np.array(tt[i][:-s]), minnerIGnoun.values['l'], minnerIGnoun.values['mu'], 1)# minnerIGnoun.values['m'])
-    mass.append(np.trapz(dC[i], x=tt[i][:-s])) # Check on total mass -> should be around max(c[i])
+    mass.append(np.trapz(dc[i], x=tt[i][:-s])) # Check on total mass -> should be around max(c[i])
     mu1IG = abs(dd[i][0]/vIG - mu1)/mu1*100
     lamIG = abs(dd[i][0]**2/(2*MDig) - lam)/lam*100   
     
@@ -206,7 +209,7 @@ for i in range(0, sim, interval):
     paramsPeakIG.add('l', value=lam, min=0)
     paramsPeakIG.add('mu', value=mu1, min=0)
     # paramsPeakIG.add('m', value=1, min=0)  
-    minnerPeakIG = Minimizer(err_InvGau, paramsPeakIG, fcn_args=(np.array(t[i][peakSrt:peakEnd+s]), dC[i][peakSrt:peakEnd]))
+    minnerPeakIG = Minimizer(err_InvGau, paramsPeakIG, fcn_args=(np.array(t[i][peakSrt:peakEnd+s]), dc[i][peakSrt:peakEnd]))
     resultPeakIG = minnerPeakIG.minimize()    
     vPeakIG = dd[i][0]/minnerPeakIG.values['mu']
     MDpeakIG = dd[i][0]**2/(2*minnerPeakIG.values['l'])
@@ -214,7 +217,7 @@ for i in range(0, sim, interval):
     paramsPeakIGnoun.add('l', value=lamNoUnit, min=0)
     paramsPeakIGnoun.add('mu', value=mu1NoUnit, min=0)
     # paramsPeakIGnoun.add('m', value=1, min=0)    
-    minnerPeakIGnoun = Minimizer(err_InvGau, paramsPeakIGnoun, fcn_args=(np.array(tt[i][peakSrt:peakEnd+s]), dC[i][peakSrt:peakEnd]))
+    minnerPeakIGnoun = Minimizer(err_InvGau, paramsPeakIGnoun, fcn_args=(np.array(tt[i][peakSrt:peakEnd+s]), dc[i][peakSrt:peakEnd]))
     resultPeakIGnoun = minnerPeakIGnoun.minimize()    
     # peakIG[i] = dCnorm[i][peakSrt:peakEnd] + resultPeakIG.residual
     finalPeakIG[i] = invGaussianPDF(np.array(tt[i]), minnerPeakIGnoun.values['l'], minnerPeakIGnoun.values['mu'], 1)# minnerPeakIGnoun.values['m'])
@@ -229,19 +232,19 @@ for i in range(0, sim, interval):
     yIG[i] = np.cumsum(finalIG[i])
     yPeakIG[i] = np.cumsum(finalPeakIG[i])
 
-    diff1 = abs(np.linalg.norm(dC[i]-dY[i]))/np.linalg.norm(dC[i])*100
-    diff2 = abs(np.linalg.norm(dC[i]-finalIG[i]))/np.linalg.norm(dC[i])*100
-    diff3 = abs(np.linalg.norm(dC[i]-dYlsq[i]))/np.linalg.norm(dC[i])*100
-    diff4 = abs(np.linalg.norm(dC[i]-finalPeakIG[i][:-s]))/np.linalg.norm(dC[i])*100
+    diff1 = abs(np.linalg.norm(dc[i]-dY[i]))/np.linalg.norm(dc[i])*100
+    diff2 = abs(np.linalg.norm(dc[i]-finalIG[i]))/np.linalg.norm(dc[i])*100
+    diff3 = abs(np.linalg.norm(dc[i]-dYlsq[i]))/np.linalg.norm(dc[i])*100
+    diff4 = abs(np.linalg.norm(dc[i]-finalPeakIG[i][:-s]))/np.linalg.norm(dc[i])*100
 
 # PRINT SECTION ###############################################################
     print("\n============= SIMULATION %d =============" % (i+FS))
     print(">>> PDF FITTING")
-    report_fit(resultIG)
+    report_fit(resultIGnoun)
     print(">>> CDF FITTING")
-    report_fit(resultCIG)
+    report_fit(resultCIGnoun)
     print(">>> PEAK PDF FITTING")
-    report_fit(resultPeakIG)  # write error report
+    report_fit(resultPeakIGnoun)  # write error report
     print(">>> VAN GENUCHTEN FITTING")
     report_fit(resultVG)
     print("\nExperimental ||c|| - Estimated ||c|| [%%]: \nMoments on CDF %f \nLSQ on PDF %f \nLSQ on CDF %f \nLSQ on PDF Peak %f" % (diff1, diff2, diff3, diff4))
@@ -269,7 +272,7 @@ ax[2][2].set_xlabel('$t* [-]$')
 for i in [ax[0][0], ax[0][1], ax[0][2], ax[2][0], ax[2][1], ax[2][2]]:
     i.set_ylim([min(min(Y)), max(max(Y))+0.1*max(max(Y))]) # Conc interval (Y-axis)
 for i in [ax[1][0], ax[1][1], ax[1][2]]:
-    i.set_ylim([1e-5, max(max(dC, key=max))+0.1*max(max(dC, key=max))])
+    i.set_ylim([1e-5, max(max(dc, key=max))+0.1*max(max(dc, key=max))])
 for i in [ax[0][0], ax[0][1]]:    
     i.set_xlim([min(min(tt)), max(max(tt))]) # Time interval (X-axis)
 for i in [ax[1][0], ax[1][1]]:    
@@ -317,9 +320,9 @@ for i in range(sim):
     ax[0][1].semilogy(tt[i], yPeakIG[i], linestyle='dotted', color='red', label=mylabelPeak)
     ax[0][2].loglog(tt[i], yPeakIG[i], linestyle='dotted', color='red', label=mylabelPeak)    
     
-    ax[1][0].plot(tt[i][:-s], dC[i], color=color, label=mylabelExp)
-    ax[1][1].semilogy(tt[i][:-s], dC[i], color=color, label=mylabelExp)
-    ax[1][2].loglog(tt[i][:-s], dC[i], color=color, label=mylabelExp)  
+    ax[1][0].plot(tt[i][:-s], dc[i], color=color, label=mylabelExp)
+    ax[1][1].semilogy(tt[i][:-s], dc[i], color=color, label=mylabelExp)
+    ax[1][2].loglog(tt[i][:-s], dc[i], color=color, label=mylabelExp)  
     ax[1][0].plot(tt[i][:-s], dYlsq[i], '-.', color=color, label=mylabelLsq)
     ax[1][1].semilogy(tt[i][:-s], dYlsq[i], '-.', color=color, label=mylabelLsq)
     ax[1][2].loglog(tt[i][:-s], dYlsq[i], '-.', color=color, label=mylabelLsq)
@@ -364,8 +367,9 @@ mylabeldCdT = 'LSQ on PDF'
 mylabelLsq = 'LSQ on CDF'
 mylabelPeak = 'LSQ on PDF Peak'
 
-cBoolean = np.logical_and(np.array(dC[i])>1e-2, np.array(dC[i])<1)
-plt.loglog(tt[i][:-s][tt[i][:-s]*cBoolean != 0], dC[i][dC[i]*cBoolean != 0], lw=5, color='0.15', label=mylabelExp)
+cLSBoolean = np.logical_and(np.array(dcLS[i])>1e-2, np.array(dcLS[i])<1)
+cBoolean = np.logical_and(np.array(dc[i])>1e-2, np.array(dc[i])<1)
+plt.loglog(tLS[i][tLS[i]*cLSBoolean != 0], np.array(dcLS[i])[dcLS[i]*cLSBoolean != 0], lw=5, color='0.15', label=mylabelExp)
 plt.loglog(tt[i][:-s], dY[i], '--', lw=5, color='0.55', label=mylabelMom)
 plt.loglog(tt[i][:-s], finalIG[i], linestyle='dotted', lw=5, color='0.55', label=mylabeldCdT)
 plt.loglog(tt[i][:-s], dYlsq[i], '-.', lw=5, color='0.55', label=mylabelLsq)
@@ -374,9 +378,9 @@ plt.loglog(tt[i], finalPeakIG[i], linestyle='dotted', lw=5, color='0.35', label=
 # plt.plot(tt[i], finalVG[i], '--', color='r', label="Van Genuchten LSQ")
 # plt.plot(tt[i], finalCIG[i], '--', color='b', label="Cum Inv Gau LSQ")
 plt.xlim([min(tt[i][:-s][tt[i][:-s]*cBoolean != 0])-0.05*min(tt[i][:-s][tt[i][:-s]*cBoolean != 0]), max(tt[i][:-s][tt[i][:-s]*cBoolean != 0])]) 
-plt.ylim([min(dC[i][dC[i]*cBoolean != 0]), max(dC[i][dC[i]*cBoolean != 0])+0.05*max(dC[i][dC[i]*cBoolean != 0])])
+plt.ylim([min(dc[i][dc[i]*cBoolean != 0]), max(dc[i][dc[i]*cBoolean != 0])+0.05*max(dc[i][dc[i]*cBoolean != 0])])
 # plt.xlim([3e-2, max(max(tt, key=max))]) 
-# plt.ylim([1e-3, max(max(dC, key=max))+0.5*max(max(dC, key=max))])
+# plt.ylim([1e-3, max(max(dcLS, key=max))+0.5*max(max(dcLS, key=max))])
 plt.xlabel("t* [-]")
 plt.ylabel("dc*/dt* [1/s]")
 plt.legend()
