@@ -11,9 +11,9 @@ import numpy as np
 def logAve(ndT, cBoolean, sdc, s, tLS, dcLS, dcLSnorm):
     tLog = [] # List needed to store the new average times which comes after log-binning
     dcLog = [] # List needed to store the new average concentrations which comes after log-binning
-    tThrs = [round(val, 11) for z, val in enumerate(ndT[:-s]) if cBoolean[z]] # it selects the time only if cBoolean is True
-    dcThrs = [val for z, val in enumerate(sdc) if cBoolean[z]]
-    logSpacing = np.logspace(np.log10(min(tThrs)), np.log10(max(tThrs)), 200, endpoint=True) # Log-spaced list whose values range between time boundaries 
+    tThrs = [round(val, 10) for z, val in enumerate(ndT[:-s]) if cBoolean[z]] # it selects the time only if cBoolean is True
+    dcThrs = [round(val, 10) for z, val in enumerate(sdc) if cBoolean[z]]
+    logSpacing = np.logspace(np.log10(min(tThrs)), np.log10(max(tThrs)), 150, endpoint=True) # Log-spaced list whose values range between time boundaries 
     logSpacing = np.insert(logSpacing, 0, 0) # it adds 0 at the 0th position
     for k in range(0, len(logSpacing)-1, 1):
         Tlog = [] # Support list: it collects the times within the Kith log-interval so that an average can be performed
@@ -26,4 +26,3 @@ def logAve(ndT, cBoolean, sdc, s, tLS, dcLS, dcLSnorm):
     tLS.append(np.array(tLog))
     dcLS.append(dcLog)
     dcLSnorm.append(dcLog/sum(dcLog))
-    return tLS, dcLS, dcLSnorm
