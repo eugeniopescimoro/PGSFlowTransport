@@ -11,7 +11,7 @@ import pandas as pd
 #import os
 from logAveraging import logAve
 
-def processConc(path, dd, mvel, c, t, Xbox, s, D, Y, dCnorm, dC, tt, Tadv, dc, tLS, dcLS, dcLSnorm):
+def processConc(path, dd, mvel, c, t, Xbox, s, D, Y, dCnorm, dC, tt, Tadv, tLS, dcLS, dcLSnorm):
     Ymin = 0 # 1-max(c) # Y minimum plotted value
     # Select significant concentration 
     cBoolean = np.logical_and(np.array(c)>Ymin, np.array(c)<1) 
