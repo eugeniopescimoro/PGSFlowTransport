@@ -250,7 +250,7 @@ for j in range(0, sim, interval):
 
 plt.figure(figsize=(14, 9))
 for j in range(0, sim, interval):
-    cBoolean = np.logical_and(np.array(dc[j])>1e-2, np.array(dc[j])<1)
+    cBoolean = np.logical_and(np.array(dC[j])>1e-2, np.array(dC[j])<1)
     tThrs = [val for z, val in enumerate(tt[j][:-s]) if cBoolean[z]] # it selects the time only if cBoolean is True
     cThrs = [val for z, val in enumerate(cc[j][:-s]) if cBoolean[z]]
     plt.loglog(tThrs, cThrs, ls="%s" % lin[j], color="%s" % col[j], lw=4, label="%s" % lab[j])

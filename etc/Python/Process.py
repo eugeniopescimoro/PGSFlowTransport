@@ -9,6 +9,7 @@
 import numpy as np
 import pandas as pd
 #import os
+from logAveraging import logAve
 
 def processConc(path, dd, mvel, c, t, Xbox, s, D, Y, dCnorm, dC, tt, Tadv, dc, tLS, dcLS, dcLSnorm):
     Ymin = 0 # 1-max(c) # Y minimum plotted value
@@ -24,30 +25,11 @@ def processConc(path, dd, mvel, c, t, Xbox, s, D, Y, dCnorm, dC, tt, Tadv, dc, t
     
     # CONCENTRATION TIME DERIVATIVE OPTIONS
     n = 1 # Derivative smoothing factor
-    sdc = np.array([(c[j+n]-c[j])/(ndT[j+n]-ndT[j]) for j, val in enumerate(c[:-n])]) # Smooth derivative
-    sdc = pd.Series(sdc).rolling(window=n).mean().iloc[s-1:].values
-    dc.append(sdc)
-    
-    tThrs = [round(val, 11) for z, val in enumerate(ndT[:-s]) if cBoolean[z]] # it selects the time only if cBoolean is True
-    dcThrs = [val for z, val in enumerate(sdc) if cBoolean[z]]
-    logSpacing = np.logspace(np.log10(min(tThrs)), np.log10(max(tThrs)), 100, endpoint=True)
-    logSpacing = np.insert(logSpacing, 0, 0) # it adds 0 at the 0th position
-    tLog = []
-    dcLog = []
-    for k in range(0, len(logSpacing)-1, 1):
-        Tlog = []
-        dClog = []
-        tBoolean = np.logical_and(tThrs>logSpacing[k], tThrs<=logSpacing[k+1])
-        Tlog.append([val for j, val in enumerate(tThrs) if tBoolean[j]])
-        dClog.append([val for j, val in enumerate(dcThrs) if tBoolean[j]])
-        tLog.append(np.mean(Tlog))
-        dcLog.append(np.mean(dClog))                                     
-    tLS.append(np.array(tLog))
-    dcLS.append(dcLog)
-    dcLSnorm.append(dcLog/sum(dcLog))
-    
-    dC.append(sdc)
-    dCnorm.append(sdc/sum(sdc))
+    dc = np.array([(c[j+n]-c[j])/(ndT[j+n]-ndT[j]) for j, val in enumerate(c[:-n])]) # Smooth derivative of the concentration every "n" data
+    dc = pd.Series(dc).rolling(window=n).mean().iloc[s-1:].values # Rolling window average
+    dC.append(dc)
+    dCnorm.append(dc/sum(dc))    
+    tLS, cdLS, cdLSnorm = logAve(ndT, cBoolean, dc, s, tLS, dcLS, dcLSnorm) # Log binning and averaging function. It smooths the noise of the concentration derivative tails
     
     # Inverse Gaussian parameters estimation
     c_DT = [] # Needed to perform the dot product
