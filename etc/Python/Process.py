@@ -25,7 +25,7 @@ def processConc(path, dd, mvel, c, t, Xbox, s, D, Y, dCnorm, dC, tt, Tadv, dc, t
     # CONCENTRATION TIME DERIVATIVE OPTIONS
     n = 1 # Derivative smoothing factor
     sdc = np.array([(c[j+n]-c[j])/(ndT[j+n]-ndT[j]) for j, val in enumerate(c[:-n])]) # Smooth derivative
-    sdc = (pd.Series(sdc).rolling(window=n).mean().iloc[s-1:].values)
+    sdc = pd.Series(sdc).rolling(window=n).mean().iloc[s-1:].values
     dc.append(sdc)
     
     tThrs = [round(val, 11) for z, val in enumerate(ndT[:-s]) if cBoolean[z]] # it selects the time only if cBoolean is True
@@ -46,8 +46,8 @@ def processConc(path, dd, mvel, c, t, Xbox, s, D, Y, dCnorm, dC, tt, Tadv, dc, t
     dcLS.append(dcLog)
     dcLSnorm.append(dcLog/sum(dcLog))
     
-    dC.append(dc)
-    dCnorm.append(dC/sum(dC))
+    dC.append(sdc)
+    dCnorm.append(sdc/sum(sdc))
     
     # Inverse Gaussian parameters estimation
     c_DT = [] # Needed to perform the dot product
