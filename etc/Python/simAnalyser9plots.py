@@ -42,6 +42,9 @@ mvel = []
 Tadv = []
 dC = []
 dc = []
+tLS = []
+dcLS = []
+dcLSnorm = []
 
 # LOOP THROUGH THE SIMULATIONS ################################################
 # simPath = ['stopConcAdapTmstp/scat_6-sameDomain/highCont_lowPe_seed100', 'stopConcAdapTmstp/scat_6-sameDomain/highCont_seed100', 'stopConcAdapTmstp/scat_6-sameDomain/highCont_highPe_seed100']
@@ -81,7 +84,7 @@ for i in range(0, sim, interval):
     deltaPx = parseInitialConditions(homeFolderPath)
 # Processing ##################################################################
     # Compute statistical parameters, Cumulative Inverse Gaussian and its derivatives    
-    mu1, mu1NoUnit, mu2, lam, lamNoUnit, T = processConc(homeFolderPath, dd[i], mvel[i], cc[i], t[i], Xbox, s, D, Y, dCnorm, dC, tt, Tadv, dc)
+    mu1, mu1NoUnit, mu2, lam, lamNoUnit, T = processConc(homeFolderPath, dd[i], mvel[i], cc[i], t[i], Xbox, s, D, Y, dCnorm, dC, tt, Tadv, dc, tLS, dcLS, dcLSnorm)
     y[i] = invGaussianCDF(tt[i], mu1NoUnit, lamNoUnit)
     dY = [(y[i][j+s]-y[i][j])/(tt[i][j+s]-tt[i][j]) for j, val in enumerate(y[i][:-s])] # Smooth derivative
     dYnorm = np.array(dY)/np.array(sum(dY)) # Normalisation of the derivative
@@ -248,7 +251,7 @@ for j in range(0, sim, interval):
 plt.figure(figsize=(14, 9))
 for j in range(0, sim, interval):
     cBoolean = np.logical_and(np.array(dc[j])>1e-2, np.array(dc[j])<1)
-    tThrs = [val for z, val in enumerate(t[j][:-s]) if cBoolean[z]] # it selects the time only if cBoolean is True
+    tThrs = [val for z, val in enumerate(tt[j][:-s]) if cBoolean[z]] # it selects the time only if cBoolean is True
     cThrs = [val for z, val in enumerate(cc[j][:-s]) if cBoolean[z]]
     plt.loglog(tThrs, cThrs, ls="%s" % lin[j], color="%s" % col[j], lw=4, label="%s" % lab[j])
     plt.xlabel("t* [-]")

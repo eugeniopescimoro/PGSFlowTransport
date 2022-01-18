@@ -10,7 +10,7 @@ import numpy as np
 import pandas as pd
 #import os
 
-def processConc(path, dd, mvel, c, t, Xbox, s, D, Y, dCnorm, dC, tt, Tadv, dc):
+def processConc(path, dd, mvel, c, t, Xbox, s, D, Y, dCnorm, dC, tt, Tadv, dc, tLS, dcLS, dcLSnorm):
     Ymin = 0 # 1-max(c) # Y minimum plotted value
     # Select significant concentration 
     cBoolean = np.logical_and(np.array(c)>Ymin, np.array(c)<1) 
@@ -20,7 +20,7 @@ def processConc(path, dd, mvel, c, t, Xbox, s, D, Y, dCnorm, dC, tt, Tadv, dc):
     Tadv.append(np.array(tadv))
     T = [val/tadv for j, val in enumerate(t) if cBoolean[j]] # it selects the time only if cBoolean is True
     ndT = [val/tadv for j, val in enumerate(t)]
-    # tt.append(np.array(ndT))
+    tt.append(np.array(ndT))
     
     # CONCENTRATION TIME DERIVATIVE OPTIONS
     n = 1 # Derivative smoothing factor
@@ -42,11 +42,12 @@ def processConc(path, dd, mvel, c, t, Xbox, s, D, Y, dCnorm, dC, tt, Tadv, dc):
         dClog.append([val for j, val in enumerate(dcThrs) if tBoolean[j]])
         tLog.append(np.mean(Tlog))
         dcLog.append(np.mean(dClog))                                     
-    tt.append(np.array(tLog))
-    dC.append(dcLog)
-    dCnorm.append(dcLog/sum(dcLog))
-    # dC.append(dc)
-    # dCnorm.append(dc/sum(dc))
+    tLS.append(np.array(tLog))
+    dcLS.append(dcLog)
+    dcLSnorm.append(dcLog/sum(dcLog))
+    
+    dC.append(dc)
+    dCnorm.append(dC/sum(dC))
     
     # Inverse Gaussian parameters estimation
     c_DT = [] # Needed to perform the dot product
