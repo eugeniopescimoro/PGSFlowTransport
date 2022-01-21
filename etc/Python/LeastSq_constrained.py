@@ -94,7 +94,7 @@ def err_cumInvGau(paramsCIG, t, c):
 # LOOP THROUGH THE SIMULATIONS ################################################ 
 # simPath = ['variableMecDisp/varMecDisp3D/lowCont_seed100', 'variableMecDisp/varMecDisp3D/highCont_seed100']
 # simPath = ['stopConcAdapTmstp/scat_6-sameDomain/highCont_seed100']
-simPath = ['stopConcAdapTmstp/scat_5-lowContrast/TS3']
+simPath = ['stopConcAdapTmstp/scat_3-highContrast/TS4']
 # simPath = ['stopConcAdapTmstp/scat_3-highContrast/TS3']
 for i in range(0, sim, interval):
 # Paths 
