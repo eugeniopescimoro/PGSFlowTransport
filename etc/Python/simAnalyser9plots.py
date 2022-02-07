@@ -16,6 +16,7 @@ from Parse import parseLog, parseConstants, parseInitialConditions, parseSetFiel
 from pathlib import Path
 from Process import processConc
 from InvGau import invGaussianCDF, invGauVG
+from statistics import mean
 
 # INITIALIZATION ##############################################################
 sim = 10 # Number of simulations to analyse 
@@ -212,13 +213,20 @@ os.makedirs(os.path.join(saveFolderPath, "../images"), exist_ok = True)
 
 plt.figure(figsize=(14, 9))
 for j in range(0, sim, interval):
-    plt.loglog(tLS[j], dcLS[j], ls="%s" % lin[j], color="%s" % col[j], lw=4, label="%s" % lab[j])
-    plt.legend(loc="lower right")
+    plt.loglog(tLS[j], dcLS[j], ls="%s" % lin[j], color="gray", lw=0.5)
+    # plt.loglog(tLS[j], dcLS[j], ls="%s" % lin[j], color="%s" % col[j], lw=4, label="%s" % lab[j])
+    # plt.legend(loc="lower right")
     plt.axis([0.1, max(max(tLS, key=max)), 1e-3, max(max(dcLS, key=max))+0.5*max(max(dcLS, key=max))])
     plt.xlabel("t* [-]")
     plt.ylabel("dc*/dt* [-]")
+dcLSave = []
+tLSave = []
+for r in range(0, len(dcLS[0])):
+    dcLSave.append(mean([row[r] for row in dcLS]))
+    tLSave.append(mean([row[r] for row in tLS]))
+plt.loglog(tLSave, dcLSave, color="black", lw=4)
 os.makedirs(os.path.join(saveFolderPath, "../images"), exist_ok = True)
-# plt.savefig(os.path.join(latexFolderPath, "images/realisVar.pdf"))
+plt.savefig(os.path.join(latexFolderPath, "images/realisVar.pdf"))
 # plt.savefig(os.path.join(saveFolderPath, "../images/increasingLx.pdf"))
 # plt.savefig(os.path.join(saveFolderPath, "../images/logConstVarMecDisp.pdf"))
 # plt.show()
