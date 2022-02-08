@@ -35,6 +35,6 @@ echo "FieldMetrics strats"
 mpirun --oversubscribe -np 12 postProcess -time 0 -dict system/fieldMetricsDict -parallel >> log 2>&1
 
 echo "spatialPdf starts"
-mpirun -np 12 spatialPdf -parallel -field U -time 6.4e+06 -logbin -nbins 50
+mpirun -np 12 spatialPdf -parallel -field U -time 0 -logbin -nbins 50
 
 echo "Finish"
