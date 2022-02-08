@@ -226,7 +226,7 @@ for r in range(0, len(dcLS[0])):
     tLSave.append(mean([row[r] for row in tLS]))
 plt.loglog(tLSave, dcLSave, color="black", lw=4)
 os.makedirs(os.path.join(saveFolderPath, "../images"), exist_ok = True)
-plt.savefig(os.path.join(latexFolderPath, "images/realisVar.pdf"))
+# plt.savefig(os.path.join(latexFolderPath, "images/realisVar.pdf"))
 # plt.savefig(os.path.join(saveFolderPath, "../images/increasingLx.pdf"))
 # plt.savefig(os.path.join(saveFolderPath, "../images/logConstVarMecDisp.pdf"))
 # plt.show()
