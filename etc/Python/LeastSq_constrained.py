@@ -95,8 +95,8 @@ def err_cumInvGau(paramsCIG, t, c):
 # simPath = ['variableMecDisp/varMecDisp3D/lowCont_seed100', 'variableMecDisp/varMecDisp3D/highCont_seed100']
 # simPath = ['stopConcAdapTmstp/scat_6-sameDomain/highCont_seed100']
 # simPath = ['stopConcAdapTmstp/scat_3-highContrast/TS4']
-simPath = ['stopConcAdapTmstp/scat_3-highContrast/TS3']
-# simPath = ['stopConcAdapTmstp/scat_5-lowContrast/TS3']
+# simPath = ['stopConcAdapTmstp/scat_3-highContrast/TS3']
+simPath = ['stopConcAdapTmstp/scat_5-lowContrast/TS4']
 for i in range(0, sim, interval):
 # Paths 
     # simPath = Path('scat_6-sameDomain/lowCont_seed100')
@@ -143,15 +143,15 @@ for i in range(0, sim, interval):
 
     # LEAST SQUARES METHOD
     # Van Genuchten
-    paramsVG = Parameters()
-    paramsVG.add('u0', value=1e-06, min=0)
-    # paramsVG.add('X', value=2, min=0)
-    paramsVG.add('D0', value=1e-7, min=0)
-    # do fit, here with the default leastsq algorithm
-    minner = Minimizer(err_invGauVG, paramsVG, fcn_args=(np.array(tt[i]), c[i]))
-    resultVG = minner.minimize()
-    # calculate final result
-    finalVG[i] = c[i] + resultVG.residual
+    # paramsVG = Parameters()
+    # paramsVG.add('u0', value=1e-06, min=0)
+    # # paramsVG.add('X', value=2, min=0)
+    # paramsVG.add('D0', value=1e-7, min=0)
+    # # do fit, here with the default leastsq algorithm
+    # minner = Minimizer(err_invGauVG, paramsVG, fcn_args=(np.array(tt[i]), c[i]))
+    # resultVG = minner.minimize()
+    # # calculate final result
+    # finalVG[i] = c[i] + resultVG.residual
 
     # Inverse Gaussian
     paramsIG = Parameters()
@@ -234,10 +234,10 @@ for i in range(0, sim, interval):
     yIG[i] = np.cumsum(finalIG[i])
     yPeakIG[i] = np.cumsum(finalPeakIG[i])
 
-    diff1 = abs(np.linalg.norm(dc[i]-dY[i]))/np.linalg.norm(dc[i])*100
-    diff2 = abs(np.linalg.norm(dc[i]-finalIG[i]))/np.linalg.norm(dc[i])*100
-    diff3 = abs(np.linalg.norm(dc[i]-dYlsq[i]))/np.linalg.norm(dc[i])*100
-    diff4 = abs(np.linalg.norm(dc[i]-finalPeakIG[i][:-s]))/np.linalg.norm(dc[i])*100
+    diff1 = np.linalg.norm(dc[i]-dY[i])/np.linalg.norm(dc[i])*100
+    diff2 = np.linalg.norm(dc[i]-finalIG[i])/np.linalg.norm(dc[i])*100
+    diff3 = np.linalg.norm(dc[i]-dYlsq[i])/np.linalg.norm(dc[i])*100
+    diff4 = np.linalg.norm(dc[i]-finalPeakIG[i][:-s])/np.linalg.norm(dc[i])*100
 
 # PRINT SECTION ###############################################################
     print("\n============= SIMULATION %d =============" % (i+FS))
@@ -247,9 +247,9 @@ for i in range(0, sim, interval):
     report_fit(resultCIGnoun)
     print(">>> PEAK PDF FITTING")
     report_fit(resultPeakIGnoun)  # write error report
-    print(">>> VAN GENUCHTEN FITTING")
-    report_fit(resultVG)
-    print("\nExperimental ||c|| - Estimated ||c|| [%%]: \nMoments on CDF %f \nLSQ on PDF %f \nLSQ on CDF %f \nLSQ on PDF Peak %f" % (diff1, diff2, diff3, diff4))
+    # print(">>> VAN GENUCHTEN FITTING")
+    # report_fit(resultVG)
+    print("\n||Experimental c - Estimated c|| [%%]: \nMoments on CDF %f \nLSQ on PDF %f \nLSQ on CDF %f \nLSQ on PDF Peak %f" % (diff1, diff2, diff3, diff4))
     print("\nEstimated velocity and dispersion: \nMoments on CDF %.9E %.9E \nLSQ on PDF %.9E %.9E \nLSQ on CDF %.9E %.9E \nLSQ on PDF Peak %.9E %.9E" % (v, MD, vIG, MDig, vCIG, MDcig, vPeakIG, MDpeakIG))
     print("\nEstimated velocity discrepancy [%%]: \nMoments on CDF %.9f \nLSQ on PDF %.9f \nLSQ on CDF %.9f \nLSQ on PDF Peak %.9f " % (abs(mvel[0][0]-v)/v*100, abs(mvel[0][0]-vIG)/vIG*100, abs(mvel[0][0]-vCIG)/vCIG*100, abs(mvel[0][0]-vPeakIG)/vPeakIG*100))
     print("\nEstimated dispersion discrepancy [%%]: \nMoments on CDF %.9f \nLSQ on PDF %.9f \nLSQ on CDF %.9f \nLSQ on PDF Peak %.9f " % (abs(mvel[0][0]*cl[0][0]-MD)/MD*100, abs(mvel[0][0]*cl[0][0]-MDig)/MDig*100, abs(mvel[0][0]*cl[0][0]-MDcig)/MDcig*100, abs(mvel[0][0]*cl[0][0]-MDpeakIG)/MDpeakIG*100))
@@ -276,11 +276,11 @@ for i in [ax[0][0], ax[0][1], ax[0][2], ax[2][0], ax[2][1], ax[2][2]]:
 for i in [ax[1][0], ax[1][1], ax[1][2]]:
     i.set_ylim([1e-5, max(max(dc, key=max))+0.1*max(max(dc, key=max))])
 for i in [ax[0][0], ax[0][1]]:    
-    i.set_xlim([min(min(tt)), max(max(tt))]) # Time interval (X-axis)
+    i.set_xlim([min(min(tt, key=min)), max(max(tt, key=max))]) # Time interval (X-axis)
 for i in [ax[1][0], ax[1][1]]:    
-    i.set_xlim([min(min(tt)), max(max(tt))]) # Time interval (X-axis)
+    i.set_xlim([min(min(tt, key=min)), max(max(tt, key=max))]) # Time interval (X-axis)
 for i in [ax[2][0], ax[2][1]]:    
-    i.set_xlim([min(min(tt)), max(max(tt))]) # Time interval (X-axis). Otherwise: min(tt[FS-1:sim])
+    i.set_xlim([min(min(tt, key=min)), max(max(tt, key=max))]) # Time interval (X-axis). Otherwise: min(tt[FS-1:sim])
 for i in [ax[0][2], ax[1][2], ax[2][2]]:
     i.set_xlim([1e-1, max(max(tt, key=max))]) # Time interval (X-axis)
 
