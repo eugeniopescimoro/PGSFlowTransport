@@ -14,6 +14,14 @@ import matplotlib.pyplot as plt
 FS = 1
 sim = 4
 interval = 1
+U = [[] for i in range(sim)]
+f = [[] for i in range(sim)]
+# U = []
+# f = []
+
+font = {'size': 30}
+plt.rc('font', **font)
+plt.figure(figsize=(14, 9))
 
 for i in range(0, sim, interval):
 # 0) Set the path for the bash script to be executed, usually the testcase home folder
@@ -63,18 +71,15 @@ for i in range(0, sim, interval):
 # reread
 # # subprocess.run(['/bin/bash', '-c', 'gnuplot plotPdf'])
 
-U = []
-f = []
 # 3b) Plot spatial pdf with Python
-with open(Path(os.path.join(homeFolder, 'postProcessing/pdf/0/magUscaled-none_'))) as magUscaled:
-    next(magUscaled)
-    for line in magUscaled:
-        U.append(float(line.split()[0]))
-        f.append(float(line.split()[2]))
-font = {'size': 30}
-plt.rc('font', **font)
-plt.figure(figsize=(14, 9))
-plt.loglog(U, f)
-plt.xlabel('Vx/Vave')
-plt.ylabel('Normalised probability')
-# plt.savefig(os.path.join(latexFolderPath, "images/magUscaled.pdf"))
+    length = ['0.4', '0.6', '0.8', '1.0']
+    with open(Path(os.path.join(homeFolder, 'postProcessing/pdf/0/magUscaled-none_'))) as magUscaled:
+        next(magUscaled)
+        for line in magUscaled:
+            U[i].append(float(line.split()[0]))
+            f[i].append(float(line.split()[2]))
+    plt.loglog(U[i], f[i], label='Lx=%s' % length[i])
+    plt.legend(loc="best")
+    plt.xlabel('Vx/Vave')
+    plt.ylabel('Normalised probability')
+    # plt.savefig(os.path.join(latexFolderPath, "images/magUscaled.pdf"))
