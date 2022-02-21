@@ -147,7 +147,7 @@ for i in range(0, sim, interval):
     plt.legend(loc="best")
     plt.xlabel('Vx/Vave')
     plt.ylabel('Norm joint prob*Vx/Vave*Kxx')
-    plt.savefig(os.path.join(latexFolderPath, "images/jointPdfdHC.pdf"))
+    # plt.savefig(os.path.join(latexFolderPath, "images/jointPdfHC.pdf"))
 
     # for j in range (0, len(U[i])):       
     #     uf[i].append(f[i][j]*U[i][j]*Kxx[i][j])
