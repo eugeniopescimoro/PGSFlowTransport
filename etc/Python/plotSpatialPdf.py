@@ -116,6 +116,7 @@ for i in range(0, sim, interval):
     # # plt.savefig(os.path.join(latexFolderPath, "images/magUscaledLC.pdf"))
     
 # 3c) Plot joint spatial pdf with Python
+    PermX = ['1e-9', '1e-11', '1e-13', '1e-15']
     with open(Path(os.path.join(homeFolder, 'postProcessing/pdf/0/magUscaled-none_'))) as magUscaled:
         next(magUscaled)
         for index, line in enumerate(magUscaled):
@@ -142,10 +143,11 @@ for i in range(0, sim, interval):
             Ux[3].append(U[i][index])
             F[3].append(f[i][index]*Ux[3][-1]*x)
     for j in range(0, len(Ux)):
-        plt.plot(Ux[j], F[j])
+        plt.loglog(Ux[j], F[j], label='Kxx=%s' % PermX[j])
     plt.legend(loc="best")
     plt.xlabel('Vx/Vave')
     plt.ylabel('Norm joint prob*Vx/Vave*Kxx')
+    plt.savefig(os.path.join(latexFolderPath, "images/jointPdfdHC.pdf"))
 
     # for j in range (0, len(U[i])):       
     #     uf[i].append(f[i][j]*U[i][j]*Kxx[i][j])
