@@ -31,8 +31,8 @@ plt.figure(figsize=(14, 9)) # UNCOMMENT WHEN USING 3b OPTION
 
 for i in range(0, sim, interval):
 # 0) Set the path for the bash script to be executed, usually the testcase home folder
-    homeFolder = Path('/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/stopConcAdapTmstp/scat_3-highContrast/TS%d' % (FS+i))
-    # homeFolder = Path('/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/stopConcAdapTmstp/scat_5-lowContrast/TS%d' % (FS+i))
+    # homeFolder = Path('/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/stopConcAdapTmstp/scat_3-highContrast/TS%d' % (FS+i))
+    homeFolder = Path('/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/stopConcAdapTmstp/scat_5-lowContrast/TS%d' % (FS+i))
     latexFolderPath = Path('/home/pmxep5/OneDrive/Nottingham/Write/Articles/PGSFoam/')
 
 # # 1) Verify the following functionObject to be present in system/controlDict
@@ -116,7 +116,8 @@ for i in range(0, sim, interval):
     # # plt.savefig(os.path.join(latexFolderPath, "images/magUscaledLC.pdf"))
     
 # 3c) Plot joint spatial pdf with Python
-    PermX = ['1e-9', '1e-11', '1e-13', '1e-15']
+    # PermX = ['1e-9', '1e-11', '1e-13', '1e-15']
+    PermX = ['1e-10', '1e-11', '1e-12', '1e-13']
     with open(Path(os.path.join(homeFolder, 'postProcessing/pdf/0/magUscaled-none_'))) as magUscaled:
         next(magUscaled)
         for index, line in enumerate(magUscaled):
@@ -126,28 +127,44 @@ for i in range(0, sim, interval):
                 f[i].append(float(line.split()[2]))
     
     for index, x in enumerate(Kxx[i]):
-        if x >= 1e-9:
+        # if x >= 1e-9:
+        #     K[0].append(x)
+        #     Ux[0].append(U[i][index])
+        #     F[0].append(f[i][index]*Ux[0][-1]*x)
+        # if 1e-10 >= x >= 1e-12:
+        #     K[1].append(x)
+        #     Ux[1].append(U[i][index])
+        #     F[1].append(f[i][index]*Ux[1][-1]*x)
+        # if 1e-12 >= x >= 1e-14:
+        #     K[2].append(x)
+        #     Ux[2].append(U[i][index])
+        #     F[2].append(f[i][index]*Ux[2][-1]*x)
+        # if x <= 1e-14:
+        #     K[3].append(x)
+        #     Ux[3].append(U[i][index])
+        #     F[3].append(f[i][index]*Ux[3][-1]*x)
+        if x >= 1e-10:
             K[0].append(x)
             Ux[0].append(U[i][index])
             F[0].append(f[i][index]*Ux[0][-1]*x)
-        if 1e-10 >= x >= 1e-12:
+        if 1e-10 >= x >= 1e-11:
             K[1].append(x)
             Ux[1].append(U[i][index])
             F[1].append(f[i][index]*Ux[1][-1]*x)
-        if 1e-12 >= x >= 1e-14:
+        if 1e-11 >= x >= 1e-12:
             K[2].append(x)
             Ux[2].append(U[i][index])
             F[2].append(f[i][index]*Ux[2][-1]*x)
-        if x <= 1e-14:
+        if x <= 1e-12:
             K[3].append(x)
             Ux[3].append(U[i][index])
-            F[3].append(f[i][index]*Ux[3][-1]*x)
+            F[3].append(f[i][index]*Ux[3][-1]*x)        
     for j in range(0, len(Ux)):
         plt.loglog(Ux[j], F[j], label='Kxx=%s' % PermX[j])
     plt.legend(loc="best")
     plt.xlabel('Vx/Vave')
     plt.ylabel('Norm joint prob*Vx/Vave*Kxx')
-    # plt.savefig(os.path.join(latexFolderPath, "images/jointPdfHC.pdf"))
+    plt.savefig(os.path.join(latexFolderPath, "images/jointPdfLC.pdf"))
 
     # for j in range (0, len(U[i])):       
     #     uf[i].append(f[i][j]*U[i][j]*Kxx[i][j])
