@@ -86,7 +86,7 @@ for i in range(0, sim, interval):
     os.chdir(homeFolder)
     # subprocess.run(['/bin/bash', '-c', 'mpirun -np 12 postProcess -time 0 -field U -parallel -func magScaled']) # It runs the functionObject added in 1) and the output is stored in processor*/0/magUscaled
     subprocess.run(['/bin/bash', '-c', 'mpirun -np 12 postProcess -time 0 -fields \'(U K)\' -parallel']) # It runs the functionObject added in 1) and the output is stored in processor*/0/Kx
-    # subprocess.run(['/bin/bash', '-c', 'mpirun -np 12 spatialPdf -time 0 -field magUscaled -parallel -logbin -nbins 50']) # It runs the spatialPdf post processing utility and stores the output in postProcessing/pdf/0/magUscaled-none_
+    # subprocess.run(['/bin/bash', '-c', 'mpirun -np 12 spatialPdf -time 0 -field magUscaled -parallel -logbin -nbins 50']) # It runs the spatialPdf post processing utility and stores the output in postProcessing/png/0/magUscaled-none_
     subprocess.run(['/bin/bash', '-c', 'mpirun -np 12 spatialPdf -time 0 -field magUscaled -parallel -logbin -nbins 50 -joint Kx']) # It runs the spatialPdf post processing utility with a weight function and stores the output in postProcessing/pdf/0/magUscaled-Kx_
     
 # # 3a) Plot the output with gnuplot: make sure the plotPdf gnuplot filed exist otherwise create one and copy and paste the following instructions
@@ -113,7 +113,7 @@ for i in range(0, sim, interval):
     # plt.legend(loc="best")
     # plt.xlabel('Vx/Vave')
     # plt.ylabel('Normalised joint probability*Vx/Vave')
-    # # plt.savefig(os.path.join(latexFolderPath, "images/magUscaledLC.pdf"))
+    # # plt.savefig(os.path.join(latexFolderPath, "images/magUscaledLC.png"))
     
 # 3c) Plot joint spatial pdf with Python
     # PermX = ['1e-9', '1e-11', '1e-13', '1e-15']
@@ -164,7 +164,7 @@ for i in range(0, sim, interval):
     plt.legend(loc="best")
     plt.xlabel('Vx/Vave')
     plt.ylabel('Norm joint prob*Vx/Vave*Kxx')
-    plt.savefig(os.path.join(latexFolderPath, "images/jointPdfLC.pdf"))
+    plt.savefig(os.path.join(latexFolderPath, "images/jointPdfLC.png"))
 
     # for j in range (0, len(U[i])):       
     #     uf[i].append(f[i][j]*U[i][j]*Kxx[i][j])
@@ -179,7 +179,7 @@ for i in range(0, sim, interval):
     # UKjointPdf = sns.jointplot(np.log10(U[i]), np.log10(Kxx[i]), np.log10(f[i]), kind="hist")
     # UKjointPdf.set_axis_labels('log(U/Uave)', 'log(Kxx)', fontsize=24)
     # sns.jointplot(U[i], Kxx[i], f[i], kind="hist")
-    # UKjointPdf.savefig(os.path.join(latexFolderPath, "images/jointUKpdfHC.pdf"))
+    # UKjointPdf.savefig(os.path.join(latexFolderPath, "images/jointUKpdfHC.png"))
 
 
 

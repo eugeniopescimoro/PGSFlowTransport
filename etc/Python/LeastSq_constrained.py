@@ -92,13 +92,13 @@ def err_cumInvGau(paramsCIG, t, c):
 #     return yLogInvGau-Logdc
 
 # LOOP THROUGH THE SIMULATIONS ################################################ 
-# simPath = ['variableMecDisp/varMecDisp3D/lowCont_seed100', 'variableMecDisp/varMecDisp3D/highCont_seed100']
-# simPath = ['stopConcAdapTmstp/scat_6-sameDomain/highCont_seed100']
-# simPath = ['stopConcAdapTmstp/scat_3-highContrast/TS4']
-# simPath = ['stopConcAdapTmstp/scat_3-highContrast/TS3']
-simPath = ['stopConcAdapTmstp/scat_5-lowContrast/TS4']
 for i in range(0, sim, interval):
 # Paths 
+    # simPath = ['variableMecDisp/varMecDisp3D/lowCont_seed100', 'variableMecDisp/varMecDisp3D/highCont_seed100']
+    # simPath = ['stopConcAdapTmstp/scat_6-sameDomain/highCont_seed100']
+    simPath = ['stopConcAdapTmstp/scat_3-highContrast/TS3']
+    # simPath = ['stopConcAdapTmstp/scat_3-highContrast/TS4']
+    # simPath = ['stopConcAdapTmstp/scat_5-lowContrast/TS3']
     # simPath = Path('scat_6-sameDomain/lowCont_seed100')
     # simPath = Path('scat_3-highContrast/TS%d' % (FS+i))
     latexFolderPath = Path('/home/pmxep5/OneDrive/Nottingham/Write/Articles/PGSFoam/')
@@ -355,7 +355,7 @@ for i in range(sim):
 ax[0][1].legend(loc='upper center', bbox_to_anchor=(0.5, 1.35), ncol=4)
 
 os.makedirs(os.path.join(saveFolderPath, "../images"), exist_ok = True)
-# fig.savefig(os.path.join(saveFolderPath, "../images/MomVsLsq.pdf"))
+# fig.savefig(os.path.join(saveFolderPath, "../images/MomVsLsq.png"))
 # plt.show()
 
 # FIGURE 2 ####################################################################
@@ -363,7 +363,7 @@ os.makedirs(os.path.join(saveFolderPath, "../images"), exist_ok = True)
 # plt.rc('font', **font)
 plt.figure(figsize=(14, 9))
 
-mylabelExp = 'PDF from CDF'
+mylabelExp = 'Simulation data'
 mylabelMom = 'Moments on CDF'
 mylabeldCdT = 'LSQ on PDF'
 mylabelLsq = 'LSQ on CDF'
@@ -371,7 +371,7 @@ mylabelPeak = 'LSQ on PDF Peak'
 
 cLSBoolean = np.logical_and(np.array(dcLS[i])>1e-6, np.array(dcLS[i])<1)
 # cBoolean = np.logical_and(np.array(dc[i])>1e-4, np.array(dc[i])<1)
-plt.loglog(tLS[i][tLS[i]*cLSBoolean != 0], np.array(dcLS[i])[dcLS[i]*cLSBoolean != 0], lw=5, color='0.15', label=mylabelExp)
+plt.loglog(tLS[i][tLS[i]*cLSBoolean != 0], np.array(dcLS[i])[dcLS[i]*cLSBoolean != 0], lw=5, color='0.85', label=mylabelExp)
 plt.loglog(tt[i][:-s], dY[i], '--', lw=5, color='0.55', label=mylabelMom)
 plt.loglog(tt[i][:-s], finalIG[i], linestyle='dotted', lw=5, color='0.55', label=mylabeldCdT)
 plt.loglog(tt[i][:-s], dYlsq[i], '-.', lw=5, color='0.55', label=mylabelLsq)
@@ -384,11 +384,11 @@ plt.loglog(tt[i], finalPeakIG[i], linestyle='dotted', lw=5, color='0.35', label=
 # plt.ylim([min(dc[i][dc[i]*cBoolean != 0]), max(dc[i][dc[i]*cBoolean != 0])+0.05*max(dc[i][dc[i]*cBoolean != 0])])
 plt.axis([0.1, max(max(tLS, key=max)), 1e-3, max(max(dcLS, key=max))+0.5*max(max(dcLS, key=max))])
 
-plt.xlabel("t* [-]")
-plt.ylabel("dc*/dt* [-]")
+plt.xlabel("T [-]")
+plt.ylabel("$d\overline{c}/dT$ [-]")    
 plt.legend()
 
 os.makedirs(os.path.join(saveFolderPath, "images"), exist_ok = True)
-# plt.savefig(os.path.join(latexFolderPath, "images/BTCInterp_lowC_semiLog.pdf"))
-# plt.savefig(os.path.join(saveFolderPath, "images/BTCInterp_semiLog.pdf"))
+plt.savefig(os.path.join(latexFolderPath, "images/BTCInterp_highC_semiLog.png"))
+# plt.savefig(os.path.join(saveFolderPath, "images/BTCInterp_semiLog.png"))
 plt.show()
