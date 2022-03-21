@@ -95,8 +95,8 @@ def err_cumInvGau(paramsCIG, t, c):
 for i in range(0, sim, interval):
 # Paths 
     # simPath = ['variableMecDisp/varMecDisp3D/lowCont_seed100', 'variableMecDisp/varMecDisp3D/highCont_seed100']
-    # simPath = ['stopConcAdapTmstp/scat_6-sameDomain/highCont_seed100']
-    simPath = ['stopConcAdapTmstp/scat_3-highContrast/TS3']
+    simPath = ['stopConcAdapTmstp/scat_6-sameDomain/lowCont_highPe_seed100']
+    # simPath = ['stopConcAdapTmstp/scat_3-highContrast/TS3']
     # simPath = ['stopConcAdapTmstp/scat_3-highContrast/TS4']
     # simPath = ['stopConcAdapTmstp/scat_5-lowContrast/TS3']
     # simPath = Path('scat_6-sameDomain/lowCont_seed100')
@@ -389,6 +389,6 @@ plt.ylabel("$d\overline{c}/dT$ [-]")
 plt.legend()
 
 os.makedirs(os.path.join(saveFolderPath, "images"), exist_ok = True)
-plt.savefig(os.path.join(latexFolderPath, "images/BTCInterp_highC_semiLog.png"))
+# plt.savefig(os.path.join(latexFolderPath, "images/BTCInterp_highC_semiLog.png"))
 # plt.savefig(os.path.join(saveFolderPath, "images/BTCInterp_semiLog.png"))
 plt.show()

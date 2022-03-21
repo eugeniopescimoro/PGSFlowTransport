@@ -5,14 +5,21 @@ import shutil
 import re
 import subprocess
 import pathlib
-n = 3
-os.chdir("/data/PGSFlowTransport/tutorials/RESULTS/stopConcAdapTmstp_4")
+n = 10
+os.chdir("/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/stopConcAdapTmstp/scat_7-stochReal/highCont")
 Lcorr = [
- ["0.4", "0.1", "0.1"],
- ["0.6", "0.1", "0.1"],
+ ["0.8", "0.1", "0.1"],
+ ["0.8", "0.1", "0.1"],
+ ["0.8", "0.1", "0.1"],
+ ["0.8", "0.1", "0.1"],
+ ["0.8", "0.1", "0.1"],
+ ["0.8", "0.1", "0.1"],
+ ["0.8", "0.1", "0.1"],
+ ["0.8", "0.1", "0.1"],
+ ["0.8", "0.1", "0.1"],
  ["0.8", "0.1", "0.1"]
  ]
-kzAniso = ["1","1","1"]
+kzAniso = ["1","1","1", "1", "1", "1", "1", "1", "1", "1"]
 # Remove old directories
 for i in range(1, n+1):
     if os.path.exists('TS%d' % i):

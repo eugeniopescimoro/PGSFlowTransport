@@ -13,8 +13,8 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 
-FS = 3
-sim = 1
+FS = 1
+sim = 4
 interval = 1
 U = [[] for i in range(sim)]
 f = [[] for i in range(sim)] # Frequency or normalised probability
@@ -85,11 +85,11 @@ for i in range(0, sim, interval):
 # 2) Launch postProcess
     os.chdir(homeFolder)
     # functionObject and spatialPdf yield the PDF of the velocity spatial field
-    # subprocess.run(['/bin/bash', '-c', 'mpirun -np 12 postProcess -time 0 -field U -parallel -func magScaled']) # It runs the functionObject added in 1) and the output is stored in processor*/0/magUscaled
-    # subprocess.run(['/bin/bash', '-c', 'mpirun -np 12 spatialPdf -time 0 -field magUscaled -parallel -logbin -nbins 50']) # It runs the spatialPdf post processing utility and stores the output in postProcessing/png/0/magUscaled-none_
+    subprocess.run(['/bin/bash', '-c', 'mpirun -np 12 postProcess -time 0 -field U -parallel -func magScaled']) # It runs the functionObject added in 1) and the output is stored in processor*/0/magUscaled
+    subprocess.run(['/bin/bash', '-c', 'mpirun -np 12 spatialPdf -time 0 -field magUscaled -parallel -logbin -nbins 50']) # It runs the spatialPdf post processing utility and stores the output in postProcessing/png/0/magUscaled-none_
     # functionObject and spatialPdf are run to obtain the conditional PDF of the spatial velocity fields given a facies permeability
-    subprocess.run(['/bin/bash', '-c', 'mpirun -np 12 postProcess -time 0 -fields \'(U K)\' -parallel']) # It runs the functionObject added in 1) and the output is stored in processor*/0/Kx
-    subprocess.run(['/bin/bash', '-c', 'mpirun -np 12 spatialPdf -time 0 -field magUscaled -parallel -logbin -nbins 50 -joint Kx']) # It runs the spatialPdf post processing utility with a weight function and stores the output in postProcessing/pdf/0/magUscaled-Kx_
+    # subprocess.run(['/bin/bash', '-c', 'mpirun -np 12 postProcess -time 0 -fields \'(U K)\' -parallel']) # It runs the functionObject added in 1) and the output is stored in processor*/0/Kx
+    # subprocess.run(['/bin/bash', '-c', 'mpirun -np 12 spatialPdf -time 0 -field magUscaled -parallel -logbin -nbins 50 -joint Kx']) # It runs the spatialPdf post processing utility with a weight function and stores the output in postProcessing/pdf/0/magUscaled-Kx_
     
 # # 3a) Plot the output with gnuplot: make sure the plotPdf gnuplot filed exist otherwise create one and copy and paste the following instructions
 # set logscale x
@@ -103,76 +103,76 @@ for i in range(0, sim, interval):
 # # subprocess.run(['/bin/bash', '-c', 'gnuplot plotPdf'])
 
 # 3b) Plot spatial pdf with Python
-    # col = ['0.15', '0.35', '0.55', '0.85']
-    # lab = ['0.4', '0.6', '0.8', '1.0']
-    # minYaxis = 1e-3
-    # with open(Path(os.path.join(homeFolder, 'postProcessing/pdf/0/magUscaled-none_'))) as magUscaled:
-    #     next(magUscaled)
-    #     for index, line in enumerate(magUscaled):
-    #         U[i].append(float(line.split()[0]))
-    #         f[i].append(float(line.split()[2]))
-    #         uf[i].append(U[i][index]*f[i][index])
-    # plt.loglog(U[i], uf[i], color="%s" % col[i], label='Lx=%s' % lab[i])
-    # plt.axis([np.compress(np.array(uf[i])>minYaxis, U[i])[0], max(U[i]), minYaxis, max(uf[i])]) # np.compress = Pythonic way to slice list using boolean condition
-    # plt.legend(loc="best")
-    # plt.xlabel("$V_x/V_{ave}$")
-    # plt.ylabel("$p_{V_x}(V_x)$")
-    # plt.savefig(os.path.join(latexFolderPath, "images/magUscaledHC.png"))
-    
-# 3c) Plot joint spatial pdf with Python
-    PermX = ['1e-10', '1e-11', '1e-12', '1e-13']    
-    # PermX = ['1e-9', '1e-11', '1e-13', '1e-15']
     col = ['0.15', '0.35', '0.55', '0.85']
     lab = ['0.4', '0.6', '0.8', '1.0']
     minYaxis = 1e-3
     with open(Path(os.path.join(homeFolder, 'postProcessing/pdf/0/magUscaled-none_'))) as magUscaled:
         next(magUscaled)
         for index, line in enumerate(magUscaled):
-            if float(line.split()[2])!=0:            
-                U[i].append(float(line.split()[0]))
-                Kxx[i].append(float(line.split()[1]))
-                f[i].append(float(line.split()[2]))
+            U[i].append(float(line.split()[0]))
+            f[i].append(float(line.split()[2]))
+            uf[i].append(U[i][index]*f[i][index])
+    plt.loglog(U[i], uf[i], color="%s" % col[i], label='Lx=%s' % lab[i])
+    plt.axis([np.compress(np.array(uf[i])>minYaxis, U[i])[0], max(U[i]), minYaxis, max(uf[i])]) # np.compress = Pythonic way to slice list using boolean condition
+    plt.legend(loc="best")
+    plt.xlabel("$V_x/V_{ave}$")
+    plt.ylabel("$p_{(V_x/V_{ave})}$")
+    plt.savefig(os.path.join(latexFolderPath, "images/magUscaledLC.png"))
     
-    for index, x in enumerate(Kxx[i]):
-        # if x >= 1e-9:
-        #     K[0].append(x)
-        #     Ux[0].append(U[i][index])
-        #     F[0].append(f[i][index]*Ux[0][-1]*x)
-        # if 1e-10 >= x >= 1e-12:
-        #     K[1].append(x)
-        #     Ux[1].append(U[i][index])
-        #     F[1].append(f[i][index]*Ux[1][-1]*x)
-        # if 1e-12 >= x >= 1e-14:
-        #     K[2].append(x)
-        #     Ux[2].append(U[i][index])
-        #     F[2].append(f[i][index]*Ux[2][-1]*x)
-        # if x <= 1e-14:
-        #     K[3].append(x)
-        #     Ux[3].append(U[i][index])
-        #     F[3].append(f[i][index]*Ux[3][-1]*x)
-        if x >= 1e-10:
-            K[0].append(x)
-            Ux[0].append(U[i][index])
-            F[0].append(f[i][index]*Ux[0][-1]*x)
-        if 1e-10 > x >= 1e-11:
-            K[1].append(x)
-            Ux[1].append(U[i][index])
-            F[1].append(f[i][index]*Ux[1][-1]*x)
-        if 1e-11 > x >= 1e-12:
-            K[2].append(x)
-            Ux[2].append(U[i][index])
-            F[2].append(f[i][index]*Ux[2][-1]*x)
-        if x < 1e-12:
-            K[3].append(x)
-            Ux[3].append(U[i][index])
-            F[3].append(f[i][index]*Ux[3][-1]*x)        
-for j in range(0, len(Ux)):
-    plt.loglog(Ux[j], F[j], color="%s" % col[j], label='Kxx=%s' % PermX[j])
-plt.axis([min(min(Ux, key=min)), max(max(Ux, key=max)), minYaxis, max(max(F, key=max))]) # np.compress = Pythonic way to slice list using boolean condition
-plt.legend(loc="best")
-plt.xlabel("$V_x/V_{ave}$")
-plt.ylabel("$p_{V_x|K}(V_x; K)$")
-plt.savefig(os.path.join(latexFolderPath, "images/jointPdfLC.png"))
+# # 3c) Plot joint spatial pdf with Python
+#     # PermX = ['1e-10', '1e-11', '1e-12', '1e-13']    
+#     PermX = ['1e-9', '1e-11', '1e-13', '1e-15']
+#     col = ['0.15', '0.35', '0.55', '0.85']
+#     lab = ['0.4', '0.6', '0.8', '1.0']
+#     minYaxis = 1e-3
+#     with open(Path(os.path.join(homeFolder, 'postProcessing/pdf/0/magUscaled-none_'))) as magUscaled:
+#         next(magUscaled)
+#         for index, line in enumerate(magUscaled):
+#             if float(line.split()[2])!=0:            
+#                 U[i].append(float(line.split()[0]))
+#                 Kxx[i].append(float(line.split()[1]))
+#                 f[i].append(float(line.split()[2]))
+    
+#     for index, x in enumerate(Kxx[i]):
+#         if x >= 1e-9:
+#             K[0].append(x)
+#             Ux[0].append(U[i][index])
+#             F[0].append(f[i][index]*Ux[0][-1]*x)
+#         if 1e-10 >= x >= 1e-12:
+#             K[1].append(x)
+#             Ux[1].append(U[i][index])
+#             F[1].append(f[i][index]*Ux[1][-1]*x)
+#         if 1e-12 >= x >= 1e-14:
+#             K[2].append(x)
+#             Ux[2].append(U[i][index])
+#             F[2].append(f[i][index]*Ux[2][-1]*x)
+#         if x <= 1e-14:
+#             K[3].append(x)
+#             Ux[3].append(U[i][index])
+#             F[3].append(f[i][index]*Ux[3][-1]*x)
+#         # if x >= 1e-10:
+#         #     K[0].append(x)
+#         #     Ux[0].append(U[i][index])
+#         #     F[0].append(f[i][index]*Ux[0][-1]*x)
+#         # if 1e-10 > x >= 1e-11:
+#         #     K[1].append(x)
+#         #     Ux[1].append(U[i][index])
+#         #     F[1].append(f[i][index]*Ux[1][-1]*x)
+#         # if 1e-11 > x >= 1e-12:
+#         #     K[2].append(x)
+#         #     Ux[2].append(U[i][index])
+#         #     F[2].append(f[i][index]*Ux[2][-1]*x)
+#         # if x < 1e-12:
+#         #     K[3].append(x)
+#         #     Ux[3].append(U[i][index])
+#         #     F[3].append(f[i][index]*Ux[3][-1]*x)        
+# for j in range(0, len(Ux)):
+#     plt.loglog(Ux[j], F[j], color="%s" % col[j], label='Kxx=%s' % PermX[j])
+# plt.axis([min(min(Ux, key=min)), max(max(Ux, key=max)), minYaxis, max(max(F, key=max))]) # np.compress = Pythonic way to slice list using boolean condition
+# plt.legend(loc="best")
+# plt.xlabel("$V_x/V_{ave}$")
+# plt.ylabel("$p_{(V_x/V_{ave})|K}$")
+# plt.savefig(os.path.join(latexFolderPath, "images/jointPdfHC.png"))
 
 ###############################################################################
     # for j in range (0, len(U[i])):       

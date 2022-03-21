@@ -50,6 +50,7 @@ n = 1 # Derivative smoothing factor
 # LOOP THROUGH THE SIMULATIONS ################################################    
 for i in range(0, sim, interval):
 # Paths
+    # simPath = ['stopConcAdapTmstp/scat_6-sameDomain/lowCont_lowPe_seed100', 'stopConcAdapTmstp/scat_6-sameDomain/lowCont_seed100', 'stopConcAdapTmstp/scat_6-sameDomain/lowCont_highPe_seed100']
     simPath = ['stopConcAdapTmstp/scat_6-sameDomain/highCont_lowPe_seed100', 'stopConcAdapTmstp/scat_6-sameDomain/highCont_seed100', 'stopConcAdapTmstp/scat_6-sameDomain/highCont_highPe_seed100']
     # simPath = ['variableMecDisp/varMecDisp3D/lowCont_seed100', 'variableMecDisp/varMecDisp3D/highCont_seed100']
     # simPath = Path('scat_6-sameDomain/lowCont_seed100')    
@@ -218,7 +219,7 @@ for j in range(0, sim, interval):
     plt.axis([0.1, max(max(tLS, key=max)), 1e-3, max(max(dcLS, key=max))+0.5*max(max(dcLS, key=max))])
     plt.xlabel("T [-]")
     plt.ylabel("$d\overline{c}/dT$ [-]")
-# plt.savefig(os.path.join(latexFolderPath, "images/varPe.png"))
+# plt.savefig(os.path.join(latexFolderPath, "images/varPeLow.png"))
 # plt.savefig(os.path.join(saveFolderPath, "../images/increasingLx.png"))
 # plt.savefig(os.path.join(saveFolderPath, "../images/logConstVarMecDisp.png"))
 # plt.show()
