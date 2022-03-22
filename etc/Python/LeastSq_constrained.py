@@ -17,7 +17,7 @@ from InvGau import invGaussianPDF, invGaussianCDF, invGauVG
 import matplotlib.pyplot as plt
 
 # INITIALIZATION ##############################################################
-sim = 1 # Number of simulations to analyse 
+sim = 8 # Number of simulations to analyse 
 FS = 1 # Number of the First Simulation to analyse
 interval = 1 # Interval between increasing simulations
 tt = []
@@ -51,6 +51,10 @@ tLS = []
 dcLS = []
 dcLSnorm = []
 n = 1 # Derivative smoothing factor
+diff1 = []
+diff2 = []
+diff3 = []
+diff4 = []
 
 ###############################################################################
 def err_invGauVG(paramsVG, t, c):
@@ -95,18 +99,21 @@ def err_cumInvGau(paramsCIG, t, c):
 for i in range(0, sim, interval):
 # Paths 
     # simPath = ['variableMecDisp/varMecDisp3D/lowCont_seed100', 'variableMecDisp/varMecDisp3D/highCont_seed100']
-    simPath = ['stopConcAdapTmstp/scat_6-sameDomain/lowCont_highPe_seed100']
+    # simPath = ['stopConcAdapTmstp/scat_6-sameDomain/lowCont_highPe_seed100']
     # simPath = ['stopConcAdapTmstp/scat_3-highContrast/TS3']
     # simPath = ['stopConcAdapTmstp/scat_3-highContrast/TS4']
     # simPath = ['stopConcAdapTmstp/scat_5-lowContrast/TS3']
     # simPath = Path('scat_6-sameDomain/lowCont_seed100')
-    # simPath = Path('scat_3-highContrast/TS%d' % (FS+i))
+    if i<4:
+        simPath = Path('scat_5-lowContrast/TS%d' % (FS+i))
+    else:
+        simPath = Path('scat_3-highContrast/TS%d' % (i-3))
     latexFolderPath = Path('/home/pmxep5/OneDrive/Nottingham/Write/Articles/PGSFoam/')
-    saveFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/', simPath[FS-1]))
-    homeFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/', simPath[FS-1]))
+    # saveFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/', simPath[FS-1]))
+    # homeFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/', simPath[FS-1]))
     # simPath = Path('TS%d' % (FS+i))
-    # saveFolderPath = Path(os.path.join('/data/PGSFlowTransport/tutorials/variableMecDisp/varMecDisp3D', simPath))
-    # homeFolderPath = Path(os.path.join('/data/PGSFlowTransport/tutorials/RESULTS/variableMecDisp/varMecDisp3D', simPath))
+    saveFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/variableMecDisp/varMecDisp3D', simPath))
+    homeFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/stopConcAdapTmstp/', simPath))
     # homeFolderPath = Path('/home/pmxep5/OpenFOAM/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/stopConcAdapTmstp_3/TS1')
     # homeFolderPath = Path('/data/PGSFlowTransport/tutorials/RESULTS/scat_5-lowContrast/TS%d' % (FS+i))
     # homeFolderPath = Path('/data/PGSFlowTransport/tutorials/RESULTS/stopConc_5-lowContrast/TS%d' % (FS+i))
@@ -234,10 +241,10 @@ for i in range(0, sim, interval):
     yIG[i] = np.cumsum(finalIG[i])
     yPeakIG[i] = np.cumsum(finalPeakIG[i])
 
-    diff1 = np.linalg.norm(dc[i]-dY[i])/np.linalg.norm(dc[i])*100
-    diff2 = np.linalg.norm(dc[i]-finalIG[i])/np.linalg.norm(dc[i])*100
-    diff3 = np.linalg.norm(dc[i]-dYlsq[i])/np.linalg.norm(dc[i])*100
-    diff4 = np.linalg.norm(dc[i]-finalPeakIG[i][:-s])/np.linalg.norm(dc[i])*100
+    diff1.append(np.linalg.norm(dc[i]-dY[i])/np.linalg.norm(dc[i])*100)
+    diff2.append(np.linalg.norm(dc[i]-finalIG[i])/np.linalg.norm(dc[i])*100)
+    diff3.append(np.linalg.norm(dc[i]-dYlsq[i])/np.linalg.norm(dc[i])*100)
+    diff4.append(np.linalg.norm(dc[i]-finalPeakIG[i][:-s])/np.linalg.norm(dc[i])*100)
 
 # PRINT SECTION ###############################################################
     print("\n============= SIMULATION %d =============" % (i+FS))
@@ -249,7 +256,7 @@ for i in range(0, sim, interval):
     report_fit(resultPeakIGnoun)  # write error report
     # print(">>> VAN GENUCHTEN FITTING")
     # report_fit(resultVG)
-    print("\n||Experimental c - Estimated c|| [%%]: \nMoments on CDF %f \nLSQ on PDF %f \nLSQ on CDF %f \nLSQ on PDF Peak %f" % (diff1, diff2, diff3, diff4))
+    print("\n||Experimental c - Estimated c|| [%%]: \nMoments on CDF %f \nLSQ on PDF %f \nLSQ on CDF %f \nLSQ on PDF Peak %f" % (diff1[i], diff2[i], diff3[i], diff4[i]))
     print("\nEstimated velocity and dispersion: \nMoments on CDF %.9E %.9E \nLSQ on PDF %.9E %.9E \nLSQ on CDF %.9E %.9E \nLSQ on PDF Peak %.9E %.9E" % (v, MD, vIG, MDig, vCIG, MDcig, vPeakIG, MDpeakIG))
     print("\nEstimated velocity discrepancy [%%]: \nMoments on CDF %.9f \nLSQ on PDF %.9f \nLSQ on CDF %.9f \nLSQ on PDF Peak %.9f " % (abs(mvel[0][0]-v)/v*100, abs(mvel[0][0]-vIG)/vIG*100, abs(mvel[0][0]-vCIG)/vCIG*100, abs(mvel[0][0]-vPeakIG)/vPeakIG*100))
     print("\nEstimated dispersion discrepancy [%%]: \nMoments on CDF %.9f \nLSQ on PDF %.9f \nLSQ on CDF %.9f \nLSQ on PDF Peak %.9f " % (abs(mvel[0][0]*cl[0][0]-MD)/MD*100, abs(mvel[0][0]*cl[0][0]-MDig)/MDig*100, abs(mvel[0][0]*cl[0][0]-MDcig)/MDcig*100, abs(mvel[0][0]*cl[0][0]-MDpeakIG)/MDpeakIG*100))
@@ -392,3 +399,13 @@ os.makedirs(os.path.join(saveFolderPath, "images"), exist_ok = True)
 # plt.savefig(os.path.join(latexFolderPath, "images/BTCInterp_highC_semiLog.png"))
 # plt.savefig(os.path.join(saveFolderPath, "images/BTCInterp_semiLog.png"))
 plt.show()
+
+# FIGURE 3 ####################################################################
+Lx = []
+plt.figure(figsize=(14, 9))
+for i in range(4):
+    Lx.append(cl[0:4][i][0])
+plt.plot(Lx, diff1[0:4])
+plt.plot(Lx, diff1[4:8])
+plt.xlabel("Lx [-]")
+plt.ylabel("e [%]")

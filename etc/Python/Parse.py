@@ -10,7 +10,7 @@ import re
 import os
 import numpy as np
 
-def parseLog(logPath, s, cl, dd, mvel, cc, t, m):
+def parseLog(logPath, s, cl, dd, mvel, c, t, m):
     mass = []
     time = []
     conc = []
@@ -59,7 +59,7 @@ def parseLog(logPath, s, cl, dd, mvel, cc, t, m):
         time = time[0:-1:s]
         t.append(np.array(time))
         conc = conc[0:-1:s]
-        cc.append(np.array(conc))
+        c.append(np.array(conc))
     return kvol, kval
 
 def parseConstants(transPropPath):
