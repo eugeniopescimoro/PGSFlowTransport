@@ -99,21 +99,22 @@ def err_cumInvGau(paramsCIG, t, c):
 for i in range(0, sim, interval):
 # Paths 
     # simPath = ['variableMecDisp/varMecDisp3D/lowCont_seed100', 'variableMecDisp/varMecDisp3D/highCont_seed100']
-    # simPath = ['stopConcAdapTmstp/scat_6-sameDomain/lowCont_highPe_seed100']
+    # simPath = ['stopConcAdapTmstp/scat_6-sameDomain/lowCont_lowPe_seed100', 'stopConcAdapTmstp/scat_6-sameDomain/lowCont_seed100', 'stopConcAdapTmstp/scat_6-sameDomain/lowCont_highPe_seed100', 'stopConcAdapTmstp/scat_6-sameDomain/highCont_lowPe_seed100', 'stopConcAdapTmstp/scat_6-sameDomain/highCont_seed100', 'stopConcAdapTmstp/scat_6-sameDomain/highCont_highPe_seed100']
+    # simPath = ['stopConcAdapTmstp/scat_6-sameDomain/highCont_lowPe_seed100']
     # simPath = ['stopConcAdapTmstp/scat_3-highContrast/TS3']
     # simPath = ['stopConcAdapTmstp/scat_3-highContrast/TS4']
     # simPath = ['stopConcAdapTmstp/scat_5-lowContrast/TS3']
     # simPath = Path('scat_6-sameDomain/lowCont_seed100')
     if i<4:
-        simPath = Path('scat_5-lowContrast/TS%d' % (FS+i))
+        simPath = ['scat_5-lowContrast/TS%d' % (FS+i)]
     else:
-        simPath = Path('scat_3-highContrast/TS%d' % (i-3))
+        simPath = ['scat_3-highContrast/TS%d' % (i-3)]
     latexFolderPath = Path('/home/pmxep5/OneDrive/Nottingham/Write/Articles/PGSFoam/')
-    # saveFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/', simPath[FS-1]))
-    # homeFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/', simPath[FS-1]))
+    saveFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/', simPath[0]))
+    homeFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/stopConcAdapTmstp/', simPath[0]))
     # simPath = Path('TS%d' % (FS+i))
-    saveFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/variableMecDisp/varMecDisp3D', simPath))
-    homeFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/stopConcAdapTmstp/', simPath))
+    # saveFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/variableMecDisp/varMecDisp3D', simPath))
+    # homeFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/stopConcAdapTmstp/', simPath))
     # homeFolderPath = Path('/home/pmxep5/OpenFOAM/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/stopConcAdapTmstp_3/TS1')
     # homeFolderPath = Path('/data/PGSFlowTransport/tutorials/RESULTS/scat_5-lowContrast/TS%d' % (FS+i))
     # homeFolderPath = Path('/data/PGSFlowTransport/tutorials/RESULTS/stopConc_5-lowContrast/TS%d' % (FS+i))
@@ -400,12 +401,24 @@ os.makedirs(os.path.join(saveFolderPath, "images"), exist_ok = True)
 # plt.savefig(os.path.join(saveFolderPath, "images/BTCInterp_semiLog.png"))
 plt.show()
 
-# FIGURE 3 ####################################################################
+# FIGURE 3A ###################################################################
 Lx = []
 plt.figure(figsize=(14, 9))
-for i in range(4):
-    Lx.append(cl[0:4][i][0])
-plt.plot(Lx, diff1[0:4])
-plt.plot(Lx, diff1[4:8])
+for i in range(int(sim/2)):
+    Lx.append(cl[0:sim][i][0])
+plt.semilogy(Lx, diff1[0:4], lw=5, color='0.80', label='Low k contrast')
+plt.semilogy(Lx, diff1[4:8], lw=5, color='0.4', label='High k contrast')
 plt.xlabel("Lx [-]")
 plt.ylabel("e [%]")
+plt.savefig(os.path.join(latexFolderPath, "images/LxVsErr.png"))
+
+# FIGURE 3B ###################################################################
+# lowContPe = [8e2, 8e3, 8e4]
+# highContPe = [6e3, 6e4, 6e5]
+# plt.figure(figsize=(14, 9))
+# plt.semilogx(lowContPe, diff1[0:3], lw=5, color='0.80', label='Low k contrast')
+# plt.semilogx(highContPe, diff1[3:6], lw=5, color='0.40', label='High k contrast')
+# plt.xlabel("Pé [-]")
+# plt.ylabel("e [%]")
+# plt.legend()
+# plt.savefig(os.path.join(latexFolderPath, "images/errPe.png"))

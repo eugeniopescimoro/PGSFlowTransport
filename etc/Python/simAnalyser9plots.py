@@ -19,7 +19,7 @@ from InvGau import invGaussianCDF, invGauVG
 from statistics import mean
 
 # INITIALIZATION ##############################################################
-sim = 3 # Number of simulations to analyse 
+sim = 10 # Number of simulations to analyse 
 FS = 1 # Number of the First Simulation to analyse
 interval = 1 # Interval between increasing simulations
 s = 10 # Moving average window size -> smoothness factor
@@ -51,21 +51,21 @@ n = 1 # Derivative smoothing factor
 for i in range(0, sim, interval):
 # Paths
     # simPath = ['stopConcAdapTmstp/scat_6-sameDomain/lowCont_lowPe_seed100', 'stopConcAdapTmstp/scat_6-sameDomain/lowCont_seed100', 'stopConcAdapTmstp/scat_6-sameDomain/lowCont_highPe_seed100']
-    simPath = ['stopConcAdapTmstp/scat_6-sameDomain/highCont_lowPe_seed100', 'stopConcAdapTmstp/scat_6-sameDomain/highCont_seed100', 'stopConcAdapTmstp/scat_6-sameDomain/highCont_highPe_seed100']
+    # simPath = ['stopConcAdapTmstp/scat_6-sameDomain/highCont_lowPe_seed100', 'stopConcAdapTmstp/scat_6-sameDomain/highCont_seed100', 'stopConcAdapTmstp/scat_6-sameDomain/highCont_highPe_seed100']
     # simPath = ['variableMecDisp/varMecDisp3D/lowCont_seed100', 'variableMecDisp/varMecDisp3D/highCont_seed100']
     # simPath = Path('scat_6-sameDomain/lowCont_seed100')    
     # simPath = ['stopConcAdapTmstp/scat_6-sameDomain/lowCont_seed100', 'stopConcAdapTmstp/scat_6-sameDomain/highCont_seed100']
     # simPath = ['stopConcAdapTmstp/scat_5-lowContrast/TS3', 'stopConcAdapTmstp/scat_3-highContrast/TS3']
-    latexFolderPath = Path('/home/pmxep5/OneDrive/Nottingham/Write/Articles/PGSFoam/')
-    saveFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/', simPath[i]))
-    homeFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/', simPath[i]))
+    # latexFolderPath = Path('/home/pmxep5/OneDrive/Nottingham/Write/Articles/PGSFoam/')
+    # saveFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/', simPath[i]))
+    # homeFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/', simPath[i]))
 
     # simPath = Path('stopConcAdapTmstp/scat_3-highContrast/TS%d' % (FS+i))
     # simPath = Path('stopConcAdapTmstp/scat_5-lowContrast/TS%d' % (FS+i))
-    # simPath = Path('stopConcAdapTmstp/scat_7-stochReal/TS%d' % (FS+i))
-    # latexFolderPath = Path('/home/pmxep5/OneDrive/Nottingham/Write/Articles/PGSFoam/')
-    # saveFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/', simPath))
-    # homeFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/', simPath))
+    simPath = Path('stopConcAdapTmstp/scat_7-stochReal/highCont/TS%d' % (FS+i))
+    latexFolderPath = Path('/home/pmxep5/OneDrive/Nottingham/Write/Articles/PGSFoam/')
+    saveFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/', simPath))
+    homeFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/', simPath))
 # Parse #######################################################################
     # bashParseLog(sim, FS, homeFolderPath) # Import bashParse.py to use bashParseLog
 # parseLog function parses the log file from OpenFOAM and stores the relevant data in different lists
@@ -186,15 +186,15 @@ plt.rc('font', **font)
 
 plt.figure(figsize=(14, 9))
 lin = ['-', '-', '-', '-','-', '-', '-', '-', '-', '-']
-# lab = ['TS1', 'TS2', 'TS3', 'TS4', 'TS5', 'TS6', 'TS7', 'TS8', 'TS9', 'TS10']
+lab = ['TS1', 'TS2', 'TS3', 'TS4', 'TS5', 'TS6', 'TS7', 'TS8', 'TS9', 'TS10']
 # lab = ['Lx = 0.4', 'Lx = 0.6', 'Lx = 0.8', 'Lx = 1.0']
-lab = ['Low Péclet', 'Medium Péclet', 'High Péclet', 'VarMecDisp']
+# lab = ['Low Péclet', 'Medium Péclet', 'High Péclet', 'VarMecDisp']
 # lab = ['Low k contrast', 'High k contrast']
 # lab = ['Dmec = constant', 'Dmec = alpha*V']
 # col = ['blue', 'orange', 'green', 'red']
-# col = ['0.1', '0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1.0']
+col = ['0.1', '0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1.0']
 # col = ['0.15', '0.35', '0.55', '0.85']
-col = ['0.3', '0.6', '0.9']
+# col = ['0.3', '0.6', '0.9']
 # col = ['0.15', '0.85']
 # col = ['orange', 'red']
 for j in range(0, sim, interval):
@@ -237,7 +237,7 @@ for r in range(0, len(dcLS[0])):
     tLSave.append(mean([row[r] for row in tLS]))
 plt.loglog(tLSave, dcLSave, color="black", lw=4)
 os.makedirs(os.path.join(saveFolderPath, "../images"), exist_ok = True)
-# plt.savefig(os.path.join(latexFolderPath, "images/realisVar.png"))
+plt.savefig(os.path.join(latexFolderPath, "images/realisVarHC.png"))
 # plt.savefig(os.path.join(saveFolderPath, "../images/increasingLx.png"))
 # plt.savefig(os.path.join(saveFolderPath, "../images/logConstVarMecDisp.png"))
 # plt.show()
