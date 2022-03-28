@@ -17,7 +17,7 @@ from InvGau import invGaussianPDF, invGaussianCDF, invGauVG
 import matplotlib.pyplot as plt
 
 # INITIALIZATION ##############################################################
-sim = 8 # Number of simulations to analyse 
+sim = 1 # Number of simulations to analyse 
 FS = 1 # Number of the First Simulation to analyse
 interval = 1 # Interval between increasing simulations
 tt = []
@@ -101,14 +101,14 @@ for i in range(0, sim, interval):
     # simPath = ['variableMecDisp/varMecDisp3D/lowCont_seed100', 'variableMecDisp/varMecDisp3D/highCont_seed100']
     # simPath = ['stopConcAdapTmstp/scat_6-sameDomain/lowCont_lowPe_seed100', 'stopConcAdapTmstp/scat_6-sameDomain/lowCont_seed100', 'stopConcAdapTmstp/scat_6-sameDomain/lowCont_highPe_seed100', 'stopConcAdapTmstp/scat_6-sameDomain/highCont_lowPe_seed100', 'stopConcAdapTmstp/scat_6-sameDomain/highCont_seed100', 'stopConcAdapTmstp/scat_6-sameDomain/highCont_highPe_seed100']
     # simPath = ['stopConcAdapTmstp/scat_6-sameDomain/highCont_lowPe_seed100']
-    # simPath = ['stopConcAdapTmstp/scat_3-highContrast/TS3']
+    # simPath = ['scat_3-highContrast/TS3']
     # simPath = ['stopConcAdapTmstp/scat_3-highContrast/TS4']
-    # simPath = ['stopConcAdapTmstp/scat_5-lowContrast/TS3']
+    simPath = ['scat_5-lowContrast/TS3']
     # simPath = Path('scat_6-sameDomain/lowCont_seed100')
-    if i<4:
-        simPath = ['scat_5-lowContrast/TS%d' % (FS+i)]
-    else:
-        simPath = ['scat_3-highContrast/TS%d' % (i-3)]
+    # if i<4:
+    #     simPath = ['scat_5-lowContrast/TS%d' % (FS+i)]
+    # else:
+    #     simPath = ['scat_3-highContrast/TS%d' % (i-3)]
     latexFolderPath = Path('/home/pmxep5/OneDrive/Nottingham/Write/Articles/PGSFoam/')
     saveFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/', simPath[0]))
     homeFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/stopConcAdapTmstp/', simPath[0]))
@@ -402,15 +402,15 @@ os.makedirs(os.path.join(saveFolderPath, "images"), exist_ok = True)
 plt.show()
 
 # FIGURE 3A ###################################################################
-Lx = []
-plt.figure(figsize=(14, 9))
-for i in range(int(sim/2)):
-    Lx.append(cl[0:sim][i][0])
-plt.semilogy(Lx, diff1[0:4], lw=5, color='0.80', label='Low k contrast')
-plt.semilogy(Lx, diff1[4:8], lw=5, color='0.4', label='High k contrast')
-plt.xlabel("Lx [-]")
-plt.ylabel("e [%]")
-plt.savefig(os.path.join(latexFolderPath, "images/LxVsErr.png"))
+# Lx = []
+# plt.figure(figsize=(14, 9))
+# for i in range(int(sim/2)):
+#     Lx.append(cl[0:sim][i][0])
+# plt.semilogy(Lx, diff1[0:4], lw=5, color='0.80', label='Low k contrast')
+# plt.semilogy(Lx, diff1[4:8], lw=5, color='0.4', label='High k contrast')
+# plt.xlabel("Lx [-]")
+# plt.ylabel("e [%]")
+# # plt.savefig(os.path.join(latexFolderPath, "images/LxVsErr.png"))
 
 # FIGURE 3B ###################################################################
 # lowContPe = [8e2, 8e3, 8e4]
