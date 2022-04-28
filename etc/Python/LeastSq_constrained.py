@@ -17,7 +17,7 @@ from InvGau import invGaussianPDF, invGaussianCDF, invGauVG
 import matplotlib.pyplot as plt
 
 # INITIALIZATION ##############################################################
-sim = 1 # Number of simulations to analyse 
+sim = 6 # Number of simulations to analyse 
 FS = 1 # Number of the First Simulation to analyse
 interval = 1 # Interval between increasing simulations
 tt = []
@@ -99,19 +99,18 @@ def err_cumInvGau(paramsCIG, t, c):
 for i in range(0, sim, interval):
 # Paths 
     # simPath = ['variableMecDisp/varMecDisp3D/lowCont_seed100', 'variableMecDisp/varMecDisp3D/highCont_seed100']
-    # simPath = ['stopConcAdapTmstp/scat_6-sameDomain/lowCont_lowPe_seed100', 'stopConcAdapTmstp/scat_6-sameDomain/lowCont_seed100', 'stopConcAdapTmstp/scat_6-sameDomain/lowCont_highPe_seed100', 'stopConcAdapTmstp/scat_6-sameDomain/highCont_lowPe_seed100', 'stopConcAdapTmstp/scat_6-sameDomain/highCont_seed100', 'stopConcAdapTmstp/scat_6-sameDomain/highCont_highPe_seed100']
+    # simPath = ['scat_6-sameDomain/lowCont_lowPe_seed100', 'scat_6-sameDomain/lowCont_seed100', 'scat_6-sameDomain/lowCont_highPe_seed100']
+    # simPath = ['scat_6-sameDomain/highCont_lowPe_seed100', 'scat_6-sameDomain/highCont_seed100', 'scat_6-sameDomain/highCont_highPe_seed100']
+    simPath = ['scat_6-sameDomain/lowCont_lowPe_seed100', 'scat_6-sameDomain/lowCont_seed100', 'scat_6-sameDomain/lowCont_highPe_seed100', 'scat_6-sameDomain/highCont_lowPe_seed100', 'scat_6-sameDomain/highCont_seed100', 'scat_6-sameDomain/highCont_highPe_seed100']
     # simPath = ['stopConcAdapTmstp/scat_6-sameDomain/highCont_lowPe_seed100']
     # simPath = ['scat_3-highContrast/TS3']
     # simPath = ['stopConcAdapTmstp/scat_3-highContrast/TS4']
-    simPath = ['scat_5-lowContrast/TS3']
+    # simPath = ['scat_5-lowContrast/TS3']
     # simPath = Path('scat_6-sameDomain/lowCont_seed100')
-    # if i<4:
-    #     simPath = ['scat_5-lowContrast/TS%d' % (FS+i)]
-    # else:
-    #     simPath = ['scat_3-highContrast/TS%d' % (i-3)]
+    # simPath = ['scat_5-lowContrast/TS1', 'scat_5-lowContrast/TS2', 'scat_5-lowContrast/TS3', 'scat_5-lowContrast/TS4', 'scat_3-highContrast/TS1', 'scat_3-highContrast/TS2', 'scat_3-highContrast/TS3', 'scat_3-highContrast/TS4']
     latexFolderPath = Path('/home/pmxep5/OneDrive/Nottingham/Write/Articles/PGSFoam/')
-    saveFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/', simPath[0]))
-    homeFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/stopConcAdapTmstp/', simPath[0]))
+    saveFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/', simPath[i]))
+    homeFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/stopConcAdapTmstp/', simPath[i]))
     # simPath = Path('TS%d' % (FS+i))
     # saveFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/variableMecDisp/varMecDisp3D', simPath))
     # homeFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/stopConcAdapTmstp/', simPath))
@@ -268,7 +267,7 @@ for i in range(0, sim, interval):
 # FIGURE 1 ####################################################################
 # Draw blank canvas, grids and legend #########################################
 fig, ax = plt.subplots(nrows=3, ncols=3, figsize=(14, 9))
-font = {'size': 30}
+font = {'size': 50}
 plt.rc('font', **font)
 #plt.tight_layout()
 
@@ -394,31 +393,36 @@ plt.axis([0.1, max(max(tLS, key=max)), 1e-3, max(max(dcLS, key=max))+0.5*max(max
 
 plt.xlabel("T [-]")
 plt.ylabel("$d\overline{c}/dT$ [-]")    
-plt.legend()
+plt.legend(fontsize=30)
+plt.tight_layout()
 
 os.makedirs(os.path.join(saveFolderPath, "images"), exist_ok = True)
-# plt.savefig(os.path.join(latexFolderPath, "images/BTCInterp_highC_semiLog.png"))
+# plt.savefig(os.path.join(latexFolderPath, "images/BTCInterp_lowC_semiLog.png"))
+plt.savefig(os.path.join(latexFolderPath, "images/BTCInterp_highC_semiLog.png"))
 # plt.savefig(os.path.join(saveFolderPath, "images/BTCInterp_semiLog.png"))
 plt.show()
 
-# FIGURE 3A ###################################################################
+# # FIGURE 3A ###################################################################
 # Lx = []
 # plt.figure(figsize=(14, 9))
 # for i in range(int(sim/2)):
 #     Lx.append(cl[0:sim][i][0])
-# plt.semilogy(Lx, diff1[0:4], lw=5, color='0.80', label='Low k contrast')
-# plt.semilogy(Lx, diff1[4:8], lw=5, color='0.4', label='High k contrast')
-# plt.xlabel("Lx [-]")
+# plt.plot(Lx, diff1[0:4], lw=5, color='0.80', label='Low k contrast')
+# plt.plot(Lx, diff1[4:8], lw=5, color='0.4', label='High k contrast')
+# plt.xlabel("$\lambda_x [-]$")
 # plt.ylabel("e [%]")
-# # plt.savefig(os.path.join(latexFolderPath, "images/LxVsErr.png"))
+# plt.legend(fontsize=30)
+# plt.tight_layout()
+# plt.savefig(os.path.join(latexFolderPath, "images/LxVsErr.png"))
 
 # FIGURE 3B ###################################################################
-# lowContPe = [8e2, 8e3, 8e4]
-# highContPe = [6e3, 6e4, 6e5]
-# plt.figure(figsize=(14, 9))
-# plt.semilogx(lowContPe, diff1[0:3], lw=5, color='0.80', label='Low k contrast')
-# plt.semilogx(highContPe, diff1[3:6], lw=5, color='0.40', label='High k contrast')
-# plt.xlabel("Pé [-]")
-# plt.ylabel("e [%]")
-# plt.legend()
-# plt.savefig(os.path.join(latexFolderPath, "images/errPe.png"))
+lowContPe = [8e2, 8e3, 8e4]
+highContPe = [6e3, 6e4, 6e5]
+plt.figure(figsize=(14, 9))
+plt.semilogx(lowContPe, diff1[0:3], lw=5, color='0.80', label='Low k contrast')
+plt.semilogx(highContPe, diff1[3:6], lw=5, color='0.4', label='High k contrast')
+plt.xlabel("Pe [-]")
+plt.ylabel("e [%]")
+plt.legend(fontsize=30)
+plt.tight_layout()
+plt.savefig(os.path.join(latexFolderPath, "images/errPe.png"))
