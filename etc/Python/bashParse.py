@@ -20,7 +20,7 @@ def bashParseLog(sim, FS, logPath):
         subprocess.run(['/bin/bash', '-c', 'cat log | grep \'Mean vel =\' | cut -d\' \' -f4 | tr -d \'(\' > LOGs/logVelx'])
         subprocess.run(['/bin/bash', '-c', 'cat log | grep \'Flux out =\' | cut -d\' \' -f4 > LOGs/logFlux'])    
 
-def parseLog(logPath, s, cl, dd, mvel, cc, t, m):
+def parseLog(logPath, s, cl, dd, mvel, c, t, m):
     mass = []
     time = []
     conc = []  
@@ -55,13 +55,13 @@ def parseLog(logPath, s, cl, dd, mvel, cc, t, m):
         # c = [val for i, val in enumerate(conc) if cBoolean[i]]
         # t = [val for i, val in enumerate(time) if cBoolean[i]] # it selects the time only if cBoolean is True
 
-        # Select one element of the list every 100 to reduce the memory usage  
+        # Select one element of the list every "s" to reduce the memory usage  
         mass = mass[0:-1:s]
         m.append(np.array(mass))
         time = time[0:-1:s]
         t.append(np.array(time))
         conc = conc[0:-1:s]
-        cc.append(np.array(conc))
+        c.append(np.array(conc))
     return kvol, kval
 
 def parseConstants(transPropPath):

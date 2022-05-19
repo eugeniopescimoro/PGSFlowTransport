@@ -1,58 +1,65 @@
-#import numpy as np
-import matplotlib as mpl
-mpl.use('Agg')
-import matplotlib.pyplot as plt
-#import os
-import re
-for i in range(1, 2):
-    # os.chdir('TS%d' % i) # It changes the work directory but it is safer to work with absolute paths
-    mvel = []
-    conc = []
-    time = []
-    dimX = []
-    dimY = []
-    dimZ = []
-    with open("/home/pmxep5/OpenFOAM/others/GMRTFoam/tutorials/simpleDarcyFoam/RESULTS/Herten/punctualInj/system/blockMeshDict") as BMD:       
-        for line in BMD:
-            if "L" in line:
-                dimX.append(float(re.split(' |\;', line)[1]))
-                break
-        for line in BMD:
-            if "D" in line:
-                dimY.append(float(re.split(' |\;', line)[1]))
-                break
-        for line in BMD:
-            if "H" in line:
-                dimZ.append(float(re.split(' |\;', line)[1]))
-                break
-    with open("/home/pmxep5/OpenFOAM/others/GMRTFoam/tutorials/simpleDarcyFoam/RESULTS/Herten/punctualInj/log") as log:
-        for _ in range(441): # It skips the first n lines to avoid some misleading "Time =" occurencies
-            next(log)
-        for line in log: # It greps all the relevant data from the log file
-            if "Mean vel =" in line:
-                mvel.append([float(i) for i in re.split(' |\(|\)', line)[slice(4, 7)]])
-            if "Flux out =" in line:
-                conc.append(float(line.split()[3])*float(dimY[0])*float(dimZ[0])*mvel[0][0]) # The flux weighted average given by "Flux Out" it is multiplied by the outlet boundary area and the average longitudinal velocity
-            if "Time =" in line:
-                time.append(float(line.split()[2]))
-    #cBoolean = np.logical_and(np.array(conc)>1e-12, np.array(conc)<1) 
-    #c = [val for i, val in enumerate(conc) if cBoolean[i]]
-    #t = [val for i, val in enumerate(time) if cBoolean[i]]
-    #Cmax = max(conc)
-    C0 = 1e-6 # This is the concentration term Su provided in the fvOptions file and its unit is [1/s] 
-    Cnorm = [x/C0 for x in conc]
-    Tadv = float(dimX[0])/mvel[0][0]
-    Tnorm = [val/Tadv for i, val in enumerate(time)]# if cBoolean[i]]
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
-for i in range(0, len(Tnorm), 100):
-    T = Tnorm[0:i]
-    C = Cnorm[0:i]
+"""
+@author: Eugenio Pescimoro
+@email: eugenio.pescimoro@gmail.com
+@Description: A BTC for each time step is plotted and saved in tiff format
+"""
+
+import os
+import matplotlib.pyplot as plt
+from pathlib import Path
+from bashParse import bashParseLog, parseLog, parseConstants, parseInitialConditions, parseSetFieldsDict #--> This option requires the OpenFOAM log to be written from latest version of adaptiveScalarTransportFoam solver
+import numpy as np
+
+sim = 1 # Number of simulations to analyse 
+FS = 4 # Number of the First Simulation to analyse
+s = 1 # Moving average window size -> smoothness factor
+c = []
+cl = []
+dd = []
+t = []
+m = []
+mvel = []
+
+simPath = ['stopConcAdapTmstp/scat_5-lowContrast/TS4']
+homeFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/', simPath[0]))
+saveFolderPath = Path('/home/pmxep5/OneDrive/Nottingham/Results/Images/uniformInj/BTC/')
+
+# Parse #######################################################################
+bashParseLog(sim, FS, homeFolderPath) # Import bashParse.py to use bashParseLog
+# parseLog function parses the log file from OpenFOAM and stores the relevant data in different lists
+kvol, kval = parseLog(homeFolderPath, s, cl, dd, mvel, c, t, m)
+tList = t[0].tolist()
+
+Tadv = float(dd[0][0])/mvel[0][0]
+Tnorm = np.array([val/Tadv for i, val in enumerate(t)])# if cBoolean[i]]
+
+processorPath = '/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/stopConcAdapTmstp/scat_5-lowContrast/TS4/processor0'
+dirlist = [item for item in os.listdir(processorPath) if os.path.isdir(os.path.join(processorPath, item))]
+dirList = []
+for x in dirlist:
+    try:
+        float(x)
+        dirList.append(x)
+    except ValueError:
+        pass
+dirList = [float(x) for x in dirList]
+dirList.sort()
+
+font = {'size': 50}
+plt.rc('font', **font)
+plt.figure(figsize=(14, 9))
+plt.xlim([0, max(Tnorm[0])])
+plt.ylim([0, max(c[0])])
+plt.xlabel('$T [-]$')
+plt.ylabel('$\overline{c} [-]$')
+plt.grid(b=True, which='both', axis='both')
+plumesImageIndx = [tList.index(x) for x in tList if x in dirList]
+for i in range(len(plumesImageIndx)):
+    T = Tnorm[0][0:plumesImageIndx[i]]
+    C = c[0][0:plumesImageIndx[i]]
     plt.plot(T, C, color='blue', linewidth='6')
-    plt.xlim([0, max(Tnorm)])
-    plt.ylim([0, 1])
-    plt.rcParams.update({'font.size': 18})
-    plt.xlabel('$t/t* [-]$')
-    plt.ylabel('$c/c_{0} [-]$')
-    plt.grid(b=True, which='both', axis='both')
     plt.tight_layout()
-    plt.savefig('/home/pmxep5/OneDrive/Nottingham/Results/Images/punctualInj/cTiffs/BTC_time%d.tiff'%(i/100))
+    plt.savefig(os.path.join(saveFolderPath, 'BTC_time%d.tiff'%i))
