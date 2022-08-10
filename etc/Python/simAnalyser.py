@@ -222,7 +222,7 @@ for j in range(0, sim, interval):
 plt.tight_layout()
 # plt.savefig(os.path.join(latexFolderPath, "images/lowHighCpdf.png"))
 # plt.savefig(os.path.join(latexFolderPath, "images/varPeLowC.png"))
-plt.savefig(os.path.join(latexFolderPath, "images/varPeHighC.png"))
+# plt.savefig(os.path.join(latexFolderPath, "images/varPeHighC.png"))
 # plt.savefig(os.path.join(saveFolderPath, "../images/increasingLxLC.png"))
 # plt.savefig(os.path.join(latexFolderPath, "images/increasingLxLC.png"))
 # plt.show()

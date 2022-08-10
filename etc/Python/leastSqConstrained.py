@@ -17,7 +17,7 @@ from InvGau import invGaussianPDF, invGaussianCDF, invGauVG
 import matplotlib.pyplot as plt
 
 # INITIALIZATION ##############################################################
-sim = 6 # Number of simulations to analyse 
+sim = 8 # Number of simulations to analyse 
 FS = 1 # Number of the First Simulation to analyse
 interval = 1 # Interval between increasing simulations
 tt = []
@@ -29,6 +29,7 @@ dCnorm = []
 dYcdfmom = []
 dYcdflsq = []
 Y = []
+medPeX = []
 yVG = [[]]*sim
 finalIG = [[]]*sim
 finalCIG = [[]]*sim
@@ -101,7 +102,8 @@ for i in range(0, sim, interval):
     # simPath = ['variableMecDisp/varMecDisp3D/lowCont_seed100', 'variableMecDisp/varMecDisp3D/highCont_seed100']
     # simPath = ['scat_6-sameDomain/lowCont_lowPe_seed100', 'scat_6-sameDomain/lowCont_seed100', 'scat_6-sameDomain/lowCont_highPe_seed100']
     # simPath = ['scat_6-sameDomain/highCont_lowPe_seed100', 'scat_6-sameDomain/highCont_seed100', 'scat_6-sameDomain/highCont_highPe_seed100']
-    simPath = ['scat_6-sameDomain/lowCont_lowPe_seed100', 'scat_6-sameDomain/lowCont_seed100', 'scat_6-sameDomain/lowCont_highPe_seed100', 'scat_6-sameDomain/highCont_lowPe_seed100', 'scat_6-sameDomain/highCont_seed100', 'scat_6-sameDomain/highCont_highPe_seed100']
+    # simPath = ['scat_6-sameDomain/lowCont_lowPe_seed100', 'scat_6-sameDomain/lowCont_seed100', 'scat_6-sameDomain/lowCont_highPe_seed100', 'scat_6-sameDomain/highCont_lowPe_seed100', 'scat_6-sameDomain/highCont_seed100', 'scat_6-sameDomain/highCont_highPe_seed100']
+    simPath = ['scat_6-sameDomain/lowCont_lowPe_seed100', 'scat_6-sameDomain/lowCont_seed100', 'scat_6-sameDomain/lowCont_highPe_seed100', 'scat_6-sameDomain/lowCont_highhighPe_seed100', 'scat_6-sameDomain/highCont_lowlowPe_seed100', 'scat_6-sameDomain/highCont_lowPe_seed100', 'scat_6-sameDomain/highCont_seed100', 'scat_6-sameDomain/highCont_highPe_seed100']
     # simPath = ['stopConcAdapTmstp/scat_6-sameDomain/highCont_lowPe_seed100']
     # simPath = ['scat_3-highContrast/TS3']
     # simPath = ['stopConcAdapTmstp/scat_3-highContrast/TS4']
@@ -140,6 +142,7 @@ for i in range(0, sim, interval):
 
 # Processing ##################################################################
     mu1, mu1NoUnit, mu2, lam, lamNoUnit, T = processConc(homeFolderPath, dd[i], mvel[i], c[i], t[i], Xbox, s, D, Y, dCnorm, dc, tt, Tadv, tLS, dcLS, dcLSnorm, n) # Compute statistical parameters, Cumulative Inverse Gaussian and its derivatives
+    medPeX.append(cl[0][0]*mvel[i][0]/D[0])
     
     # MOMENTS METHOD
     y.append(invGaussianCDF(tt[i], mu1NoUnit, lamNoUnit)) # CDF estimated with parameters computed on non-dimensional times
@@ -398,9 +401,9 @@ plt.tight_layout()
 
 os.makedirs(os.path.join(saveFolderPath, "images"), exist_ok = True)
 # plt.savefig(os.path.join(latexFolderPath, "images/BTCInterp_lowC_semiLog.png"))
-plt.savefig(os.path.join(latexFolderPath, "images/BTCInterp_highC_semiLog.png"))
+# plt.savefig(os.path.join(latexFolderPath, "images/BTCInterp_highC_semiLog.png"))
 # plt.savefig(os.path.join(saveFolderPath, "images/BTCInterp_semiLog.png"))
-plt.show()
+# plt.show()
 
 # # FIGURE 3A ###################################################################
 # Lx = []
@@ -416,11 +419,9 @@ plt.show()
 # plt.savefig(os.path.join(latexFolderPath, "images/LxVsErr.png"))
 
 # FIGURE 3B ###################################################################
-lowContPe = [8e2, 8e3, 8e4]
-highContPe = [6e3, 6e4, 6e5]
 plt.figure(figsize=(14, 9))
-plt.semilogx(lowContPe, diff1[0:3], lw=5, color='0.80', label='Low k contrast')
-plt.semilogx(highContPe, diff1[3:6], lw=5, color='0.4', label='High k contrast')
+plt.semilogx(medPeX[0:4], diff1[0:4], lw=5, color='0.80', label='Low k contrast', subsx = range(9))
+plt.semilogx(medPeX[4:8], diff1[4:8], lw=5, color='0.4', label='High k contrast', subsx = range(9))
 plt.xlabel("Pe [-]")
 plt.ylabel("e [%]")
 plt.legend(fontsize=30)
