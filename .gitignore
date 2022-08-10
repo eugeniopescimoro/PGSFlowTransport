@@ -1,0 +1,21 @@
+# ignore:
+
+linux64GccDPInt32Opt/
+lnInclude/
+darwin*
+polyMesh/
+dynamicCode/
+*.foam
+*.dat
+*RESULTS/
+._*
+# [1-9]*
+0.*
+log.*
+*.bak
+*~
+~*
+.DS_Store
+.vscode/settings.json
+.ipynb_checkpoints/
+__pycache__
