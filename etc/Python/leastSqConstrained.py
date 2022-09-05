@@ -103,13 +103,13 @@ for i in range(0, sim, interval):
     # simPath = ['scat_6-sameDomain/lowCont_lowPe_seed100', 'scat_6-sameDomain/lowCont_seed100', 'scat_6-sameDomain/lowCont_highPe_seed100']
     # simPath = ['scat_6-sameDomain/highCont_lowPe_seed100', 'scat_6-sameDomain/highCont_seed100', 'scat_6-sameDomain/highCont_highPe_seed100']
     # simPath = ['scat_6-sameDomain/lowCont_lowPe_seed100', 'scat_6-sameDomain/lowCont_seed100', 'scat_6-sameDomain/lowCont_highPe_seed100', 'scat_6-sameDomain/highCont_lowPe_seed100', 'scat_6-sameDomain/highCont_seed100', 'scat_6-sameDomain/highCont_highPe_seed100']
-    simPath = ['scat_6-sameDomain/lowCont_lowPe_seed100', 'scat_6-sameDomain/lowCont_seed100', 'scat_6-sameDomain/lowCont_highPe_seed100', 'scat_6-sameDomain/lowCont_highhighPe_seed100', 'scat_6-sameDomain/highCont_lowlowPe_seed100', 'scat_6-sameDomain/highCont_lowPe_seed100', 'scat_6-sameDomain/highCont_seed100', 'scat_6-sameDomain/highCont_highPe_seed100']
+    # simPath = ['scat_6-sameDomain/lowCont_lowPe_seed100', 'scat_6-sameDomain/lowCont_seed100', 'scat_6-sameDomain/lowCont_highPe_seed100', 'scat_6-sameDomain/lowCont_highhighPe_seed100', 'scat_6-sameDomain/highCont_lowlowPe_seed100', 'scat_6-sameDomain/highCont_lowPe_seed100', 'scat_6-sameDomain/highCont_seed100', 'scat_6-sameDomain/highCont_highPe_seed100']
     # simPath = ['stopConcAdapTmstp/scat_6-sameDomain/highCont_lowPe_seed100']
     # simPath = ['scat_3-highContrast/TS3']
     # simPath = ['stopConcAdapTmstp/scat_3-highContrast/TS4']
     # simPath = ['scat_5-lowContrast/TS3']
     # simPath = Path('scat_6-sameDomain/lowCont_seed100')
-    # simPath = ['scat_5-lowContrast/TS1', 'scat_5-lowContrast/TS2', 'scat_5-lowContrast/TS3', 'scat_5-lowContrast/TS4', 'scat_3-highContrast/TS1', 'scat_3-highContrast/TS2', 'scat_3-highContrast/TS3', 'scat_3-highContrast/TS4']
+    simPath = ['scat_5-lowContrast/TS1', 'scat_5-lowContrast/TS2', 'scat_5-lowContrast/TS3', 'scat_5-lowContrast/TS4', 'scat_3-highContrast/TS1', 'scat_3-highContrast/TS2', 'scat_3-highContrast/TS3', 'scat_3-highContrast/TS4']
     latexFolderPath = Path('/home/pmxep5/OneDrive/Nottingham/Write/Articles/PGSFoam/')
     saveFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/', simPath[i]))
     homeFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/stopConcAdapTmstp/', simPath[i]))
@@ -406,24 +406,24 @@ os.makedirs(os.path.join(saveFolderPath, "images"), exist_ok = True)
 # plt.show()
 
 # # FIGURE 3A ###################################################################
-# Lx = []
+Lx = []
+plt.figure(figsize=(14, 9))
+for i in range(int(sim/2)):
+    Lx.append(cl[0:sim][i][0])
+plt.plot(Lx, diff1[0:4], lw=5, color='0.80', label='Low k contrast', marker="s", markersize=10)
+plt.plot(Lx, diff1[4:8], lw=5, color='0.4', label='High k contrast', marker="s", markersize=10)
+plt.xlabel("$\lambda_x [-]$")
+plt.ylabel("e [%]")
+plt.legend(fontsize=30)
+plt.tight_layout()
+plt.savefig(os.path.join(latexFolderPath, "images/LxVsErr.png"))
+
+# FIGURE 3B ###################################################################
 # plt.figure(figsize=(14, 9))
-# for i in range(int(sim/2)):
-#     Lx.append(cl[0:sim][i][0])
-# plt.plot(Lx, diff1[0:4], lw=5, color='0.80', label='Low k contrast')
-# plt.plot(Lx, diff1[4:8], lw=5, color='0.4', label='High k contrast')
-# plt.xlabel("$\lambda_x [-]$")
+# plt.semilogx(medPeX[0:4], diff1[0:4], lw=5, color='0.80', label='Low k contrast', subsx = range(9), marker="s", markersize=10)
+# plt.semilogx(medPeX[4:8], diff1[4:8], lw=5, color='0.4', label='High k contrast', subsx = range(9), marker="s", markersize=10)
+# plt.xlabel("Pe [-]")
 # plt.ylabel("e [%]")
 # plt.legend(fontsize=30)
 # plt.tight_layout()
 # plt.savefig(os.path.join(latexFolderPath, "images/LxVsErr.png"))
-
-# FIGURE 3B ###################################################################
-plt.figure(figsize=(14, 9))
-plt.semilogx(medPeX[0:4], diff1[0:4], lw=5, color='0.80', label='Low k contrast', subsx = range(9))
-plt.semilogx(medPeX[4:8], diff1[4:8], lw=5, color='0.4', label='High k contrast', subsx = range(9))
-plt.xlabel("Pe [-]")
-plt.ylabel("e [%]")
-plt.legend(fontsize=30)
-plt.tight_layout()
-plt.savefig(os.path.join(latexFolderPath, "images/errPe.png"))
