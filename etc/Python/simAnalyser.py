@@ -19,7 +19,7 @@ from InvGau import invGaussianCDF, invGauVG
 from statistics import mean
 
 # INITIALIZATION ##############################################################
-sim = 3 # Number of simulations to analyse 
+sim = 2 # Number of simulations to analyse 
 FS = 1 # Number of the First Simulation to analyse
 interval = 1 # Interval between increasing simulations
 s = 10 # Moving average window size -> smoothness factor
@@ -50,8 +50,9 @@ n = 1 # Derivative smoothing factor
 # LOOP THROUGH THE SIMULATIONS ################################################    
 for i in range(0, sim, interval):
 # Paths
+    simPath = ['/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/testMeshResolution2D/mesh1mm', '/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/testMeshResolution2D/mesh1cm']
     # simPath = ['stopConcAdapTmstp/scat_6-sameDomain/lowCont_lowPe_seed100', 'stopConcAdapTmstp/scat_6-sameDomain/lowCont_seed100', 'stopConcAdapTmstp/scat_6-sameDomain/lowCont_highPe_seed100']
-    simPath = ['stopConcAdapTmstp/scat_6-sameDomain/highCont_lowPe_seed100', 'stopConcAdapTmstp/scat_6-sameDomain/highCont_seed100', 'stopConcAdapTmstp/scat_6-sameDomain/highCont_highPe_seed100']
+    # simPath = ['stopConcAdapTmstp/scat_6-sameDomain/highCont_lowPe_seed100', 'stopConcAdapTmstp/scat_6-sameDomain/highCont_seed100', 'stopConcAdapTmstp/scat_6-sameDomain/highCont_highPe_seed100']
     # simPath = ['variableMecDisp/varMecDisp3D/lowCont_seed100', 'variableMecDisp/varMecDisp3D/highCont_seed100']
     # simPath = Path('scat_6-sameDomain/lowCont_seed100')    
     # simPath = ['stopConcAdapTmstp/scat_6-sameDomain/lowCont_seed100', 'stopConcAdapTmstp/scat_6-sameDomain/highCont_seed100']
@@ -186,16 +187,17 @@ plt.rc('font', **font)
 
 plt.figure(figsize=(14, 9))
 lin = ['-', '-', '-', '-','-', '-', '-', '-', '-', '-']
+lab = ['mesh 1mm', 'mesh 1cm']
 # lab = ['TS1', 'TS2', 'TS3', 'TS4', 'TS5', 'TS6', 'TS7', 'TS8', 'TS9', 'TS10']
 # lab = ['Lx = 0.4', 'Lx = 0.6', 'Lx = 0.8', 'Lx = 1.0']
-lab = ['Low Péclet', 'Medium Péclet', 'High Péclet', 'VarMecDisp']
+# lab = ['Low Péclet', 'Medium Péclet', 'High Péclet', 'VarMecDisp']
 # lab = ['Low k contrast', 'High k contrast']
 # lab = ['Dmec = constant', 'Dmec = alpha*V']
 # col = ['blue', 'orange', 'green', 'red']
 # col = ['0.1', '0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1.0']
-col = ['0.0', '0.3', '0.6', '0.9']
+# col = ['0.0', '0.3', '0.6', '0.9']
 # col = ['0.3', '0.6', '0.9']
-# col = ['0.15', '0.75']
+col = ['0.15', '0.75']
 # col = ['orange', 'red']
 for j in range(0, sim, interval):
     plt.plot(tLS[j], dcLS[j], ls="%s" % lin[j], color="%s" % col[j], lw=4, label="%s" % lab[j])
@@ -255,6 +257,7 @@ for j in range(0, sim, interval):
     plt.legend(loc="best", fontsize=30)
     plt.xlabel("T [-]")
     plt.ylabel("$\overline{c} [-]$")
+    plt.grid(True, which="both")
 plt.tight_layout()
 # plt.savefig(os.path.join(latexFolderPath, "images/lowHighCcdf.png"))
 
