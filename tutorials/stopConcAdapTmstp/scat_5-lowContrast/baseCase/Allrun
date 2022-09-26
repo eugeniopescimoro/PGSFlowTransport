@@ -40,6 +40,7 @@ mpirun --oversubscribe -np 12 adaptiveScalarTransportFoam -parallel  >> log 2>&1
 
 echo "FieldMetrics strats"
 mpirun --oversubscribe -np 12 postProcess -time 0 -dict system/fieldMetricsDict -parallel >> log 2>&1
+mpirun --oversubscribe -np 12 postProcess -dict system/fieldMetricsDict -field T -parallel >> log 2>&1
 
 echo "spatialPdf starts"
 mpirun -np 12 spatialPdf -parallel -field U -time 0 -logbin -nbins 50

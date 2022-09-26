@@ -27,3 +27,17 @@ functions
         fieldName      K;
     }
 }
+
+//functions
+//{
+//
+//    fieldMetrics1
+//    {
+//        type           fieldMetrics;
+//        libs ("libfieldMetricsFunctionObject.so");
+//        operations ("mean" "meanConc");
+//        nRadii       100;
+//        maxDist      1.0;
+//        fieldName     T;
+//    }
+//}
