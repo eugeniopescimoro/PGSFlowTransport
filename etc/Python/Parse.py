@@ -10,7 +10,7 @@ import re
 import os
 import numpy as np
 
-def parseLog(logPath, s, cl, dd, mvel, c, t, m):
+def parseLog(logPath, s, cl, dd, mvel, c, t, m, kvol, kval):
     mass = []
     time = []
     conc = []
@@ -26,9 +26,9 @@ def parseLog(logPath, s, cl, dd, mvel, c, t, m):
             if "postProcess" in line:
                 parse = False
             if "volumes:" in line:
-                kvol = [float(i) for i in re.split(' |\(|\)', line)[slice(2, 6)]]
+                kvol.append([float(i) for i in re.split(' |\(|\)', line)[slice(2, 6)]])
             if "field values:" in line:
-                kval = [float(i) for i in re.split(' |\(|\)', line)[slice(3, 7)]]
+                kval.append([float(i) for i in re.split(' |\(|\)', line)[slice(3, 7)]])
             if parse == True and "Total mass =" in line:
                 mass.append(float(line.split()[3]))
             if parse == True and oneVel == True and "Mean vel =" in line:
@@ -60,7 +60,6 @@ def parseLog(logPath, s, cl, dd, mvel, c, t, m):
         t.append(np.array(time))
         conc = conc[0:-1:s]
         c.append(np.array(conc))
-    return kvol, kval
 
 def parseConstants(transPropPath):
     D = [] 

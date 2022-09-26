@@ -19,10 +19,10 @@ from InvGau import invGaussianCDF, invGauVG
 from statistics import mean
 
 # INITIALIZATION ##############################################################
-sim = 2 # Number of simulations to analyse 
+sim = 3 # Number of simulations to analyse 
 FS = 1 # Number of the First Simulation to analyse
 interval = 1 # Interval between increasing simulations
-s = 10 # Moving average window size -> smoothness factor
+s = 1 # Moving average window size -> smoothness factor
 t = [] # List which sotres dimensional times
 tt = [] # List which sotres non-dimensional times
 c = []
@@ -45,12 +45,16 @@ Tadv = []
 tLS = []
 dcLS = []
 dcLSnorm = []
+kvol = []
+kval = []
 n = 1 # Derivative smoothing factor
 
 # LOOP THROUGH THE SIMULATIONS ################################################    
 for i in range(0, sim, interval):
 # Paths
-    simPath = ['/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/testMeshResolution2D/mesh1mm', '/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/testMeshResolution2D/mesh1cm']
+    simPath = ['/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/testMeshResolution/2D/uniform05cm', '/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/testMeshResolution/2D/uniform1cm', '/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/testMeshResolution/2D/uniform2cm']
+    # simPath = ['stopConcAdapTmstp/scat_6-sameDomain/lowCont_seed100', '/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/testMeshResolution/3D/lowCont_seed100_2cm']
+    # simPath = ['/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/testMeshResolution/2D/mesh1mm', '/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/testMeshResolution/2D/mesh05cm', '/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/testMeshResolution/2D/mesh1cm', '/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/testMeshResolution/2D/mesh2cm']
     # simPath = ['stopConcAdapTmstp/scat_6-sameDomain/lowCont_lowPe_seed100', 'stopConcAdapTmstp/scat_6-sameDomain/lowCont_seed100', 'stopConcAdapTmstp/scat_6-sameDomain/lowCont_highPe_seed100']
     # simPath = ['stopConcAdapTmstp/scat_6-sameDomain/highCont_lowPe_seed100', 'stopConcAdapTmstp/scat_6-sameDomain/highCont_seed100', 'stopConcAdapTmstp/scat_6-sameDomain/highCont_highPe_seed100']
     # simPath = ['variableMecDisp/varMecDisp3D/lowCont_seed100', 'variableMecDisp/varMecDisp3D/highCont_seed100']
@@ -70,10 +74,13 @@ for i in range(0, sim, interval):
 # Parse #######################################################################
     # bashParseLog(sim, FS, homeFolderPath) # Import bashParse.py to use bashParseLog
 # parseLog function parses the log file from OpenFOAM and stores the relevant data in different lists
-    kvol, kval = parseLog(homeFolderPath, s, cl, dd, mvel, c, t, m)
+    parseLog(homeFolderPath, s, cl, dd, mvel, c, t, m, kvol, kval)
     Kave = []
-    for n1, n2 in zip(kval, kvol): Kave.append(n1*n2)
-    kave.append(sum(Kave)) # Average volumetric permeability [m2]
+    if not kval:
+        kave.append(1e-12) # In case of no setRandomField the average permeability field value is equal to the value assigned to the uniform permeability field in K.orig
+    else:
+        for n1, n2 in zip(kval[i], kvol[i]): Kave.append(n1*n2)
+        kave.append(sum(Kave)) # Average volumetric permeability [m2]
 # parseConstants function parses the transportProperties OpenFOAM input file and stores the hydraulic dispersion coefficient value
     D, Mu, rho, g = parseConstants(homeFolderPath)
 # parseFieldsDict function parses the setFieldsDict dictionary and outputs the X distance at which the center of the injection volume is placed (not needed if the injection is on the inlet boundary) 
@@ -108,8 +115,8 @@ for i in range(0, sim, interval):
     macroPeY = dd[i][1]*mvel[i][1]/D[0]
     macroPeZ = dd[i][2]*mvel[i][2]/D[0]
     ndHD.append(HD[i]*Tadv[i]/kave[i])    
-    if not cl:
-        cl[i] = [0, 0, 0] # In case the permeability field is generated out of OpenFOAM and it has unknown correlation length     
+    if not cl or cl[i-1][0] == 0:
+        cl.append([0, 0, 0]) # In case the permeability field is generated out of OpenFOAM and it has unknown correlation length     
     medPeX = cl[i][0]*mvel[i][0]/D[0]
     medPeY = cl[i][1]*mvel[i][1]/D[0]
     medPeZ = cl[i][2]*mvel[i][2]/D[0]
@@ -144,7 +151,7 @@ for i in range(0, sim, interval):
     print("Computed ||c|| = %f \nEstimated ||c|| = %f \n" % (normC, normY))
 
 # PLOT SECTION ################################################################
-font = {'size': 50}
+font = {'size': 30}
 plt.rc('font', **font)
 
 # plt.figure(figsize=(14, 9))
@@ -187,18 +194,19 @@ plt.rc('font', **font)
 
 plt.figure(figsize=(14, 9))
 lin = ['-', '-', '-', '-','-', '-', '-', '-', '-', '-']
-lab = ['mesh 1mm', 'mesh 1cm']
+lab = ['mesh05cm', 'mesh1cm', 'mesh2cm']
+# lab = ['mesh1mm', 'mesh 0.5cm', 'mesh 1cm', 'mesh 2cm']
 # lab = ['TS1', 'TS2', 'TS3', 'TS4', 'TS5', 'TS6', 'TS7', 'TS8', 'TS9', 'TS10']
 # lab = ['Lx = 0.4', 'Lx = 0.6', 'Lx = 0.8', 'Lx = 1.0']
 # lab = ['Low Péclet', 'Medium Péclet', 'High Péclet', 'VarMecDisp']
 # lab = ['Low k contrast', 'High k contrast']
 # lab = ['Dmec = constant', 'Dmec = alpha*V']
-# col = ['blue', 'orange', 'green', 'red']
+col = ['blue', 'orange', 'green', 'red']
 # col = ['0.1', '0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1.0']
 # col = ['0.0', '0.3', '0.6', '0.9']
 # col = ['0.3', '0.6', '0.9']
-col = ['0.15', '0.75']
-# col = ['orange', 'red']
+# col = ['0.15', '0.75']
+# col = ['green', 'red']
 for j in range(0, sim, interval):
     plt.plot(tLS[j], dcLS[j], ls="%s" % lin[j], color="%s" % col[j], lw=4, label="%s" % lab[j])
     plt.axis([0, 2, 0, max(max(dcLS, key=max))+0.05*max(max(dcLS, key=max))])
@@ -250,7 +258,8 @@ os.makedirs(os.path.join(saveFolderPath, "../images"), exist_ok = True)
 
 plt.figure(figsize=(14, 9))
 for j in range(0, sim, interval):
-    cBoolean = np.logical_and(np.array(dc[j])>1e-3, np.array(dc[j])<1)
+    # cBoolean = np.logical_and(np.array(dc[j])>1e-3, np.array(dc[j])<1)
+    cBoolean = np.logical_and(np.array(c[j])>1e-3, np.array(c[j])<1)
     tThrs = [val for z, val in enumerate(tt[j][:-s]) if cBoolean[z]] # it selects the time only if cBoolean is True
     cThrs = [val for z, val in enumerate(c[j][:-s]) if cBoolean[z]]
     plt.loglog(tThrs, cThrs, ls="%s" % lin[j], color="%s" % col[j], lw=4, label="%s" % lab[j])
