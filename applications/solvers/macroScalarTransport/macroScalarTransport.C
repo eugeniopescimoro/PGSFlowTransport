@@ -62,7 +62,8 @@ int main(int argc, char *argv[])
     vector meanVel( (fvc::domainIntegrate(U)).value() / gSum(mesh.V()) );
     Info << "Mean vel = " << meanVel << nl << endl;
 
-    scalar massFlag(0.0);
+    //scalar massFlag(0.0);
+    scalar totalMassOld(0.0);
 
     while (simple.loop(runTime))
     {
@@ -100,12 +101,14 @@ int main(int argc, char *argv[])
                 << exit(FatalError);
         }
 
-        scalar massFlagNew(fmod(totalMass,mTHRS));
-        if ( massFlagNew < massFlag )
+        //scalar massFlagNew(fmod(totalMass,mTHRS));
+        //if ( massFlagNew < massFlag )
+        if ( (totalMass-totalMassOld) / totalMass > mTHRS )
         {
           c.write();
+          totalMassOld = totalMass;
         }
-        massFlag = massFlagNew;
+        //massFlag = massFlagNew;
 
         runTime.write();
     }
