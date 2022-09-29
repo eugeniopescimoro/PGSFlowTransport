@@ -103,7 +103,7 @@ int main(int argc, char *argv[])
 
         //scalar massFlagNew(fmod(totalMass,mTHRS));
         //if ( massFlagNew < massFlag )
-        if ( (totalMass-totalMassOld) / totalMass > mTHRS )
+        if ( (totalMass-totalMassOld) > mTHRS )
         {
           c.write();
           totalMassOld = totalMass;

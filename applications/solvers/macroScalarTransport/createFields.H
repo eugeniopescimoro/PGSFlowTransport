@@ -71,8 +71,8 @@ const dimensionedScalar alpha
 );
 
 Info << "Reading controlDict\n" << endl;
-scalar THRS = runTime.controlDict().lookupOrDefault<scalar>("THRS", 0.99);
-scalar mTHRS = runTime.controlDict().lookupOrDefault<scalar>("mTHRS", 0.01);
+scalar THRS = transportProperties.lookupOrDefault<scalar>("THRS", 0.99);
+scalar mTHRS = transportProperties.lookupOrDefault<scalar>("mTHRS", 0.01);
 word outletPatch = runTime.controlDict().lookupOrDefault<word>("outletPatch", "outlet");
 
 Info<< "Reading/calculating face flux field q\n" << endl;
