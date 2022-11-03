@@ -54,9 +54,11 @@ int main(int argc, char *argv[])
     label patchId = mesh.boundaryMesh().findPatchID(outletPatch);
     const scalarField& TOut(c.boundaryField()[patchId]);
     const vectorField& Sf( mesh.Sf().boundaryField()[patchId]);
-    const vectorField& Uout(U.boundaryField()[patchId]);
+    const scalarField& qout(q.boundaryField()[patchId]);
+//    const vectorField& Uout(U.boundaryField()[patchId]);
 
-    scalarField fluxOut((Uout&Sf));
+//    scalarField fluxOut((Uout&Sf));
+//    scalarField fluxOut(qout);
     //Info << "Flux out = " << gSum(fluxOut) << nl << endl;
 
     vector meanVel( (fvc::domainIntegrate(U)).value() / gSum(mesh.V()) );
@@ -88,12 +90,14 @@ int main(int argc, char *argv[])
         }
 
         scalar totalMass( (fvc::domainIntegrate(c)).value() );
-        scalar cFluxOut(gSum(TOut*(Sf&Uout))/gSum(fluxOut) );
+        scalar cFluxOut(gSum(TOut*qout)/(gSum(qout)+SMALL) );
 
         Info << "Total mass = " << totalMass << endl;
-        Info << "Flux out = " << cFluxOut << nl << endl;
+        Info << "Flux out = " << cFluxOut << nl <<  endl;
+        //Info << "maximum " << gMax(c) << endl;
+        //Info << "minimum "<< gMin(c) << nl << endl;
 
-        if ( gSum(TOut*(Sf&Uout))/gSum(fluxOut) > THRS )
+        if ( cFluxOut  > THRS )
         {
             c.write();
             FatalErrorIn("macroScalarTransport")
