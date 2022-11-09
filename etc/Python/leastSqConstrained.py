@@ -8,7 +8,7 @@ Inspired from: https://lmfit.github.io/lmfit-py/parameters.html
 """
 import numpy as np
 from pathlib import Path
-# from bashParse import bashParseLog, parseLog, parseConstants, parseInitialConditions, parseSetFieldsDict
+#from bashParse import bashParseLog, parseConstants, parseInitialConditions, parseSetFieldsDict
 from Parse import parseLog, parseConstants, parseInitialConditions, parseSetFieldsDict
 import os
 from Process import processConc
@@ -17,7 +17,7 @@ from InvGau import invGaussianPDF, invGaussianCDF, invGauVG
 import matplotlib.pyplot as plt
 
 # INITIALIZATION ##############################################################
-sim = 8 # Number of simulations to analyse 
+sim = 3 # Number of simulations to analyse 
 FS = 1 # Number of the First Simulation to analyse
 interval = 1 # Interval between increasing simulations
 tt = []
@@ -109,10 +109,12 @@ for i in range(0, sim, interval):
     # simPath = ['stopConcAdapTmstp/scat_3-highContrast/TS4']
     # simPath = ['scat_5-lowContrast/TS3']
     # simPath = Path('scat_6-sameDomain/lowCont_seed100')
-    simPath = ['scat_5-lowContrast/TS1', 'scat_5-lowContrast/TS2', 'scat_5-lowContrast/TS3', 'scat_5-lowContrast/TS4', 'scat_3-highContrast/TS1', 'scat_3-highContrast/TS2', 'scat_3-highContrast/TS3', 'scat_3-highContrast/TS4']
-    latexFolderPath = Path('/home/pmxep5/OneDrive/Nottingham/Write/Articles/PGSFoam/')
-    saveFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/', simPath[i]))
-    homeFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/stopConcAdapTmstp/', simPath[i]))
+
+    # simPath = ['scat_5-lowContrast/TS1', 'scat_5-lowContrast/TS2', 'scat_5-lowContrast/TS3', 'scat_5-lowContrast/TS4', 'scat_3-highContrast/TS1', 'scat_3-highContrast/TS2', 'scat_3-highContrast/TS3', 'scat_3-highContrast/TS4']
+    # latexFolderPath = Path('/home/pmxep5/OneDrive/Nottingham/Write/Articles/PGSFoam/')
+    # saveFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/', simPath[i]))
+    # homeFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/stopConcAdapTmstp/', simPath[i]))
+
     # simPath = Path('TS%d' % (FS+i))
     # saveFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/variableMecDisp/varMecDisp3D', simPath))
     # homeFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/stopConcAdapTmstp/', simPath))
@@ -123,11 +125,15 @@ for i in range(0, sim, interval):
     # homeFolderPath = Path('/data/PGSFlowTransport/tutorials/RESULTS/Herten/Herten9')
     # homeFolderPath = Path('/home/pmxep5/OpenFOAM/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/stopConcAdapTmstp_3/TS%d' % (i+FS))
 
+    simPath = ['realismDegree/Herten7_Stochastic', 'realismDegree/', 'realismDegree/']
+    saveFolderPath = Path(os.path.join('/Users/pmxep5/Git/Overleaf/Thesis/images', simPath[i]))
+    homeFolderPath = Path(os.path.join('/Users/pmxep5/Git/Hub/OpenFOAM/PGSFlowTransport/tutorials/Herten/', simPath[i]))                                       
+                                       
 # Parse #######################################################################
-    # bashParseLog(sim, FS, homeFolderPath) # TO BE UNCOMMENTED WHEN USING BASHPARSE !!
+    #bashParseLog(sim, FS, homeFolderPath) # TO BE UNCOMMENTED WHEN USING BASHPARSE !!
 
 # parseLog function parses the log file from OpenFOAM and stores the relevant data in different lists
-    kvol, kval = parseLog(homeFolderPath, s, cl, dd, mvel, c, t, m)
+    parseLog(homeFolderPath, s, cl, dd, mvel, c, t, m)
     
 # parseConstants function parses the transportProperties OpenFOAM input file and stores the hydraulic dispersion coefficient value
     D, Mu, rho, g = parseConstants(homeFolderPath)
@@ -416,7 +422,8 @@ plt.xlabel("$\lambda_x [-]$")
 plt.ylabel("e [%]")
 plt.legend(fontsize=30)
 plt.tight_layout()
-plt.savefig(os.path.join(latexFolderPath, "images/LxVsErr.png"))
+#plt.savefig(os.path.join(latexFolderPath, "images/LxVsErr.png"))
+#plt.savefig(os.path.join(saveFolderPath, "realismDegree.png"))
 
 # FIGURE 3B ###################################################################
 # plt.figure(figsize=(14, 9))

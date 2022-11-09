@@ -10,7 +10,9 @@ import re
 import os
 import numpy as np
 
-def parseLog(logPath, s, cl, dd, mvel, c, t, m, kvol, kval):
+def parseLog(logPath, s, cl, dd, mvel, c, t, m):
+    kvol = []
+    kval = []
     mass = []
     time = []
     conc = []
@@ -71,7 +73,7 @@ def parseConstants(transPropPath):
         for line in TP:
             if any(s in line for s in ("DT", "Dm")):
                 D.append(float(str(line.split()[9]).replace(';','')))
-            if "mu" in line:
+            if "mu    " in line:
                 mu.append(float(str(line.split()[9]).replace(';','')))
             if "rho" in line:
                 rho.append(float(str(line.split()[9]).replace(';','')))

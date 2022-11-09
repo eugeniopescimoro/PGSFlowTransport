@@ -1,0 +1,42 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  7
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      setRandomFieldDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+field K;
+type bitruncated;
+correlation exponential;
+Lcorr           (10 2 0.1);
+corrTol 1e-8;
+nu 1;
+disableY false;
+disableZ false;
+periodic true;
+facePeriodicity false;
+fullPeriodicity true;
+reset true;
+additive false;
+setFinalStats  false;
+mu             0;
+sigma          1;
+nfreq 20;
+skipfreq 0;
+maxLength (16 10 7);
+// maxLengthByL 4;
+// minLengthByL 0.25;
+printStats true;
+printLogStats true;
+values (1.3e-11 1.3e-11 5.4e-14 1.3e-11 2.1e-10 5.4e-14 7.6e-9 7.6e-9 7.6e-9);
+percentiles (0.5962 0.8592);
+percentiles2 (0.2288 0.4288);

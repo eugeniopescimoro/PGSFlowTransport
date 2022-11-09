@@ -52,7 +52,7 @@ n = 1 # Derivative smoothing factor
 # LOOP THROUGH THE SIMULATIONS ################################################    
 for i in range(0, sim, interval):
 # Paths
-    simPath = ['/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/testMeshResolution/2D/uniform05cm', '/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/testMeshResolution/2D/uniform1cm', '/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/testMeshResolution/2D/uniform2cm']
+    # simPath = ['/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/testMeshResolution/2D/uniform05cm', '/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/testMeshResolution/2D/uniform1cm', '/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/testMeshResolution/2D/uniform2cm']
     # simPath = ['stopConcAdapTmstp/scat_6-sameDomain/lowCont_seed100', '/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/testMeshResolution/3D/lowCont_seed100_2cm']
     # simPath = ['/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/testMeshResolution/2D/mesh1mm', '/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/testMeshResolution/2D/mesh05cm', '/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/testMeshResolution/2D/mesh1cm', '/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/testMeshResolution/2D/mesh2cm']
     # simPath = ['stopConcAdapTmstp/scat_6-sameDomain/lowCont_lowPe_seed100', 'stopConcAdapTmstp/scat_6-sameDomain/lowCont_seed100', 'stopConcAdapTmstp/scat_6-sameDomain/lowCont_highPe_seed100']
@@ -61,9 +61,9 @@ for i in range(0, sim, interval):
     # simPath = Path('scat_6-sameDomain/lowCont_seed100')    
     # simPath = ['stopConcAdapTmstp/scat_6-sameDomain/lowCont_seed100', 'stopConcAdapTmstp/scat_6-sameDomain/highCont_seed100']
     # simPath = ['stopConcAdapTmstp/scat_5-lowContrast/TS3', 'stopConcAdapTmstp/scat_3-highContrast/TS3']
-    latexFolderPath = Path('/home/pmxep5/OneDrive/Nottingham/Write/Articles/PGSFoam/')
-    saveFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/', simPath[i]))
-    homeFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/', simPath[i]))
+    # latexFolderPath = Path('/home/pmxep5/OneDrive/Nottingham/Write/Articles/PGSFoam/')
+    # saveFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/', simPath[i]))
+    # homeFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/', simPath[i]))
 
     # simPath = Path('stopConcAdapTmstp/scat_3-highContrast/TS%d' % (FS+i))
     # simPath = Path('stopConcAdapTmstp/scat_5-lowContrast/TS%d' % (FS+i))
@@ -71,10 +71,14 @@ for i in range(0, sim, interval):
     # latexFolderPath = Path('/home/pmxep5/OneDrive/Nottingham/Write/Articles/PGSFoam/')
     # saveFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/', simPath))
     # homeFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/', simPath))
+    
+    simPath = ['realismDegree/Herten7_Stochastic', 'realismDegree/Herten8_Ephesia', 'realismDegree/Herten9_Comunian']
+    saveFolderPath = Path(os.path.join('/Users/pmxep5/Git/Overleaf/Thesis/images', simPath[i]))
+    homeFolderPath = Path(os.path.join('/Users/pmxep5/Git/Hub/OpenFOAM/PGSFlowTransport/tutorials/Herten/', simPath[i]))                                           
 # Parse #######################################################################
     # bashParseLog(sim, FS, homeFolderPath) # Import bashParse.py to use bashParseLog
 # parseLog function parses the log file from OpenFOAM and stores the relevant data in different lists
-    parseLog(homeFolderPath, s, cl, dd, mvel, c, t, m, kvol, kval)
+    parseLog(homeFolderPath, s, cl, dd, mvel, c, t, m)
     Kave = []
     if not kval:
         kave.append(1e-12) # In case of no setRandomField the average permeability field value is equal to the value assigned to the uniform permeability field in K.orig
