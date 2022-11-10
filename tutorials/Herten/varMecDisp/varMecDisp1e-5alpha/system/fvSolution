@@ -1,0 +1,102 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | foam-extend: Open Source CFD                    |
+|  \\    /   O peration     | Version:     4.0                                |
+|   \\  /    A nd           | Web:         http://www.foam-extend.org         |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers
+{
+    "p.*"
+    {
+        solver           PBiCGStab;//GAMG;
+        smoother         GaussSeidel;//FDIC;
+        preconditioner   DIC;
+        tolerance        1e-15;
+        relTol           1e-6;
+    }
+    "c.*"
+    {
+        solver           PBiCGStab;//GAMG;
+        preconditioner   DILU;
+        smoother         DILU;
+        tolerance        1e-10;
+        relTol           0;
+    }
+    "T.*"
+    {
+        solver           PBiCGStab;//GAMG;
+        preconditioner   DILU;
+        smoother         DILU;
+        tolerance        1e-10;
+        relTol           1e-3;
+    }
+    xxxp_rghFinal
+    {
+        solver           PCG;
+        preconditioner   DIC;
+        tolerance        1e-06;
+        relTol           0;
+    }
+    xxxxcFinal
+    {
+        solver           GAMG;
+        preconditioner   DILU;
+        smoother         DILU;
+        tolerance        1e-10;
+        relTol           0;
+    }
+}
+
+SIMPLE
+{
+    nNonOrthogonalCorrectors 0;
+
+    residualControl
+    {
+        p               1e-10;
+        c               1e-10;
+    }
+}
+
+PIMPLE
+{
+    nNonOrthogonalCorrectors 0;
+    nOuterCorrectors 6;
+    residualControl
+    {
+        p               1e-8;
+        c               1e-8;
+    }
+}
+
+relaxationFactors
+{
+    fields
+    {
+        p               1;
+    }
+
+    equations
+    {
+       p  1;
+       c  1;
+    }
+}
+
+cache
+{
+    grad(p);
+}
+
+
+// ************************************************************************* //

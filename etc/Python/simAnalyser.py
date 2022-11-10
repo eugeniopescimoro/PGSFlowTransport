@@ -72,8 +72,12 @@ for i in range(0, sim, interval):
     # saveFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/', simPath))
     # homeFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/', simPath))
     
-    simPath = ['realismDegree/Herten7_Stochastic', 'realismDegree/Herten8_Ephesia', 'realismDegree/Herten9_Comunian']
-    saveFolderPath = Path(os.path.join('/Users/pmxep5/Git/Overleaf/Thesis/images', simPath[i]))
+    # simPath = ['realismDegree/Herten7_Stochastic', 'realismDegree/Herten8_Ephesia', 'realismDegree/Herten9_Comunian']
+    # simPath = ['varMecDisp/varMecDisp1e-5alpha', 'varMecDisp/varMecDisp1e-5alpha', 'varMecDisp/varMecDisp1e-4alpha', 'varMecDisp/varMecDisp1e-5alpha']
+    # simPath = ['varPeclet/lowPeclet', 'varPeclet/mediumPeclet', 'varPeclet/highPeclet']
+    simPath = ['injectionArea/localInjection', 'injectionArea/wellInjection', 'injectionArea/wallInjection']
+    saveFolderPath = Path(os.path.join('/Users/pmxep5/Git/Hub/OpenFOAM/PGSFlowTransport/tutorials/Herten/', simPath[i]))
+    latexFolderPath = Path(os.path.join('/Users/pmxep5/Git/Overleaf/Thesis/images', simPath[i]))
     homeFolderPath = Path(os.path.join('/Users/pmxep5/Git/Hub/OpenFOAM/PGSFlowTransport/tutorials/Herten/', simPath[i]))                                           
 # Parse #######################################################################
     # bashParseLog(sim, FS, homeFolderPath) # Import bashParse.py to use bashParseLog
@@ -119,8 +123,8 @@ for i in range(0, sim, interval):
     macroPeY = dd[i][1]*mvel[i][1]/D[0]
     macroPeZ = dd[i][2]*mvel[i][2]/D[0]
     ndHD.append(HD[i]*Tadv[i]/kave[i])    
-    if not cl or cl[i-1][0] == 0:
-        cl.append([0, 0, 0]) # In case the permeability field is generated out of OpenFOAM and it has unknown correlation length     
+    if not cl or cl[i-1][0] or len(cl)<=i == 0:
+        cl.append([10, 2, 0.1]) # In case the permeability field is generated out of OpenFOAM the correlation length is unknown and sohuld be assigned arbitrarely
     medPeX = cl[i][0]*mvel[i][0]/D[0]
     medPeY = cl[i][1]*mvel[i][1]/D[0]
     medPeZ = cl[i][2]*mvel[i][2]/D[0]
@@ -197,8 +201,14 @@ plt.rc('font', **font)
 # # plt.show()
 
 plt.figure(figsize=(14, 9))
-lin = ['-', '-', '-', '-','-', '-', '-', '-', '-', '-']
-lab = ['mesh05cm', 'mesh1cm', 'mesh2cm']
+lin = ['-', '-.', '--', '-','-', '-', '-', '-', '-', '-']
+
+#lab = ['stochastic', 'conditioned', 'real']
+#lab = ['1e-2alpha', '1e-3alpha', '1e-4alpha', '1e-5alpha']
+#lab = ['low Pe', 'medium Pe', 'high Pe']
+lab = ['local', 'well', 'wall']
+
+# lab = ['mesh05cm', 'mesh1cm', 'mesh2cm']
 # lab = ['mesh1mm', 'mesh 0.5cm', 'mesh 1cm', 'mesh 2cm']
 # lab = ['TS1', 'TS2', 'TS3', 'TS4', 'TS5', 'TS6', 'TS7', 'TS8', 'TS9', 'TS10']
 # lab = ['Lx = 0.4', 'Lx = 0.6', 'Lx = 0.8', 'Lx = 1.0']
@@ -233,12 +243,18 @@ for j in range(0, sim, interval):
     plt.axis([0.1, max(max(tLS, key=max)), 1e-3, max(max(dcLS, key=max))+0.5*max(max(dcLS, key=max))])
     plt.xlabel("T [-]")
     plt.ylabel("$d\overline{c}/dT$ [-]")
+    plt.grid(True, which="both")
 plt.tight_layout()
+os.makedirs(os.path.join(saveFolderPath, "../images"), exist_ok = True)
 # plt.savefig(os.path.join(latexFolderPath, "images/lowHighCpdf.png"))
 # plt.savefig(os.path.join(latexFolderPath, "images/varPeLowC.png"))
 # plt.savefig(os.path.join(latexFolderPath, "images/varPeHighC.png"))
 # plt.savefig(os.path.join(saveFolderPath, "../images/increasingLxLC.png"))
 # plt.savefig(os.path.join(latexFolderPath, "images/increasingLxLC.png"))
+# plt.savefig(os.path.join(saveFolderPath, "../images/HertenBTCdifferentKdc.png"))
+# plt.savefig(os.path.join(saveFolderPath, "../images/HertenVarMecDispDC.png"))
+# plt.savefig(os.path.join(saveFolderPath, "../images/HertenVerPeDC.png"))
+plt.savefig(os.path.join(saveFolderPath, "../images/injectionAreaDC.png"))
 # plt.show()
 
 dcLSave = []
@@ -256,23 +272,26 @@ plt.loglog(tLSave, dcLSave, color="black", lw=4)
 plt.tight_layout()
 os.makedirs(os.path.join(saveFolderPath, "../images"), exist_ok = True)
 # plt.savefig(os.path.join(latexFolderPath, "images/realisVarLC.png"))
-# plt.savefig(os.path.join(saveFolderPath, "../images/increasingLx.png"))
+# plt.savefig(os.path.join(saveFolderPath, "../images/ave_dcdt.png"))
 # plt.savefig(os.path.join(saveFolderPath, "../images/logConstVarMecDisp.png"))
 # plt.show()
 
 plt.figure(figsize=(14, 9))
 for j in range(0, sim, interval):
     # cBoolean = np.logical_and(np.array(dc[j])>1e-3, np.array(dc[j])<1)
-    cBoolean = np.logical_and(np.array(c[j])>1e-3, np.array(c[j])<1)
+    cBoolean = np.logical_and(np.array(c[j]/c[j][-1])>1e-3, np.array(c[j])<1)
     tThrs = [val for z, val in enumerate(tt[j][:-s]) if cBoolean[z]] # it selects the time only if cBoolean is True
-    cThrs = [val for z, val in enumerate(c[j][:-s]) if cBoolean[z]]
+    cThrs = [val/c[j][-1] for z, val in enumerate(c[j][:-s]) if cBoolean[z]]
     plt.loglog(tThrs, cThrs, ls="%s" % lin[j], color="%s" % col[j], lw=4, label="%s" % lab[j])
     plt.legend(loc="best", fontsize=30)
     plt.xlabel("T [-]")
     plt.ylabel("$\overline{c} [-]$")
     plt.grid(True, which="both")
 plt.tight_layout()
+os.makedirs(os.path.join(saveFolderPath, "../images"), exist_ok = True)
 # plt.savefig(os.path.join(latexFolderPath, "images/lowHighCcdf.png"))
+# plt.savefig(os.path.join(saveFolderPath, "../images/HertenBTCdifferentK.png"))
+plt.savefig(os.path.join(saveFolderPath, "../images/injectionArea.png"))
 
 # plt.figure(figsize=(14, 9))
 # plt.plot(tt[i], yVG[i], color='r', label="vanGenuchten")

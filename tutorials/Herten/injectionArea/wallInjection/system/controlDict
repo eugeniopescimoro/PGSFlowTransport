@@ -1,0 +1,128 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | foam-extend: Open Source CFD                    |
+|  \\    /   O peration     | Version:     4.0                                |
+|   \\  /    A nd           | Web:         http://www.foam-extend.org         |
+|    \\/     M anipulation  |                                                 |
+\---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application simpleFoam;
+
+startFrom       startTime;
+
+startTime       0;
+
+stopAt          endTime;
+
+endTime         1e8; // #calc "86400*0.5";
+
+deltaT          100;
+
+writeControl    adjustableRunTime;//runTime;//timeStep;
+
+adjustTimeStep  yes;
+
+writeInterval   1e5;
+
+purgeWrite      0;
+
+writeFormat     ascii;
+
+writePrecision  6;
+
+writeCompression uncompressed;
+
+timeFormat      general;
+
+timePrecision   6;
+
+runTimeModifiable no;
+
+maxCo 0.8;
+
+/*
+functions
+{
+minmax
+{
+functionObjectLibs ( "libutilityFunctionObjects.so" );
+type coded;
+name minmax;
+codeExecute
+#{
+const volScalarField& c = mesh().lookupObject<volScalarField>("T");
+Info << endl << "maximum " << gMax(c);
+Info << endl << "minimum " << gMin(c) << endl;
+#};
+}
+
+
+divu
+{
+functionObjectLibs ( "libutilityFunctionObjects.so" );
+type coded;
+name minmax;
+codeExecute
+#{
+const surfaceScalarField& phi = mesh().lookupObject<surfaceScalarField>("phi");
+volScalarField div(fvc::div(phi));
+Info << endl << "maximum divu" << gMax(div);
+Info << endl << "mean divu" << Foam::sqrt(fvc::domainIntegrate(div*div)/gSum(mesh().V())) << endl;
+#};
+}
+}
+*/
+
+//functions
+//{
+//    breakthrough
+//    {
+//        // Load the library containing the 'coded' functionObject
+//        libs            ("libutilityFunctionObjects.so");
+//
+//        type coded;
+//
+//        // Name of on-the-fly generated functionObject
+//        name breakthrough;
+//
+//        codeWrite
+//        #{
+//            // Lookup c
+//            //Info<< "Looking up field c\n" << endl;
+//            const volScalarField& c = mesh().lookupObject<volScalarField>("T");
+//	        const volVectorField& U = mesh().lookupObject<volVectorField>("U");
+//
+//            //Get outlet patch
+//	        label patchId = mesh().boundaryMesh().findPatchID("outlet");
+//	        const scalarField& cOut(c.boundaryField()[patchId]);
+//	        const vectorField& Sf( mesh().Sf().boundaryField()[patchId]);
+//            const vectorField& Uout(U.boundaryField()[patchId]);
+//
+//	        scalarField fluxOut((Uout&Sf));
+//
+//            scalar totalMass( (fvc::domainIntegrate(c)).value() );
+//	        vector meanVel( (fvc::domainIntegrate(U)).value() / gSum(mesh().V()) );
+//	        scalar cFluxOut(gSum(cOut*(Sf&Uout))/gSum(fluxOut) );
+//
+//
+//
+//            //std::ofstream file;
+//            //file.open("breakthrough.dat", std::ios::out | std::ios::app);
+//            //file << mesh().time().timeName()
+//            Info   << "Total mass =  " << totalMass << endl;
+//            Info   << "Mean vel = " << meanVel << endl;
+//            Info   << "Flux out = " << cFluxOut << endl;
+//        #};
+//    }
+//}
+
+
+// ************************************************************************* //

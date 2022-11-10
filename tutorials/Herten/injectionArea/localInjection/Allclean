@@ -1,0 +1,6 @@
+#!/bin/bash
+
+foamCleanTutorials --help
+rm ./0/U
+rm -r LOGs
+#rm breakthrough meanVel mass time log logRandomField

@@ -1,0 +1,67 @@
+#!/bin/sh
+
+#SBATCH --job-name=varMecDisp1e-3
+#SBATCH --partition=defq
+#SBATCH --nodes=4
+#SBATCH --ntasks-per-node=12
+#SBATCH --mem=5g
+#SBATCH --time=168:00:00
+
+echo "Blockmesh starts"
+blockMesh >> log 2>&1
+
+# Local injection
+
+echo "TopoSet starts"
+topoSet >> log 2>&1
+
+echo "SetsToZones starts"
+setsToZones >> log 2>&1
+
+echo "Decomposition of the domain starts"
+decomposePar >> log 2>&1
+
+#echo "Simpledarcyfoam starts"
+#simpleDarcyFoam >> log 2>&1
+
+echo "Simpledarcyfoam starts"
+mpirun --oversubscribe -np 12 simpleDarcyFoam -noFunctionObjects -parallel  >> log 2>&1
+
+# find ./ -name 'U' | while read U ; do cp "$U" ./0 ; done
+
+for i in processor*; do
+    cd ./$i
+    find ./ -name 'U' | while read U ; do cp "$U" ./0 ; done
+    find ./ -name 'phi' | while read phi ; do cp "$phi" ./0 ; done
+    mv ./0/phi ./0/q  
+    sed -i -e 's/phi/q/g' ./0/q
+    cd ..
+done
+
+cp ./system/fvOptions.scalar ./system/fvOptions
+sed -i -e 's/fvOptions.scalar/fvOptions/g' ./system/fvOptions
+
+#echo "MacroScalarTransportFoam starts"
+#macroScalarTransport >> log 2>&1
+
+echo "MacroScalarTransportFoam starts"
+mpirun --oversubscribe -np 12 macroScalarTransport -parallel  >> log 2>&1
+
+echo "FieldMetrics starts"
+#mpirun --oversubscribe -np 12 postProcess -dict system/fieldMetricsDict -field K -time 0 -parallel >> log 2>&1
+
+#mpirun --oversubscribe -np 12 postProcess -dict system/fieldMetricsDict -field U -time 0 -parallel >> log 2>&1
+#mpirun --oversubscribe -np 12 spatialPdf -parallel -field magUscaled -time 0 -logbin -nbins 50
+
+#mpirun --oversubscribe -np 12 postProcess -dict system/fieldMetricsDict -field c -parallel >> log 2>&1
+
+mkdir LOGs
+cat log | grep 'Adaptive time =' | cut -d ' ' -f4 > LOGs/logTime
+cat log | grep 'Total mass =' | cut -d ' ' -f4 > LOGs/logMass
+cat log | grep 'Mean vel =' | cut -d ' ' -f4 | tr -d '(' > LOGs/logVelx
+cat log | grep 'Flux out =' | cut -d ' ' -f4 > LOGs/logFlux
+cat log | grep 'Var=' | cut -d '=' -f4 > LOGs/Var
+cat log | grep 'VarConcX=' | cut -d '=' -f4 | cut -d ' ' -f1 > LOGs/VarConcX
+cat log | grep 'Time ' | cut -d ' ' -f3 > LOGs/VarTimeStep
+
+echo "Finish"
