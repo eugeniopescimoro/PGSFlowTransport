@@ -77,7 +77,7 @@ for i in range(0, sim, interval):
     # simPath = ['varPeclet/lowPeclet', 'varPeclet/mediumPeclet', 'varPeclet/highPeclet']
     simPath = ['injectionArea/localInjection', 'injectionArea/wellInjection', 'injectionArea/wallInjection']
     saveFolderPath = Path(os.path.join('/Users/pmxep5/Git/Hub/OpenFOAM/PGSFlowTransport/tutorials/Herten/', simPath[i]))
-    latexFolderPath = Path(os.path.join('/Users/pmxep5/Git/Overleaf/Thesis/images', simPath[i]))
+    latexFolderPath = Path('/Users/pmxep5/Git/Overleaf/Thesis/')
     homeFolderPath = Path(os.path.join('/Users/pmxep5/Git/Hub/OpenFOAM/PGSFlowTransport/tutorials/Herten/', simPath[i]))                                           
 # Parse #######################################################################
     # bashParseLog(sim, FS, homeFolderPath) # Import bashParse.py to use bashParseLog
@@ -201,7 +201,7 @@ plt.rc('font', **font)
 # # plt.show()
 
 plt.figure(figsize=(14, 9))
-lin = ['-', '-.', '--', '-','-', '-', '-', '-', '-', '-']
+lin = ['-', '-.', '--', ':','-', '-', '-', '-', '-', '-']
 
 #lab = ['stochastic', 'conditioned', 'real']
 #lab = ['1e-2alpha', '1e-3alpha', '1e-4alpha', '1e-5alpha']
@@ -252,8 +252,9 @@ os.makedirs(os.path.join(saveFolderPath, "../images"), exist_ok = True)
 # plt.savefig(os.path.join(saveFolderPath, "../images/increasingLxLC.png"))
 # plt.savefig(os.path.join(latexFolderPath, "images/increasingLxLC.png"))
 # plt.savefig(os.path.join(saveFolderPath, "../images/HertenBTCdifferentKdc.png"))
-# plt.savefig(os.path.join(saveFolderPath, "../images/HertenVarMecDispDC.png"))
-# plt.savefig(os.path.join(saveFolderPath, "../images/HertenVerPeDC.png"))
+#plt.savefig(os.path.join(saveFolderPath, "../images/realismDegreeDC.png"))
+# plt.savefig(os.path.join(saveFolderPath, "../images/varMecDispDC.png"))
+# plt.savefig(os.path.join(saveFolderPath, "../images/varPecletDC.png"))
 plt.savefig(os.path.join(saveFolderPath, "../images/injectionAreaDC.png"))
 # plt.show()
 
@@ -291,6 +292,7 @@ plt.tight_layout()
 os.makedirs(os.path.join(saveFolderPath, "../images"), exist_ok = True)
 # plt.savefig(os.path.join(latexFolderPath, "images/lowHighCcdf.png"))
 # plt.savefig(os.path.join(saveFolderPath, "../images/HertenBTCdifferentK.png"))
+plt.savefig(os.path.join(latexFolderPath, "images/injectionArea.png"))
 plt.savefig(os.path.join(saveFolderPath, "../images/injectionArea.png"))
 
 # plt.figure(figsize=(14, 9))

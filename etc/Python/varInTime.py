@@ -7,19 +7,35 @@
 @Description: Plot variance and inertial variance from OF text output
 """
 import matplotlib.pyplot as plt
+import os
+from pathlib import Path
+import subprocess
+
+varInTimeRoot = '/Users/pmxep5/Git/Hub/OpenFOAM/PGSFlowTransport/tutorials/Herten/varPeclet/lowPeclet/'
+varInTimePath = Path(varInTimeRoot)
+os.chdir(varInTimePath)
+os.makedirs("./LOGs", exist_ok = True)
+
+#cat log | grep 'Time ' | cut -d ' ' -f3 > LOGs/VarTimeStep
+subprocess.run(['/bin/bash', '-c', 'cat varInTime | grep \'Time =\' | cut -d\' \' -f3 > LOGs/Time'])
+#cat log | grep 'Var=' | cut -d '=' -f4 > LOGs/Var
+subprocess.run(['/bin/bash', '-c', 'cat varInTime | grep \'Var=\' | cut -d\'=\' -f4 > LOGs/Var'])
+#cat log | grep 'VarConcX=' | cut -d '=' -f4 | cut -d ' ' -f1 > LOGs/VarConcX
+subprocess.run(['/bin/bash', '-c', 'cat varInTime | grep \'VarConcX\' | cut -d\'=\' -f4 | cut -d \' \' -f1 > LOGs/VarConcX'])
 
 t = []
-with open('/data/pmxep5-8/PGSFlowTransport/tutorials/stopConcAdapTmstp/scat_5-lowContrast/TS1/Time', 'r') as Time:
+with open(Path(os.path.join(varInTimeRoot, "LOGs/Time")), 'r') as Time:
     for line in Time.readlines():
         t.append(float(line))
+del t[1]
 
 var = []
-with open('/data/pmxep5-8/PGSFlowTransport/tutorials/stopConcAdapTmstp/scat_5-lowContrast/TS1/Var', 'r') as Var:
+with open(Path(os.path.join(varInTimeRoot, 'LOGs/Var')), 'r') as Var:
     for line in Var.readlines():
         var.append(float(line))
         
 ivar = []
-with open('/data/pmxep5-8/PGSFlowTransport/tutorials/stopConcAdapTmstp/scat_5-lowContrast/TS1/VarConcX', 'r') as Ivar:
+with open(Path(os.path.join(varInTimeRoot, 'LOGs/VarConcX')), 'r') as Ivar:
     for line in Ivar.readlines():
         ivar.append(float(line))
 
