@@ -28,7 +28,7 @@ def processConc(path, dd, mvel, c, t, Xbox, s, D, Y, dCnorm, dc, tt, Tadv, tLS, 
     sdc = pd.Series(sdc).rolling(window=n).mean().iloc[s-1:].values # Rolling window average
     dc.append(sdc)
     dCnorm.append(sdc/sum(sdc))    
-    logAve(ndT, cBoolean, sdc, s, tLS, dcLS, dcLSnorm) # Log binning and averaging function. It smooths the noise of the concentration derivative tails
+    logAve(ndT, cBoolean, sdc/sum(sdc), s, tLS, dcLS, dcLSnorm) # Log binning and averaging function. It smooths the noise of the concentration derivative tails
     
     # Inverse Gaussian parameters estimation
     c_DT = [] # Needed to perform the dot product
