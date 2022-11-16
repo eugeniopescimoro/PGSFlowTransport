@@ -255,7 +255,7 @@ os.makedirs(os.path.join(saveFolderPath, "../images"), exist_ok = True)
 # plt.savefig(os.path.join(saveFolderPath, "../images/realismDegreeDC.png"))
 # plt.savefig(os.path.join(saveFolderPath, "../images/varMecDispDC.png"))
 # plt.savefig(os.path.join(saveFolderPath, "../images/varPecletDC.png"))
-plt.savefig(os.path.join(saveFolderPath, "../images/injectionAreaDC.png"))
+# plt.savefig(os.path.join(saveFolderPath, "../images/injectionAreaDC.png"))
 # plt.show()
 
 dcLSave = []

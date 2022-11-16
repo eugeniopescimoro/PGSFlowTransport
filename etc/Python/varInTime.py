@@ -28,6 +28,7 @@ import subprocess
 # }
 # Transfer from the server to local machine with "myscp /data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/varPeclet/highPeclet/varInTime ."
 
+latexFolderPath = Path('/Users/pmxep5/Git/Overleaf/Thesis/')
 varInTimeRoot = '/Users/pmxep5/Git/Hub/OpenFOAM/PGSFlowTransport/tutorials/Herten/varPeclet/highPeclet/'
 varInTimePath = Path(varInTimeRoot)
 os.chdir(varInTimePath)
@@ -74,6 +75,7 @@ plt.loglog(t, var, lw=5, color='0.80', label="variance", marker="s", markersize=
 # plt.loglog(t, ivar, lw=5, color='0.40', label='inertial variance', marker="s", markersize=10)
 # plt.loglog(t, y, lw=5, color='blue', label='ref slope')
 plt.legend(loc="best", fontsize=30)
+plt.savefig(os.path.join(latexFolderPath, "images/varInTimePeclet.png"))
 
 plt.figure(figsize=(14, 9))
 plt.grid(True, which="both")
@@ -81,6 +83,7 @@ plt.grid(True, which="both")
 plt.loglog(t, ivar, lw=5, color='0.40', label='inertial variance', marker="s", markersize=10)
 plt.loglog(t, y, lw=5, color='blue', label='y=a*x^b with a=%f b=%f' % (a, b))
 plt.legend(loc="best", fontsize=30)
+plt.savefig(os.path.join(latexFolderPath, "images/inertialVarInTimePeclet.png"))
 
 # plt.figure(figsize=(14, 9))
 # plt.grid(True, which="both")
