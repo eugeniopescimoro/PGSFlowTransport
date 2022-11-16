@@ -67,7 +67,14 @@ Info << "Reading mechanical disp coeff alpha\n" << endl;
 const dimensionedScalar alpha
 (
     transportProperties.lookupOrDefault<dimensionedScalar>
-    ("alpha", dimensionedScalar(dimless,scalar(1.)))
+    ("alpha", dimensionedScalar(dimLength,scalar(1.)))
+);
+
+Info << "Reading mechanical disp coeff alphaT\n" << endl;
+const dimensionedScalar alphaT
+(
+    transportProperties.lookupOrDefault<dimensionedScalar>
+    ("alphaT", alpha/10)
 );
 
 Info << "Reading controlDict\n" << endl;

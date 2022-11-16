@@ -66,6 +66,21 @@ int main(int argc, char *argv[])
 
     //scalar massFlag(0.0);
     scalar totalMassOld(0.0);
+    // surfaceScalarField D(phi*alpha*mag(q)/mesh.magSf());
+    //- Update cell-based dispersion
+    surfaceSymmTensorField D
+      (
+       "D",
+        phi
+        *
+        (
+          (alphaT * mag(q) ) * symmTensor::I
+          +
+          (alpha-alphaT) * (mag(q) * sqr(mesh.Sf()) / sqr(mesh.magSf())  )
+        ) / mesh.magSf()
+      );
+    //D.write();
+
 
     while (simple.loop(runTime))
     {
@@ -78,7 +93,7 @@ int main(int argc, char *argv[])
                 fvm::ddt(phi, c)
               + fvm::div(q, c)
               - fvm::laplacian(phi*Dm, c)
-              - fvm::laplacian(phi*alpha*mag(U)*tensor::I, c)
+              - fvm::laplacian(D, c)
              ==
                 fvOptions(c)
             );

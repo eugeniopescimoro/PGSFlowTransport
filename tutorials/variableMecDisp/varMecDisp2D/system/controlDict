@@ -22,7 +22,7 @@ startTime       0;
 
 stopAt          endTime;
 
-endTime         1e8; // #calc "86400*0.5";
+endTime         1000000;//1e8; // #calc "86400*0.5";
 
 deltaT          100;
 
