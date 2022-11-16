@@ -1,0 +1,439 @@
+/*---------------------------------------------------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  8
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+Build  : 8-1c9b5879390b
+Exec   : postProcess -dict system/fieldMetricsDict -field c -parallel
+Date   : Nov 16 2022
+Time   : 15:21:11
+Host   : "gercphd"
+PID    : 8467
+I/O    : uncollated
+Case   : /data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/varPeclet/highPeclet
+nProcs : 96
+Slaves : 
+95
+(
+"gercphd.8468"
+"gercphd.8469"
+"gercphd.8470"
+"gercphd.8471"
+"gercphd.8472"
+"gercphd.8473"
+"gercphd.8474"
+"gercphd.8475"
+"gercphd.8476"
+"gercphd.8477"
+"gercphd.8478"
+"gercphd.8479"
+"gercphd.8480"
+"gercphd.8481"
+"gercphd.8482"
+"gercphd.8483"
+"gercphd.8484"
+"gercphd.8485"
+"gercphd.8486"
+"gercphd.8487"
+"gercphd.8488"
+"gercphd.8489"
+"gercphd.8490"
+"gercphd.8491"
+"gercphd.8492"
+"gercphd.8493"
+"gercphd.8494"
+"gercphd.8495"
+"gercphd.8496"
+"gercphd.8497"
+"gercphd.8498"
+"gercphd.8505"
+"gercphd.8523"
+"gercphd.8535"
+"gercphd.8546"
+"gercphd.8554"
+"gercphd.8559"
+"gercphd.8560"
+"gercphd.8561"
+"gercphd.8562"
+"gercphd.8563"
+"gercphd.8564"
+"gercphd.8567"
+"gercphd.8568"
+"gercphd.8569"
+"gercphd.8570"
+"gercphd.8571"
+"gercphd.8572"
+"gercphd.8573"
+"gercphd.8574"
+"gercphd.8575"
+"gercphd.8576"
+"gercphd.8583"
+"gercphd.8589"
+"gercphd.8593"
+"gercphd.8599"
+"gercphd.8604"
+"gercphd.8610"
+"gercphd.8613"
+"gercphd.8620"
+"gercphd.8622"
+"gercphd.8631"
+"gercphd.8635"
+"gercphd.8638"
+"gercphd.8639"
+"gercphd.8640"
+"gercphd.8641"
+"gercphd.8642"
+"gercphd.8643"
+"gercphd.8644"
+"gercphd.8645"
+"gercphd.8646"
+"gercphd.8648"
+"gercphd.8651"
+"gercphd.8652"
+"gercphd.8664"
+"gercphd.8669"
+"gercphd.8678"
+"gercphd.8682"
+"gercphd.8688"
+"gercphd.8694"
+"gercphd.8695"
+"gercphd.8698"
+"gercphd.8699"
+"gercphd.8703"
+"gercphd.8704"
+"gercphd.8708"
+"gercphd.8709"
+"gercphd.8710"
+"gercphd.8713"
+"gercphd.8716"
+"gercphd.8717"
+"gercphd.8718"
+"gercphd.8719"
+"gercphd.8720"
+)
+
+Pstream initialized with:
+    floatTransfer      : 0
+    nProcsSimpleSum    : 0
+    commsType          : nonBlocking
+    polling iterations : 0
+sigFpe : Enabling floating point exception trapping (FOAM_SIGFPE).
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 10)
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Create time
+
+Create mesh for time = 0
+
+Time = 0
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=0 Mean=0 Var=0
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/varPeclet/highPeclet/processor0/../postProcessing/fieldMetrics/0"
+Computing meanAndVariance of position wrt field c
+Time=0 MeanConcX=0 VarConcX=0 MeanConcY=0 VarConcY=0 MeanConcZ=0 VarConcZ=0
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/varPeclet/highPeclet/processor0/../postProcessing/fieldMetrics/0"
+
+Time = 300
+
+Reading fields:
+
+Executing functionObjects
+There is no field c
+
+Time = 784.041
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=784.041 Mean=0.0446734 Var=0.0367801
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/varPeclet/highPeclet/processor0/../postProcessing/fieldMetrics/784.041"
+Computing meanAndVariance of position wrt field c
+Time=784.041 MeanConcX=0.630243 VarConcX=0.20957 MeanConcY=5.00104 VarConcY=8.40466 MeanConcZ=3.96782 VarConcZ=5.9611
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/varPeclet/highPeclet/processor0/../postProcessing/fieldMetrics/784.041"
+
+Time = 1568.08
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=1568.08 Mean=0.0893193 Var=0.0723145
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/varPeclet/highPeclet/processor0/../postProcessing/fieldMetrics/1568.08"
+Computing meanAndVariance of position wrt field c
+Time=1568.08 MeanConcX=1.23485 VarConcX=0.784223 MeanConcY=4.99738 VarConcY=8.38497 MeanConcZ=3.97006 VarConcZ=5.97102
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/varPeclet/highPeclet/processor0/../postProcessing/fieldMetrics/1568.08"
+
+Time = 2352.12
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=2352.12 Mean=0.133965 Var=0.104051
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/varPeclet/highPeclet/processor0/../postProcessing/fieldMetrics/2352.12"
+Computing meanAndVariance of position wrt field c
+Time=2352.12 MeanConcX=1.84061 VarConcX=1.72881 MeanConcY=4.99633 VarConcY=8.37723 MeanConcZ=3.97008 VarConcZ=5.96815
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/varPeclet/highPeclet/processor0/../postProcessing/fieldMetrics/2352.12"
+
+Time = 3136.17
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=3136.17 Mean=0.178611 Var=0.131721
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/varPeclet/highPeclet/processor0/../postProcessing/fieldMetrics/3136.17"
+Computing meanAndVariance of position wrt field c
+Time=3136.17 MeanConcX=2.43877 VarConcX=2.99321 MeanConcY=4.99786 VarConcY=8.37455 MeanConcZ=3.96642 VarConcZ=5.95005
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/varPeclet/highPeclet/processor0/../postProcessing/fieldMetrics/3136.17"
+
+Time = 3920.21
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=3920.21 Mean=0.223256 Var=0.155324
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/varPeclet/highPeclet/processor0/../postProcessing/fieldMetrics/3920.21"
+Computing meanAndVariance of position wrt field c
+Time=3920.21 MeanConcX=3.02794 VarConcX=4.54483 MeanConcY=5.00047 VarConcY=8.37425 MeanConcZ=3.96213 VarConcZ=5.93217
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/varPeclet/highPeclet/processor0/../postProcessing/fieldMetrics/3920.21"
+
+Time = 4704.25
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=4704.25 Mean=0.267902 Var=0.174879
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/varPeclet/highPeclet/processor0/../postProcessing/fieldMetrics/4704.25"
+Computing meanAndVariance of position wrt field c
+Time=4704.25 MeanConcX=3.61262 VarConcX=6.39444 MeanConcY=5.00372 VarConcY=8.37701 MeanConcZ=3.95872 VarConcZ=5.9204
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/varPeclet/highPeclet/processor0/../postProcessing/fieldMetrics/4704.25"
+
+Time = 5488.29
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=5488.29 Mean=0.312547 Var=0.190367
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/varPeclet/highPeclet/processor0/../postProcessing/fieldMetrics/5488.29"
+Computing meanAndVariance of position wrt field c
+Time=5488.29 MeanConcX=4.19592 VarConcX=8.55591 MeanConcY=5.00771 VarConcY=8.38139 MeanConcZ=3.95656 VarConcZ=5.91394
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/varPeclet/highPeclet/processor0/../postProcessing/fieldMetrics/5488.29"
+
+Time = 6272.33
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=6272.33 Mean=0.357192 Var=0.201781
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/varPeclet/highPeclet/processor0/../postProcessing/fieldMetrics/6272.33"
+Computing meanAndVariance of position wrt field c
+Time=6272.33 MeanConcX=4.77997 VarConcX=11.0436 MeanConcY=5.01216 VarConcY=8.38637 MeanConcZ=3.95515 VarConcZ=5.91019
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/varPeclet/highPeclet/processor0/../postProcessing/fieldMetrics/6272.33"
+
+Time = 7066.3
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=7066.3 Mean=0.402383 Var=0.209198
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/varPeclet/highPeclet/processor0/../postProcessing/fieldMetrics/7066.3"
+Computing meanAndVariance of position wrt field c
+Time=7066.3 MeanConcX=5.37298 VarConcX=13.8953 MeanConcY=5.01696 VarConcY=8.39284 MeanConcZ=3.95383 VarConcZ=5.9066
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/varPeclet/highPeclet/processor0/../postProcessing/fieldMetrics/7066.3"
+
+Time = 7880.11
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=7880.11 Mean=0.44708 Var=0.213677
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/varPeclet/highPeclet/processor0/../postProcessing/fieldMetrics/7880.11"
+Computing meanAndVariance of position wrt field c
+Time=7880.11 MeanConcX=5.94612 VarConcX=16.8346 MeanConcY=5.02315 VarConcY=8.40271 MeanConcZ=3.94457 VarConcZ=5.90279
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/varPeclet/highPeclet/processor0/../postProcessing/fieldMetrics/7880.11"
+
+Time = 8981.74
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=8981.74 Mean=0.491893 Var=0.217337
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/varPeclet/highPeclet/processor0/../postProcessing/fieldMetrics/8981.74"
+Computing meanAndVariance of position wrt field c
+Time=8981.74 MeanConcX=6.41332 VarConcX=18.7388 MeanConcY=5.0396 VarConcY=8.42371 MeanConcZ=3.86329 VarConcZ=5.89749
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/varPeclet/highPeclet/processor0/../postProcessing/fieldMetrics/8981.74"
+
+Time = 10430.7
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=10430.7 Mean=0.53655 Var=0.214306
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/varPeclet/highPeclet/processor0/../postProcessing/fieldMetrics/10430.7"
+Computing meanAndVariance of position wrt field c
+Time=10430.7 MeanConcX=6.83143 VarConcX=20.2457 MeanConcY=5.06019 VarConcY=8.45499 MeanConcZ=3.7317 VarConcZ=5.86558
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/varPeclet/highPeclet/processor0/../postProcessing/fieldMetrics/10430.7"
+
+Time = 13150.1
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=13150.1 Mean=0.581281 Var=0.214735
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/varPeclet/highPeclet/processor0/../postProcessing/fieldMetrics/13150.1"
+Computing meanAndVariance of position wrt field c
+Time=13150.1 MeanConcX=7.19156 VarConcX=21.5696 MeanConcY=5.08586 VarConcY=8.4821 MeanConcZ=3.67173 VarConcZ=5.68337
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/varPeclet/highPeclet/processor0/../postProcessing/fieldMetrics/13150.1"
+
+Time = 23749.5
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=23749.5 Mean=0.625927 Var=0.208852
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/varPeclet/highPeclet/processor0/../postProcessing/fieldMetrics/23749.5"
+Computing meanAndVariance of position wrt field c
+Time=23749.5 MeanConcX=7.29138 VarConcX=21.7546 MeanConcY=5.10626 VarConcY=8.46186 MeanConcZ=3.66154 VarConcZ=5.43462
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/varPeclet/highPeclet/processor0/../postProcessing/fieldMetrics/23749.5"
+
+Time = 42993.3
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=42993.3 Mean=0.670577 Var=0.193451
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/varPeclet/highPeclet/processor0/../postProcessing/fieldMetrics/42993.3"
+Computing meanAndVariance of position wrt field c
+Time=42993.3 MeanConcX=7.29686 VarConcX=21.3679 MeanConcY=5.10776 VarConcY=8.43327 MeanConcZ=3.6669 VarConcZ=5.19807
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/varPeclet/highPeclet/processor0/../postProcessing/fieldMetrics/42993.3"
+
+Time = 67566.5
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=67566.5 Mean=0.715232 Var=0.17401
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/varPeclet/highPeclet/processor0/../postProcessing/fieldMetrics/67566.5"
+Computing meanAndVariance of position wrt field c
+Time=67566.5 MeanConcX=7.31831 VarConcX=20.922 MeanConcY=5.09706 VarConcY=8.41321 MeanConcZ=3.68053 VarConcZ=4.9813
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/varPeclet/highPeclet/processor0/../postProcessing/fieldMetrics/67566.5"
+
+Time = 99434.3
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=99434.3 Mean=0.759878 Var=0.153631
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/varPeclet/highPeclet/processor0/../postProcessing/fieldMetrics/99434.3"
+Computing meanAndVariance of position wrt field c
+Time=99434.3 MeanConcX=7.36474 VarConcX=20.612 MeanConcY=5.075 VarConcY=8.37893 MeanConcZ=3.68865 VarConcZ=4.79042
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/varPeclet/highPeclet/processor0/../postProcessing/fieldMetrics/99434.3"
+
+Time = 100000
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=100000 Mean=0.760544 Var=0.153318
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/varPeclet/highPeclet/processor0/../postProcessing/fieldMetrics/100000"
+Computing meanAndVariance of position wrt field c
+Time=100000 MeanConcX=7.36561 VarConcX=20.6087 MeanConcY=5.07468 VarConcY=8.3782 MeanConcZ=3.68867 VarConcZ=4.78777
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/varPeclet/highPeclet/processor0/../postProcessing/fieldMetrics/100000"
+
+Time = 147082
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=147082 Mean=0.804522 Var=0.131092
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/varPeclet/highPeclet/processor0/../postProcessing/fieldMetrics/147082"
+Computing meanAndVariance of position wrt field c
+Time=147082 MeanConcX=7.43267 VarConcX=20.479 MeanConcY=5.06006 VarConcY=8.32313 MeanConcZ=3.67987 VarConcZ=4.62519
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/varPeclet/highPeclet/processor0/../postProcessing/fieldMetrics/147082"
+
+Time = 200000
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=200000 Mean=0.8373 Var=0.111937
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/varPeclet/highPeclet/processor0/../postProcessing/fieldMetrics/200000"
+Computing meanAndVariance of position wrt field c
+Time=200000 MeanConcX=7.49426 VarConcX=20.4858 MeanConcY=5.05689 VarConcY=8.29051 MeanConcZ=3.66074 VarConcZ=4.51657
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/varPeclet/highPeclet/processor0/../postProcessing/fieldMetrics/200000"
+
+Time = 224355
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=224355 Mean=0.849169 Var=0.104455
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/varPeclet/highPeclet/processor0/../postProcessing/fieldMetrics/224355"
+Computing meanAndVariance of position wrt field c
+Time=224355 MeanConcX=7.51955 VarConcX=20.5067 MeanConcY=5.0562 VarConcY=8.28307 MeanConcZ=3.65211 VarConcZ=4.479
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/varPeclet/highPeclet/processor0/../postProcessing/fieldMetrics/224355"
+
+Time = 224940
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=224940 Mean=0.849436 Var=0.104284
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/varPeclet/highPeclet/processor0/../postProcessing/fieldMetrics/224940"
+Computing meanAndVariance of position wrt field c
+Time=224940 MeanConcX=7.52014 VarConcX=20.5073 MeanConcY=5.05618 VarConcY=8.28293 MeanConcZ=3.65191 VarConcZ=4.47816
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/varPeclet/highPeclet/processor0/../postProcessing/fieldMetrics/224940"
+
+End
+
+Finalising parallel run
