@@ -73,7 +73,7 @@ for i in range(0, sim, interval):
     # homeFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/', simPath))
     
     # simPath = ['realismDegree/Herten7_Stochastic', 'realismDegree/Herten8_Ephesia', 'realismDegree/Herten9_Comunian']
-    # simPath = ['varMecDisp/varMecDisp1e-5alpha', 'varMecDisp/varMecDisp1e-5alpha', 'varMecDisp/varMecDisp1e-4alpha', 'varMecDisp/varMecDisp1e-5alpha']
+    # simPath = ['varMecDisp/varMecDisp1e-2alpha', 'varMecDisp/varMecDisp1e-3alpha', 'varMecDisp/varMecDisp1e-4alpha', 'varMecDisp/varMecDisp1e-5alpha']
     # simPath = ['varPeclet/lowPeclet', 'varPeclet/mediumPeclet', 'varPeclet/highPeclet']
     simPath = ['injectionArea/localInjection', 'injectionArea/wellInjection', 'injectionArea/wallInjection']
     saveFolderPath = Path(os.path.join('/Users/pmxep5/Git/Hub/OpenFOAM/PGSFlowTransport/tutorials/Herten/', simPath[i]))
@@ -236,15 +236,21 @@ os.makedirs(os.path.join(saveFolderPath, "../images"), exist_ok = True)
 # plt.savefig(os.path.join(saveFolderPath, "../images/constVarMecDisp.png"))
 # plt.show()
 
+tLSinterval = []
+dcLSinterval = []
 plt.figure(figsize=(14, 9))
 for j in range(0, sim, interval):
+    dcBoolean = np.array(dcLS[j])>1e-6
+    tLSinterval.append([val for j, val in enumerate(tLS[j]) if dcBoolean[j]])
+    dcLSinterval.append([val for j, val in enumerate(dcLS[j]) if dcBoolean[j]])
     plt.loglog(tLS[j], dcLS[j], ls="%s" % lin[j], color="%s" % col[j], lw=4, label="%s" % lab[j])
     plt.legend(loc="best", fontsize=30)
-    plt.axis([0.1, max(max(tLS, key=max)), 1e-5, max(max(dcLS, key=max))+0.5*max(max(dcLS, key=max))])
+    # plt.axis([0.1, max(max(tLS, key=max)), 1e-3, max(max(dcLS, key=max))+0.5*max(max(dcLS, key=max))])
     plt.xlabel("T [-]")
     plt.ylabel("$d\overline{c}/dT$ [-]")
     plt.grid(True, which="both")
 plt.tight_layout()
+plt.axis([min(min(tLSinterval, key=min)), max(max(tLSinterval, key=max)), min(min(dcLSinterval, key=min)), max(max(dcLSinterval, key=max))])
 os.makedirs(os.path.join(saveFolderPath, "../images"), exist_ok = True)
 # plt.savefig(os.path.join(latexFolderPath, "images/lowHighCpdf.png"))
 # plt.savefig(os.path.join(latexFolderPath, "images/varPeLowC.png"))
@@ -252,10 +258,15 @@ os.makedirs(os.path.join(saveFolderPath, "../images"), exist_ok = True)
 # plt.savefig(os.path.join(saveFolderPath, "../images/increasingLxLC.png"))
 # plt.savefig(os.path.join(latexFolderPath, "images/increasingLxLC.png"))
 # plt.savefig(os.path.join(saveFolderPath, "../images/HertenBTCdifferentKdc.png"))
+
 # plt.savefig(os.path.join(saveFolderPath, "../images/realismDegreeDC.png"))
+# plt.savefig(os.path.join(latexFolderPath, "images/realismDegreeDC.png"))
 # plt.savefig(os.path.join(saveFolderPath, "../images/varMecDispDC.png"))
+# plt.savefig(os.path.join(latexFolderPath, "images/varMecDispDC.png"))
 # plt.savefig(os.path.join(saveFolderPath, "../images/varPecletDC.png"))
-# plt.savefig(os.path.join(saveFolderPath, "../images/injectionAreaDC.png"))
+# plt.savefig(os.path.join(latexFolderPath, "images/varMecPecletDC.png"))
+plt.savefig(os.path.join(latexFolderPath, "images/injectionAreaDC.png"))
+plt.savefig(os.path.join(saveFolderPath, "../images/injectionAreaDC.png"))
 # plt.show()
 
 dcLSave = []
@@ -290,10 +301,18 @@ for j in range(0, sim, interval):
     plt.grid(True, which="both")
 plt.tight_layout()
 os.makedirs(os.path.join(saveFolderPath, "../images"), exist_ok = True)
+
 # plt.savefig(os.path.join(latexFolderPath, "images/lowHighCcdf.png"))
 # plt.savefig(os.path.join(saveFolderPath, "../images/HertenBTCdifferentK.png"))
-# plt.savefig(os.path.join(latexFolderPath, "images/injectionArea.png"))
-# plt.savefig(os.path.join(saveFolderPath, "../images/injectionArea.png"))
+
+# plt.savefig(os.path.join(saveFolderPath, "../images/realismDegree.png"))
+# plt.savefig(os.path.join(latexFolderPath, "images/realismDegree.png"))
+# plt.savefig(os.path.join(saveFolderPath, "../images/varMecDisp.png"))
+# plt.savefig(os.path.join(latexFolderPath, "images/varMecDisp.png"))
+# plt.savefig(os.path.join(saveFolderPath, "../images/varPeclet.png"))
+# plt.savefig(os.path.join(latexFolderPath, "images/varMecPeclet.png"))
+plt.savefig(os.path.join(latexFolderPath, "images/injectionArea.png"))
+plt.savefig(os.path.join(saveFolderPath, "../images/injectionArea.png"))
 
 # plt.figure(figsize=(14, 9))
 # plt.plot(tt[i], yVG[i], color='r', label="vanGenuchten")
