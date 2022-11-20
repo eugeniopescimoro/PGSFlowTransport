@@ -1,0 +1,329 @@
+/*---------------------------------------------------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  8
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+Build  : 8-1c9b5879390b
+Exec   : postProcess -dict system/fieldMetricsDict -field c -parallel
+Date   : Nov 18 2022
+Time   : 10:33:48
+Host   : "gercphd"
+PID    : 19938
+I/O    : uncollated
+Case   : /data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/injectionArea/wellInjection
+nProcs : 12
+Slaves : 
+11
+(
+"gercphd.19939"
+"gercphd.19940"
+"gercphd.19941"
+"gercphd.19942"
+"gercphd.19943"
+"gercphd.19944"
+"gercphd.19945"
+"gercphd.19946"
+"gercphd.19947"
+"gercphd.19948"
+"gercphd.19949"
+)
+
+Pstream initialized with:
+    floatTransfer      : 0
+    nProcsSimpleSum    : 0
+    commsType          : nonBlocking
+    polling iterations : 0
+sigFpe : Enabling floating point exception trapping (FOAM_SIGFPE).
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 10)
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Create time
+
+Create mesh for time = 0
+
+Time = 0
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=0 Mean=0 Var=0
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/injectionArea/wellInjection/processor0/../postProcessing/fieldMetrics/0"
+Computing meanAndVariance of position wrt field c
+Time=0 MeanConcX=0 VarConcX=0 MeanConcY=0 VarConcY=0 MeanConcZ=0 VarConcZ=0
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/injectionArea/wellInjection/processor0/../postProcessing/fieldMetrics/0"
+
+Time = 300
+
+Reading fields:
+
+Executing functionObjects
+There is no field c
+
+Time = 100000
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=100000 Mean=0.000104928 Var=8.93428e-05
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/injectionArea/wellInjection/processor0/../postProcessing/fieldMetrics/100000"
+Computing meanAndVariance of position wrt field c
+Time=100000 MeanConcX=3.17825 VarConcX=14.755 MeanConcY=5.11631 VarConcY=0.226923 MeanConcZ=3.33508 VarConcZ=2.67587
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/injectionArea/wellInjection/processor0/../postProcessing/fieldMetrics/100000"
+
+Time = 200000
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=200000 Mean=0.000155964 Var=0.000157906
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/injectionArea/wellInjection/processor0/../postProcessing/fieldMetrics/200000"
+Computing meanAndVariance of position wrt field c
+Time=200000 MeanConcX=2.87383 VarConcX=12.8975 MeanConcY=5.10328 VarConcY=0.210851 MeanConcZ=3.30609 VarConcZ=2.54539
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/injectionArea/wellInjection/processor0/../postProcessing/fieldMetrics/200000"
+
+Time = 300000
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=300000 Mean=0.000184684 Var=0.000191976
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/injectionArea/wellInjection/processor0/../postProcessing/fieldMetrics/300000"
+Computing meanAndVariance of position wrt field c
+Time=300000 MeanConcX=2.82721 VarConcX=12.5286 MeanConcY=5.10749 VarConcY=0.220439 MeanConcZ=3.23197 VarConcZ=2.46365
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/injectionArea/wellInjection/processor0/../postProcessing/fieldMetrics/300000"
+
+Time = 400000
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=400000 Mean=0.000200573 Var=0.000206587
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/injectionArea/wellInjection/processor0/../postProcessing/fieldMetrics/400000"
+Computing meanAndVariance of position wrt field c
+Time=400000 MeanConcX=2.83946 VarConcX=12.5682 MeanConcY=5.11517 VarConcY=0.233651 MeanConcZ=3.16972 VarConcZ=2.38811
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/injectionArea/wellInjection/processor0/../postProcessing/fieldMetrics/400000"
+
+Time = 500000
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=500000 Mean=0.0002098 Var=0.000212078
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/injectionArea/wellInjection/processor0/../postProcessing/fieldMetrics/500000"
+Computing meanAndVariance of position wrt field c
+Time=500000 MeanConcX=2.87189 VarConcX=12.7609 MeanConcY=5.12361 VarConcY=0.248764 MeanConcZ=3.13256 VarConcZ=2.33322
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/injectionArea/wellInjection/processor0/../postProcessing/fieldMetrics/500000"
+
+Time = 600000
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=600000 Mean=0.000214962 Var=0.000213843
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/injectionArea/wellInjection/processor0/../postProcessing/fieldMetrics/600000"
+Computing meanAndVariance of position wrt field c
+Time=600000 MeanConcX=2.90912 VarConcX=13.0129 MeanConcY=5.13105 VarConcY=0.263293 MeanConcZ=3.11295 VarConcZ=2.30031
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/injectionArea/wellInjection/processor0/../postProcessing/fieldMetrics/600000"
+
+Time = 700000
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=700000 Mean=0.000217709 Var=0.000214326
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/injectionArea/wellInjection/processor0/../postProcessing/fieldMetrics/700000"
+Computing meanAndVariance of position wrt field c
+Time=700000 MeanConcX=2.94308 VarConcX=13.2682 MeanConcY=5.13663 VarConcY=0.275175 MeanConcZ=3.10281 VarConcZ=2.28226
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/injectionArea/wellInjection/processor0/../postProcessing/fieldMetrics/700000"
+
+Time = 800000
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=800000 Mean=0.000219206 Var=0.000214441
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/injectionArea/wellInjection/processor0/../postProcessing/fieldMetrics/800000"
+Computing meanAndVariance of position wrt field c
+Time=800000 MeanConcX=2.97204 VarConcX=13.5061 MeanConcY=5.14063 VarConcY=0.284423 MeanConcZ=3.0973 VarConcZ=2.27225
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/injectionArea/wellInjection/processor0/../postProcessing/fieldMetrics/800000"
+
+Time = 900000
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=900000 Mean=0.0002201 Var=0.000214466
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/injectionArea/wellInjection/processor0/../postProcessing/fieldMetrics/900000"
+Computing meanAndVariance of position wrt field c
+Time=900000 MeanConcX=2.99648 VarConcX=13.7202 MeanConcY=5.14358 VarConcY=0.291719 MeanConcZ=3.09401 VarConcZ=2.26623
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/injectionArea/wellInjection/processor0/../postProcessing/fieldMetrics/900000"
+
+Time = 1000000.000001
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=1000000.000001 Mean=0.000220694 Var=0.000214472
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/injectionArea/wellInjection/processor0/../postProcessing/fieldMetrics/1000000.000001"
+Computing meanAndVariance of position wrt field c
+Time=1000000.000001 MeanConcX=3.01703 VarConcX=13.9085 MeanConcY=5.14582 VarConcY=0.29755 MeanConcZ=3.09184 VarConcZ=2.26223
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/injectionArea/wellInjection/processor0/../postProcessing/fieldMetrics/1000000.000001"
+
+Time = 1100000.00000117952
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=1100000.00000117952 Mean=0.000221125 Var=0.000214473
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/injectionArea/wellInjection/processor0/../postProcessing/fieldMetrics/1100000.00000117952"
+Computing meanAndVariance of position wrt field c
+Time=1100000.00000117952 MeanConcX=3.03426 VarConcX=14.0712 MeanConcY=5.14753 VarConcY=0.302179 MeanConcZ=3.09029 VarConcZ=2.25931
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/injectionArea/wellInjection/processor0/../postProcessing/fieldMetrics/1100000.00000117952"
+
+Time = 1200000.00000130339
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=1200000.00000130339 Mean=0.000221457 Var=0.000214473
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/injectionArea/wellInjection/processor0/../postProcessing/fieldMetrics/1200000.00000130339"
+Computing meanAndVariance of position wrt field c
+Time=1200000.00000130339 MeanConcX=3.04868 VarConcX=14.2103 MeanConcY=5.14885 VarConcY=0.305796 MeanConcZ=3.08912 VarConcZ=2.25703
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/injectionArea/wellInjection/processor0/../postProcessing/fieldMetrics/1200000.00000130339"
+
+Time = 1300000.00000142725
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=1300000.00000142725 Mean=0.000221725 Var=0.000214473
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/injectionArea/wellInjection/processor0/../postProcessing/fieldMetrics/1300000.00000142725"
+Computing meanAndVariance of position wrt field c
+Time=1300000.00000142725 MeanConcX=3.06076 VarConcX=14.3287 MeanConcY=5.14985 VarConcY=0.30859 MeanConcZ=3.0882 VarConcZ=2.25517
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/injectionArea/wellInjection/processor0/../postProcessing/fieldMetrics/1300000.00000142725"
+
+Time = 1400000.00000155112
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=1400000.00000155112 Mean=0.000221944 Var=0.000214473
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/injectionArea/wellInjection/processor0/../postProcessing/fieldMetrics/1400000.00000155112"
+Computing meanAndVariance of position wrt field c
+Time=1400000.00000155112 MeanConcX=3.0709 VarConcX=14.4294 MeanConcY=5.15062 VarConcY=0.310741 MeanConcZ=3.08746 VarConcZ=2.25363
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/injectionArea/wellInjection/processor0/../postProcessing/fieldMetrics/1400000.00000155112"
+
+Time = 1500000.00000167498
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=1500000.00000167498 Mean=0.000222125 Var=0.000214473
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/injectionArea/wellInjection/processor0/../postProcessing/fieldMetrics/1500000.00000167498"
+Computing meanAndVariance of position wrt field c
+Time=1500000.00000167498 MeanConcX=3.07944 VarConcX=14.5151 MeanConcY=5.15121 VarConcY=0.312403 MeanConcZ=3.08685 VarConcZ=2.25233
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/injectionArea/wellInjection/processor0/../postProcessing/fieldMetrics/1500000.00000167498"
+
+Time = 1600000.00000179885
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=1600000.00000179885 Mean=0.000222276 Var=0.000214473
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/injectionArea/wellInjection/processor0/../postProcessing/fieldMetrics/1600000.00000179885"
+Computing meanAndVariance of position wrt field c
+Time=1600000.00000179885 MeanConcX=3.08666 VarConcX=14.5884 MeanConcY=5.15167 VarConcY=0.313699 MeanConcZ=3.08635 VarConcZ=2.25125
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/injectionArea/wellInjection/processor0/../postProcessing/fieldMetrics/1600000.00000179885"
+
+Time = 1700000.00000192272
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=1700000.00000192272 Mean=0.000222402 Var=0.000214474
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/injectionArea/wellInjection/processor0/../postProcessing/fieldMetrics/1700000.00000192272"
+Computing meanAndVariance of position wrt field c
+Time=1700000.00000192272 MeanConcX=3.09279 VarConcX=14.6511 MeanConcY=5.15202 VarConcY=0.314717 MeanConcZ=3.08594 VarConcZ=2.25033
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/injectionArea/wellInjection/processor0/../postProcessing/fieldMetrics/1700000.00000192272"
+
+Time = 1800000.00000204658
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=1800000.00000204658 Mean=0.000222508 Var=0.000214474
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/injectionArea/wellInjection/processor0/../postProcessing/fieldMetrics/1800000.00000204658"
+Computing meanAndVariance of position wrt field c
+Time=1800000.00000204658 MeanConcX=3.09799 VarConcX=14.7049 MeanConcY=5.1523 VarConcY=0.315524 MeanConcZ=3.0856 VarConcZ=2.24956
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/injectionArea/wellInjection/processor0/../postProcessing/fieldMetrics/1800000.00000204658"
+
+Time = 1900000.00000217045
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=1900000.00000217045 Mean=0.000222596 Var=0.000214474
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/injectionArea/wellInjection/processor0/../postProcessing/fieldMetrics/1900000.00000217045"
+Computing meanAndVariance of position wrt field c
+Time=1900000.00000217045 MeanConcX=3.10243 VarConcX=14.7511 MeanConcY=5.15252 VarConcY=0.316167 MeanConcZ=3.08531 VarConcZ=2.24891
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/injectionArea/wellInjection/processor0/../postProcessing/fieldMetrics/1900000.00000217045"
+
+Time = 2000000.00000229431
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=2000000.00000229431 Mean=0.000222671 Var=0.000214474
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/injectionArea/wellInjection/processor0/../postProcessing/fieldMetrics/2000000.00000229431"
+Computing meanAndVariance of position wrt field c
+Time=2000000.00000229431 MeanConcX=3.10622 VarConcX=14.791 MeanConcY=5.15268 VarConcY=0.316679 MeanConcZ=3.08507 VarConcZ=2.24835
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/injectionArea/wellInjection/processor0/../postProcessing/fieldMetrics/2000000.00000229431"
+
+End
+
+Finalising parallel run

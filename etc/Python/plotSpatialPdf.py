@@ -10,11 +10,10 @@ from pathlib import Path
 import os
 import subprocess
 import matplotlib.pyplot as plt
-import seaborn as sns
 import numpy as np
 
 FS = 1
-sim = 4
+sim = 1
 interval = 1
 U = [[] for i in range(sim)]
 f = [[] for i in range(sim)] # Frequency or normalised probability
@@ -32,8 +31,9 @@ plt.figure(figsize=(14, 9)) # UNCOMMENT WHEN USING 3b OPTION
 for i in range(0, sim, interval):
 # 0) Set the path for the bash script to be executed, usually the testcase home folder
     # homeFolder = Path('/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/stopConcAdapTmstp/scat_3-highContrast/TS%d' % (FS+i))
-    homeFolder = Path('/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/stopConcAdapTmstp/scat_5-lowContrast/TS%d' % (FS+i))
-    latexFolderPath = Path('/home/pmxep5/OneDrive/Nottingham/Write/Articles/PGSFoam/')
+    # homeFolder = Path('/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/stopConcAdapTmstp/scat_5-lowContrast/TS%d' % (FS+i))
+    homeFolder = Path('/Users/pmxep5/Git/Hub/OpenFOAM/PGSFlowTransport/tutorials/Herten/varPeclet/lowPeclet')
+    latexFolderPath = Path('/Users/pmxep5/Git/Overleaf/Thesis/')
 
 # # 1) Verify the following functionObject to be present in system/controlDict
 # functions
@@ -105,8 +105,10 @@ for i in range(0, sim, interval):
 # 3a) Plot spatial pdf with Python
     os.chdir(homeFolder)
     # functionObject and spatialPdf yield the PDF of the velocity spatial field
-    subprocess.run(['/bin/bash', '-c', 'mpirun -np 12 postProcess -time 0 -field U -parallel -func magScaled']) # It runs the functionObject added in 1) and the output is stored in processor*/0/magUscaled
-    subprocess.run(['/bin/bash', '-c', 'mpirun -np 12 spatialPdf -time 0 -field magUscaled -parallel -logbin -nbins 50']) # It runs the spatialPdf post processing utility and stores the output in postProcessing/png/0/magUscaled-none_
+    # mpirun --oversubscribe -np 96 postProcess -dict system/fieldMetricsDict -field U -time 0 -parallel >> spatialUpdf 2>&1
+    subprocess.run(['/bin/bash', '-c', 'mpirun -np 96 postProcess -time 0 -field U -parallel -func magScaled']) # It runs the functionObject added in 1) and the output is stored in processor*/0/magUscaled
+    # mpirun --oversubscribe -np 96 spatialPdf -parallel -field magUscaled -time 0 -logbin -nbins 50
+    subprocess.run(['/bin/bash', '-c', 'mpirun -np 96 spatialPdf -time 0 -field magUscaled -parallel -logbin -nbins 50']) # It runs the spatialPdf post processing utility and stores the output in postProcessing/png/0/magUscaled-none_
     col = ['0.0', '0.2', '0.4', '0.6']
     lab = ['0.4', '0.6', '0.8', '1.0']
     minYaxis = 1e-3
@@ -186,6 +188,7 @@ for i in range(0, sim, interval):
 # plt.savefig(os.path.join(latexFolderPath, "images/jointPdfHC.png"))
 
 ###############################################################################
+# import seaborn as sns
     # for j in range (0, len(U[i])):       
     #     uf[i].append(f[i][j]*U[i][j]*Kxx[i][j])
     # UKjointPdf = sns.jointplot(U[i], Kxx[i], uf[i], kind="hist")

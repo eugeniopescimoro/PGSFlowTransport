@@ -1,0 +1,364 @@
+/*---------------------------------------------------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  8
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+Build  : 8-1c9b5879390b
+Exec   : postProcess -dict system/fieldMetricsDict -field c -parallel
+Date   : Nov 18 2022
+Time   : 09:54:51
+Host   : "gercphd"
+PID    : 17821
+I/O    : uncollated
+Case   : /data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/realismDegree/Herten7_Stochastic
+nProcs : 12
+Slaves : 
+11
+(
+"gercphd.17822"
+"gercphd.17823"
+"gercphd.17824"
+"gercphd.17825"
+"gercphd.17826"
+"gercphd.17827"
+"gercphd.17828"
+"gercphd.17829"
+"gercphd.17830"
+"gercphd.17831"
+"gercphd.17832"
+)
+
+Pstream initialized with:
+    floatTransfer      : 0
+    nProcsSimpleSum    : 0
+    commsType          : nonBlocking
+    polling iterations : 0
+sigFpe : Enabling floating point exception trapping (FOAM_SIGFPE).
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 10)
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Create time
+
+Create mesh for time = 0
+
+Time = 0
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=0 Mean=0 Var=0
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/realismDegree/Herten7_Stochastic/processor0/../postProcessing/fieldMetrics/0"
+Computing meanAndVariance of position wrt field c
+Time=0 MeanConcX=0 VarConcX=0 MeanConcY=0 VarConcY=0 MeanConcZ=0 VarConcZ=0
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/realismDegree/Herten7_Stochastic/processor0/../postProcessing/fieldMetrics/0"
+
+Time = 300
+
+Reading fields:
+
+Executing functionObjects
+There is no field c
+
+Time = 1056.8
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=1056.8 Mean=0.0451373 Var=0.0362115
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/realismDegree/Herten7_Stochastic/processor0/../postProcessing/fieldMetrics/1056.8"
+Computing meanAndVariance of position wrt field c
+Time=1056.8 MeanConcX=0.610518 VarConcX=0.154772 MeanConcY=4.96133 VarConcY=8.20697 MeanConcZ=3.51943 VarConcZ=4.15631
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/realismDegree/Herten7_Stochastic/processor0/../postProcessing/fieldMetrics/1056.8"
+
+Time = 2113.61
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=2113.61 Mean=0.090199 Var=0.0687752
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/realismDegree/Herten7_Stochastic/processor0/../postProcessing/fieldMetrics/2113.61"
+Computing meanAndVariance of position wrt field c
+Time=2113.61 MeanConcX=1.18627 VarConcX=0.565868 MeanConcY=4.96199 VarConcY=8.17921 MeanConcZ=3.51921 VarConcZ=4.14947
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/realismDegree/Herten7_Stochastic/processor0/../postProcessing/fieldMetrics/2113.61"
+
+Time = 3170.41
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=3170.41 Mean=0.135162 Var=0.0955135
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/realismDegree/Herten7_Stochastic/processor0/../postProcessing/fieldMetrics/3170.41"
+Computing meanAndVariance of position wrt field c
+Time=3170.41 MeanConcX=1.77116 VarConcX=1.29819 MeanConcY=4.96232 VarConcY=8.1505 MeanConcZ=3.51857 VarConcZ=4.14278
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/realismDegree/Herten7_Stochastic/processor0/../postProcessing/fieldMetrics/3170.41"
+
+Time = 4227.21
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=4227.21 Mean=0.179843 Var=0.116424
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/realismDegree/Herten7_Stochastic/processor0/../postProcessing/fieldMetrics/4227.21"
+Computing meanAndVariance of position wrt field c
+Time=4227.21 MeanConcX=2.36431 VarConcX=2.38746 MeanConcY=4.9622 VarConcY=8.12556 MeanConcZ=3.51853 VarConcZ=4.14086
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/realismDegree/Herten7_Stochastic/processor0/../postProcessing/fieldMetrics/4227.21"
+
+Time = 5298.69
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=5298.69 Mean=0.224634 Var=0.132207
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/realismDegree/Herten7_Stochastic/processor0/../postProcessing/fieldMetrics/5298.69"
+Computing meanAndVariance of position wrt field c
+Time=5298.69 MeanConcX=2.95449 VarConcX=3.79241 MeanConcY=4.96112 VarConcY=8.10747 MeanConcZ=3.51927 VarConcZ=4.14563
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/realismDegree/Herten7_Stochastic/processor0/../postProcessing/fieldMetrics/5298.69"
+
+Time = 6384.85
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=6384.85 Mean=0.269763 Var=0.143388
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/realismDegree/Herten7_Stochastic/processor0/../postProcessing/fieldMetrics/6384.85"
+Computing meanAndVariance of position wrt field c
+Time=6384.85 MeanConcX=3.5366 VarConcX=5.47607 MeanConcY=4.95963 VarConcY=8.10645 MeanConcZ=3.52054 VarConcZ=4.15242
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/realismDegree/Herten7_Stochastic/processor0/../postProcessing/fieldMetrics/6384.85"
+
+Time = 7471.01
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=7471.01 Mean=0.314834 Var=0.150302
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/realismDegree/Herten7_Stochastic/processor0/../postProcessing/fieldMetrics/7471.01"
+Computing meanAndVariance of position wrt field c
+Time=7471.01 MeanConcX=4.10299 VarConcX=7.39016 MeanConcY=4.95859 VarConcY=8.11998 MeanConcZ=3.52204 VarConcZ=4.15762
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/realismDegree/Herten7_Stochastic/processor0/../postProcessing/fieldMetrics/7471.01"
+
+Time = 8557.17
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=8557.17 Mean=0.359846 Var=0.153148
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/realismDegree/Herten7_Stochastic/processor0/../postProcessing/fieldMetrics/8557.17"
+Computing meanAndVariance of position wrt field c
+Time=8557.17 MeanConcX=4.65391 VarConcX=9.50746 MeanConcY=4.95802 VarConcY=8.13948 MeanConcZ=3.52348 VarConcZ=4.16096
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/realismDegree/Herten7_Stochastic/processor0/../postProcessing/fieldMetrics/8557.17"
+
+Time = 9643.33
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=9643.33 Mean=0.404716 Var=0.152005
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/realismDegree/Herten7_Stochastic/processor0/../postProcessing/fieldMetrics/9643.33"
+Computing meanAndVariance of position wrt field c
+Time=9643.33 MeanConcX=5.18856 VarConcX=11.7951 MeanConcY=4.95799 VarConcY=8.15999 MeanConcZ=3.52452 VarConcZ=4.16302
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/realismDegree/Herten7_Stochastic/processor0/../postProcessing/fieldMetrics/9643.33"
+
+Time = 10729.5
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=10729.5 Mean=0.449524 Var=0.146928
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/realismDegree/Herten7_Stochastic/processor0/../postProcessing/fieldMetrics/10729.5"
+Computing meanAndVariance of position wrt field c
+Time=10729.5 MeanConcX=5.70993 VarConcX=14.2468 MeanConcY=4.95833 VarConcY=8.17875 MeanConcZ=3.52513 VarConcZ=4.1644
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/realismDegree/Herten7_Stochastic/processor0/../postProcessing/fieldMetrics/10729.5"
+
+Time = 11830.3
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=11830.3 Mean=0.494661 Var=0.138087
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/realismDegree/Herten7_Stochastic/processor0/../postProcessing/fieldMetrics/11830.3"
+Computing meanAndVariance of position wrt field c
+Time=11830.3 MeanConcX=6.22138 VarConcX=16.8434 MeanConcY=4.95879 VarConcY=8.19559 MeanConcZ=3.52535 VarConcZ=4.16526
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/realismDegree/Herten7_Stochastic/processor0/../postProcessing/fieldMetrics/11830.3"
+
+Time = 13048.6
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=13048.6 Mean=0.539714 Var=0.128241
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/realismDegree/Herten7_Stochastic/processor0/../postProcessing/fieldMetrics/13048.6"
+Computing meanAndVariance of position wrt field c
+Time=13048.6 MeanConcX=6.68846 VarConcX=19.2208 MeanConcY=4.9593 VarConcY=8.21474 MeanConcZ=3.52518 VarConcZ=4.1637
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/realismDegree/Herten7_Stochastic/processor0/../postProcessing/fieldMetrics/13048.6"
+
+Time = 14912.7
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=14912.7 Mean=0.584612 Var=0.121769
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/realismDegree/Herten7_Stochastic/processor0/../postProcessing/fieldMetrics/14912.7"
+Computing meanAndVariance of position wrt field c
+Time=14912.7 MeanConcX=7.0149 VarConcX=20.4889 MeanConcY=4.96014 VarConcY=8.23821 MeanConcZ=3.52474 VarConcZ=4.1576
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/realismDegree/Herten7_Stochastic/processor0/../postProcessing/fieldMetrics/14912.7"
+
+Time = 17628.1
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=17628.1 Mean=0.629456 Var=0.116128
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/realismDegree/Herten7_Stochastic/processor0/../postProcessing/fieldMetrics/17628.1"
+Computing meanAndVariance of position wrt field c
+Time=17628.1 MeanConcX=7.23186 VarConcX=20.9581 MeanConcY=4.96182 VarConcY=8.25539 MeanConcZ=3.52442 VarConcZ=4.15115
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/realismDegree/Herten7_Stochastic/processor0/../postProcessing/fieldMetrics/17628.1"
+
+Time = 21136.1
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=21136.1 Mean=0.674213 Var=0.110348
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/realismDegree/Herten7_Stochastic/processor0/../postProcessing/fieldMetrics/21136.1"
+Computing meanAndVariance of position wrt field c
+Time=21136.1 MeanConcX=7.41199 VarConcX=21.2456 MeanConcY=4.96379 VarConcY=8.27031 MeanConcZ=3.52397 VarConcZ=4.14534
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/realismDegree/Herten7_Stochastic/processor0/../postProcessing/fieldMetrics/21136.1"
+
+Time = 25803.6
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=25803.6 Mean=0.718936 Var=0.104158
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/realismDegree/Herten7_Stochastic/processor0/../postProcessing/fieldMetrics/25803.6"
+Computing meanAndVariance of position wrt field c
+Time=25803.6 MeanConcX=7.56622 VarConcX=21.4308 MeanConcY=4.96604 VarConcY=8.28462 MeanConcZ=3.52341 VarConcZ=4.13958
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/realismDegree/Herten7_Stochastic/processor0/../postProcessing/fieldMetrics/25803.6"
+
+Time = 32379.3
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=32379.3 Mean=0.763627 Var=0.0970687
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/realismDegree/Herten7_Stochastic/processor0/../postProcessing/fieldMetrics/32379.3"
+Computing meanAndVariance of position wrt field c
+Time=32379.3 MeanConcX=7.69869 VarConcX=21.5432 MeanConcY=4.96885 VarConcY=8.29927 MeanConcZ=3.52283 VarConcZ=4.13332
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/realismDegree/Herten7_Stochastic/processor0/../postProcessing/fieldMetrics/32379.3"
+
+Time = 42521.6
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=42521.6 Mean=0.808289 Var=0.0880472
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/realismDegree/Herten7_Stochastic/processor0/../postProcessing/fieldMetrics/42521.6"
+Computing meanAndVariance of position wrt field c
+Time=42521.6 MeanConcX=7.81031 VarConcX=21.5962 MeanConcY=4.97268 VarConcY=8.31582 MeanConcZ=3.52236 VarConcZ=4.12562
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/realismDegree/Herten7_Stochastic/processor0/../postProcessing/fieldMetrics/42521.6"
+
+Time = 60531.3
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=60531.3 Mean=0.852942 Var=0.0751326
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/realismDegree/Herten7_Stochastic/processor0/../postProcessing/fieldMetrics/60531.3"
+Computing meanAndVariance of position wrt field c
+Time=60531.3 MeanConcX=7.89804 VarConcX=21.5904 MeanConcY=4.97838 VarConcY=8.33647 MeanConcZ=3.52204 VarConcZ=4.11509
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/realismDegree/Herten7_Stochastic/processor0/../postProcessing/fieldMetrics/60531.3"
+
+Time = 99031.3
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=99031.3 Mean=0.897595 Var=0.0562852
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/realismDegree/Herten7_Stochastic/processor0/../postProcessing/fieldMetrics/99031.3"
+Computing meanAndVariance of position wrt field c
+Time=99031.3 MeanConcX=7.95639 VarConcX=21.5249 MeanConcY=4.98642 VarConcY=8.35961 MeanConcZ=3.52105 VarConcZ=4.10152
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/realismDegree/Herten7_Stochastic/processor0/../postProcessing/fieldMetrics/99031.3"
+
+Time = 100000
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=100000 Mean=0.898337 Var=0.055924
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/realismDegree/Herten7_Stochastic/processor0/../postProcessing/fieldMetrics/100000"
+Computing meanAndVariance of position wrt field c
+Time=100000 MeanConcX=7.95711 VarConcX=21.5235 MeanConcY=4.98656 VarConcY=8.35994 MeanConcZ=3.52102 VarConcZ=4.1013
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/realismDegree/Herten7_Stochastic/processor0/../postProcessing/fieldMetrics/100000"
+
+Time = 200000
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=200000 Mean=0.941597 Var=0.0333459
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/realismDegree/Herten7_Stochastic/processor0/../postProcessing/fieldMetrics/200000"
+Computing meanAndVariance of position wrt field c
+Time=200000 MeanConcX=7.98937 VarConcX=21.4398 MeanConcY=4.99334 VarConcY=8.36959 MeanConcZ=3.51614 VarConcZ=4.09067
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/realismDegree/Herten7_Stochastic/processor0/../postProcessing/fieldMetrics/200000"
+
+Time = 202598
+
+Reading fields:
+    volScalarFields: c
+
+Executing functionObjects
+Computing meanAndVariance on c
+Time=202598 Mean=0.94224 Var=0.0329981
+meanAndVariance written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/realismDegree/Herten7_Stochastic/processor0/../postProcessing/fieldMetrics/202598"
+Computing meanAndVariance of position wrt field c
+Time=202598 MeanConcX=7.98972 VarConcX=21.4386 MeanConcY=4.99342 VarConcY=8.36959 MeanConcZ=3.51602 VarConcZ=4.09057
+meanAndVarianceConc written to "/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/Herten/realismDegree/Herten7_Stochastic/processor0/../postProcessing/fieldMetrics/202598"
