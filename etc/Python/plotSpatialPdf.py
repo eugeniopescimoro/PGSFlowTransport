@@ -247,10 +247,10 @@ for j in range(0, len(Ux)):
 plt.axis([min(min(Ux, default=0), default=0), max(max(Ux, default=0), default=0), minYaxis, max(max(F, default=0), default=0)]) # np.compress = Pythonic way to slice list using boolean condition
 # plt.legend(loc="best")
 plt.xlabel("$V^*_x$")
-plt.ylabel("$p(V^*_x|K)$")
+plt.ylabel("$p(V^*_x,K)$")
 plt.tight_layout()
 plt.grid(True, which="both")
-plt.savefig(os.path.join(latexFolderPath, "images/conditionedPdfHerten.png"))
+plt.savefig(os.path.join(latexFolderPath, "images/jojntPdfHerten.png"))
 
 ###############################################################################
 # import seaborn as sns
