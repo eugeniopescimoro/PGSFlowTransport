@@ -250,7 +250,7 @@ plt.xlabel("$V^*_x$")
 plt.ylabel("$p(V^*_x,K)$")
 plt.tight_layout()
 plt.grid(True, which="both")
-plt.savefig(os.path.join(latexFolderPath, "images/jojntPdfHerten.png"))
+plt.savefig(os.path.join(latexFolderPath, "images/jointPdfHerten.png"))
 
 ###############################################################################
 # import seaborn as sns
