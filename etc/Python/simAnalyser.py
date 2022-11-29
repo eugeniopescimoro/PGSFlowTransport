@@ -311,6 +311,8 @@ os.makedirs(os.path.join(saveFolderPath, "../images"), exist_ok = True)
 # plt.savefig(os.path.join(latexFolderPath, "images/lowHighCcdf.png"))
 # plt.savefig(os.path.join(saveFolderPath, "../images/HertenBTCdifferentK.png"))
 
+plt.savefig(os.path.join(saveFolderPath, "../images/realismDegreeDimensionalT.png"))
+plt.savefig(os.path.join(latexFolderPath, "images/realismDegreeDimensionalT.png"))
 # plt.savefig(os.path.join(saveFolderPath, "../images/realismDegree.png"))
 # plt.savefig(os.path.join(latexFolderPath, "images/realismDegree.png"))
 # plt.savefig(os.path.join(saveFolderPath, "../images/varMecDisp.png"))
