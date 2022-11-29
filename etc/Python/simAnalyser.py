@@ -248,7 +248,7 @@ for j in range(0, sim, interval):
     plt.loglog(tLS[j], dcLS[j], ls="%s" % lin[j], color="%s" % col[j], lw=4, label="%s" % lab[j])
     plt.legend(loc="best", fontsize=30)
     # plt.axis([0.1, max(max(tLS, key=max)), 1e-3, max(max(dcLS, key=max))+0.5*max(max(dcLS, key=max))])
-    plt.xlabel("T [-]")
+    plt.xlabel("t [s]")
     plt.ylabel("$d\overline{c}/dT$ [-]")
     plt.grid(True, which="both")
 plt.tight_layout()
@@ -302,7 +302,7 @@ for j in range(0, sim, interval):
     cThrs = [val/c[j][-1] for z, val in enumerate(c[j][:-s]) if cBoolean[z]]
     plt.loglog(tThrs, cThrs, ls="%s" % lin[j], color="%s" % col[j], lw=4, label="%s" % lab[j])
     plt.legend(loc="best", fontsize=30)
-    plt.xlabel("T [-]")
+    plt.xlabel("t [s]")
     plt.ylabel("$\overline{c} [-]$")
     plt.grid(True, which="both")
 plt.tight_layout()
