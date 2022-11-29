@@ -17,7 +17,7 @@ def processConc(path, dd, mvel, c, t, Xbox, s, D, Y, dCnorm, dc, tt, Tadv, tLS, 
     cBoolean = np.logical_and(np.array(c)>Ymin, np.array(c)<1) 
     Y.append([val for j, val in enumerate(c) if cBoolean[j]])
     # Non-dimensionlise the time
-    tadv = (dd[0]-Xbox)/mvel[0] # If punctual injection Xbox needs to be rested from dd 
+    tadv = (dd[0]-Xbox)/mvel[0] # If punctual injection Xbox needs to be rested from dd. If times should not be non-dimensionalised set tadv = 1 
     Tadv.append(np.array(tadv))
     T = [val/tadv for j, val in enumerate(t) if cBoolean[j]] # it selects the time only if cBoolean is True
     ndT = [val/tadv for j, val in enumerate(t)]

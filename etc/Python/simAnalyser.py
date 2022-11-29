@@ -19,7 +19,7 @@ from InvGau import invGaussianCDF, invGauVG
 from statistics import mean
 
 # INITIALIZATION ##############################################################
-sim = 4 # Number of simulations to be analysed 
+sim = 3 # Number of simulations to be analysed 
 FS = 1 # Number of the First Simulation to analyse
 interval = 1 # Interval between increasing simulations
 s = 1 # Moving average window size -> smoothness factor
@@ -72,9 +72,9 @@ for i in range(0, sim, interval):
     # saveFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/', simPath))
     # homeFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/', simPath))
     
-    # simPath = ['realismDegree/Herten7_Stochastic', 'realismDegree/Herten8_Ephesia', 'realismDegree/Herten9_Comunian']
+    simPath = ['realismDegree/Herten7_Stochastic', 'realismDegree/Herten8_Ephesia', 'realismDegree/Herten9_Comunian']
     # simPath = ['varMecDisp/varMecDisp1e0alpha', 'varMecDisp/varMecDisp1e-1alpha', 'varMecDisp/varMecDisp1e-2alpha', 'varMecDisp/varMecDisp1e-3alpha']
-    simPath = ['varMecDispTran/varMecDisp1e-1alphaT', 'varMecDispTran/varMecDisp1e-2alphaT', 'varMecDispTran/varMecDisp1e-3alphaT', 'varMecDispTran/varMecDisp1e-4alphaT']
+    # simPath = ['varMecDispTran/varMecDisp1e-1alphaT', 'varMecDispTran/varMecDisp1e-2alphaT', 'varMecDispTran/varMecDisp1e-3alphaT', 'varMecDispTran/varMecDisp1e-4alphaT']
     # simPath = ['varPeclet/lowPeclet', 'varPeclet/mediumPeclet', 'varPeclet/highPeclet']
     # simPath = ['injectionArea/localInjection', 'injectionArea/wellInjection', 'injectionArea/wallInjection']
     saveFolderPath = Path(os.path.join('/Users/pmxep5/Git/Hub/OpenFOAM/PGSFlowTransport/tutorials/Herten/', simPath[i]))
@@ -204,11 +204,11 @@ plt.rc('font', **font)
 plt.figure(figsize=(14, 9))
 lin = ['-', '-.', '--', ':','-', '-', '-', '-', '-', '-']
 
-#lab = ['stochastic', 'conditioned', 'real']
-#lab = ['1e0alpha', '1e-1alpha', '1e-2alpha', '1e-3alpha']
-lab = ['1e-1alphaT', '1e-2alphaT', '1e-3alphaT', '1e-4alphaT']
-#lab = ['low Pe', 'medium Pe', 'high Pe']
-#lab = ['local', 'well', 'wall']
+lab = ['stochastic', 'conditioned', 'real']
+# lab = ['1e0alpha', '1e-1alpha', '1e-2alpha', '1e-3alpha']
+# lab = ['1e-1alphaT', '1e-2alphaT', '1e-3alphaT', '1e-4alphaT']
+# lab = ['low Pe', 'medium Pe', 'high Pe']
+# lab = ['local', 'well', 'wall']
 
 # lab = ['mesh05cm', 'mesh1cm', 'mesh2cm']
 # lab = ['mesh1mm', 'mesh 0.5cm', 'mesh 1cm', 'mesh 2cm']
@@ -261,12 +261,14 @@ os.makedirs(os.path.join(saveFolderPath, "../images"), exist_ok = True)
 # plt.savefig(os.path.join(latexFolderPath, "images/increasingLxLC.png"))
 # plt.savefig(os.path.join(saveFolderPath, "../images/HertenBTCdifferentKdc.png"))
 
+plt.savefig(os.path.join(saveFolderPath, "../images/realismDegreeDCdimensionalT.png"))
+plt.savefig(os.path.join(latexFolderPath, "images/realismDegreeDCdimensionalT.png"))
 # plt.savefig(os.path.join(saveFolderPath, "../images/realismDegreeDC.png"))
 # plt.savefig(os.path.join(latexFolderPath, "images/realismDegreeDC.png"))
 # plt.savefig(os.path.join(saveFolderPath, "../images/varMecDispDC.png"))
 # plt.savefig(os.path.join(latexFolderPath, "images/varMecDispDC.png"))
-plt.savefig(os.path.join(saveFolderPath, "../images/varMecDispTranDC.png"))
-plt.savefig(os.path.join(latexFolderPath, "images/varMecDispTranDC.png"))
+# plt.savefig(os.path.join(saveFolderPath, "../images/varMecDispTranDC.png"))
+# plt.savefig(os.path.join(latexFolderPath, "images/varMecDispTranDC.png"))
 # plt.savefig(os.path.join(saveFolderPath, "../images/varPecletDC.png"))
 # plt.savefig(os.path.join(latexFolderPath, "images/varMecPecletDC.png"))
 # plt.savefig(os.path.join(latexFolderPath, "images/injectionAreaDC.png"))
@@ -313,8 +315,8 @@ os.makedirs(os.path.join(saveFolderPath, "../images"), exist_ok = True)
 # plt.savefig(os.path.join(latexFolderPath, "images/realismDegree.png"))
 # plt.savefig(os.path.join(saveFolderPath, "../images/varMecDisp.png"))
 # plt.savefig(os.path.join(latexFolderPath, "images/varMecDisp.png"))
-plt.savefig(os.path.join(saveFolderPath, "../images/varMecDispTran.png"))
-plt.savefig(os.path.join(latexFolderPath, "images/varMecDispTran.png"))
+# plt.savefig(os.path.join(saveFolderPath, "../images/varMecDispTran.png"))
+# plt.savefig(os.path.join(latexFolderPath, "images/varMecDispTran.png"))
 # plt.savefig(os.path.join(saveFolderPath, "../images/varPeclet.png"))
 # plt.savefig(os.path.join(latexFolderPath, "images/varMecPeclet.png"))
 # plt.savefig(os.path.join(latexFolderPath, "images/injectionArea.png"))
