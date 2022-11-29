@@ -103,7 +103,7 @@ for i in range(0, sim, interval):
 # reread
 # # subprocess.run(['/bin/bash', '-c', 'gnuplot plotPdf'])
 
-# 3a) Plot spatial pdf with Python
+# 3a) Plot marginal spatial pdf with Python
     # os.chdir(homeFolder)
     # # functionObject and spatialPdf yield the PDF of the velocity spatial field
     # subprocess.run(['/bin/bash', '-c', 'mpirun --oversubscribe -np 96 postProcess -dict system/fieldMetricsDict -field U -time 0 -parallel']) # It runs the functionObject added in 1) and the output is stored in processor*/0/magUscaled
@@ -133,9 +133,11 @@ for i in range(0, sim, interval):
 # # 3b) Plot joint spatial pdf with Python
     os.chdir(homeFolder)
     # functionObject and spatialPdf are run to obtain the conditional PDF of the spatial velocity fields given a facies permeability
-    subprocess.run(['/bin/bash', '-c', 'mpirun --oversubscribe -np 96 postProcess -dict system/fieldMetricsDict -fields \'(U K)\' -time 0 -parallel']) # It runs the functionObject added in 1) and the output is stored in processor*/0/magUscaled
+    subprocess.run(['/bin/bash', '-c', 'mpirun --oversubscribe -np 96 postProcess -dict system/fieldMetricsDict -fields \'(U c)\' -time 100000 -parallel']) # It runs the functionObject added in 1) and the output is stored in processor*/0/magUscaled
+    # subprocess.run(['/bin/bash', '-c', 'mpirun --oversubscribe -np 96 postProcess -dict system/fieldMetricsDict -fields \'(U K)\' -time 0 -parallel']) # It runs the functionObject added in 1) and the output is stored in processor*/0/magUscaled
     # subprocess.run(['/bin/bash', '-c', 'mpirun -np 96 postProcess -time 0 -fields \'(U K)\' -parallel']) # It runs the functionObject added in 1) and the output is stored in processor*/0/Kx
-    subprocess.run(['/bin/bash', '-c', 'mpirun --oversubscribe -np 96 spatialPdf -parallel -field magUscaled -time 0 -logbin -nbins 50 -joint Kx'])
+    subprocess.run(['/bin/bash', '-c', 'mpirun --oversubscribe -np 96 spatialPdf -parallel -field magUscaled -time 100000 -logbin -nbins 50 -joint c'])
+    # subprocess.run(['/bin/bash', '-c', 'mpirun --oversubscribe -np 96 spatialPdf -parallel -field magUscaled -time 0 -logbin -nbins 50 -joint Kx'])
     # subprocess.run(['/bin/bash', '-c', 'mpirun -np 96 spatialPdf -time 0 -field magUscaled -parallel -logbin -nbins 50 -joint Kx']) # It runs the spatialPdf post processing utility with a weight function and stores the output in postProcessing/pdf/0/magUscaled-Kx_
     # NB: THE FIRST 4 "IF" ARE THOUGHT FOR HIGH PERMEABILITY CONTRAST WHILE THE SECOND 4 "IF" ARE NEEDED FOR LOW CONTRAST PERMEABILITY 
     # Labels for the paper
@@ -250,7 +252,7 @@ plt.xlabel("$V^*_x$")
 plt.ylabel("$p(V^*_x,K)$")
 plt.tight_layout()
 plt.grid(True, which="both")
-plt.savefig(os.path.join(latexFolderPath, "images/jointPdfHerten.png"))
+# plt.savefig(os.path.join(latexFolderPath, "images/jointPdfHerten.png"))
 
 ###############################################################################
 # import seaborn as sns

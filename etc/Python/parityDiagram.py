@@ -24,16 +24,13 @@ K = [[] for i in range(10)]
 Ux = [[] for i in range(10)]
 F = [[] for i in range(10)]
 
-font = {'size': 50}
-plt.rc('font', **font)
-plt.figure(figsize=(14, 9)) # UNCOMMENT WHEN USING 3b OPTION
 simPath = ['lowPeclet', 'mediumPeclet', 'highPeclet']
 
 for i in range(0, sim, interval):
     # homeFolder = Path('/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/stopConcAdapTmstp/scat_3-highContrast/TS%d' % (FS+i))
     # homeFolder = Path('/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/stopConcAdapTmstp/scat_5-lowContrast/TS%d' % (FS+i))
     homeFolder = Path(os.path.join('/Users/pmxep5/Git/Hub/OpenFOAM/PGSFlowTransport/tutorials/Herten/varPeclet/', simPath[i]))
-    latexFolderPath = Path('/home/pmxep5/Git/Overleaf/Thesis')
+    latexFolderPath = Path('/Users/pmxep5/Git/Overleaf/Thesis')
     with open(Path(os.path.join(homeFolder, 'postProcessing/pdf/0/magUscaled-none_'))) as magUscaled:
         next(magUscaled)
         for index, line in enumerate(magUscaled):
@@ -44,7 +41,9 @@ for i in range(0, sim, interval):
     for index, fi in enumerate(f[i]):
         F[i].append(fi*U[i][index]*Kxx[i][index])
 
-fig = plt.figure()
+font = {'size': 30}
+plt.rc('font', **font)
+plt.figure(figsize=(14, 9)) # UNCOMMENT WHEN USING 3b OPTION
 ax = plt.gca()
 ax.scatter(U[0], Kxx[0], s=F[0])
 plt.xlabel("$V^*_x$")
@@ -52,7 +51,8 @@ plt.ylabel("$K_x$")
 ax.set_yscale('log')
 ax.set_xscale('log')
 plt.grid(True, which="both")
-
+plt.tight_layout()
+plt.savefig(os.path.join(latexFolderPath, "images/parityDiagram.png"))
 
 # for j in range(0, len(Ux)):
 #     plt.loglog(Ux[j], F[j], color="%s" % col[j], label='Kxx=%s' % PermX[j])
