@@ -15,7 +15,7 @@ import numpy as np
 FS = 1
 sim = 1
 interval = 1
-nClass = 10 # Number of classes for the fields (k, U, c) to be divided into (e.g. lowContrast=4, highContrast=4, Herten=10)
+nClass = 3 # Number of classes for the fields (k, U, c) to be divided into (e.g. lowContrast=4, highContrast=4, Herten=10)
 U = [[] for i in range(sim)]
 f = [[] for i in range(sim)] # Frequency or normalised probability
 uf = [[] for i in range(sim)]
@@ -155,23 +155,25 @@ for i in range(0, sim, interval):
                 f[i].append(float(line.split()[2]))
 ###########################################################
 # Bins for joint distribution (V, c)
-    Uclasses = np.linspace(min(U[i]), max(U[i]), num=nClass)
-    for index, x in enumerate(U[i]):
-        for j in range(nClass-1):
-            if Uclasses[j] < x <= Uclasses[j+1]:
-                Ux[j].append(x)
-                c[j].append(Kxx[i][index])
+    # Uclasses = np.linspace(min(U[i]), max(U[i]), num=nClass)
+    cClasses = np.linspace(min(Kxx[i]), max(Kxx[i]), num=nClass+1)
+    for index, x in enumerate(Kxx[i]):
+        for j in range(nClass):
+            if cClasses[j] < x <= cClasses[j+1]:
+                Ux[j].append(U[i][index])
+                c[j].append(x)
                 F[j].append(f[i][index]*Ux[j][-1]*x)                
 
 ax = plt.gca()
 for j in range(0, len(Ux)):  
-    ax.scatter(Ux[j], F[j]) #, s=F[j]) #, color="%s" % col[j], label='Kxx=%s' % PermX[j])
-    plt.xlabel('$V^*_x$')
-    plt.ylabel('$p(c, V^*_x)$')
-    ax.set_yscale('log')
-    ax.set_xscale('log')
-    plt.grid(True, which="both")
-    plt.tight_layout()
+    ax.scatter(c[j], F[j]) #, s=F[j]) #, color="%s" % col[j], label='Kxx=%s' % PermX[j])
+plt.xlabel('$c$')
+plt.ylabel('$p(c, V^*_x)$')
+ax.set_yscale('log')
+ax.set_xscale('log')
+plt.grid(True, which="both")
+plt.tight_layout()
+plt.savefig(os.path.join(latexFolderPath, "images/jointUcPdf.png"))
 ###########################################################
 # Bins for Herten     
     # for index, x in enumerate(Kxx[i]):
