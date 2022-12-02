@@ -128,53 +128,54 @@ for i in range(0, sim, interval):
 # # subprocess.run(['/bin/bash', '-c', 'gnuplot plotPdf'])
 
 # 3a) Plot marginal spatial pdf with Python
-    # os.chdir(homeFolder)
-    # # functionObject and spatialPdf yield the PDF of the velocity spatial field
-    # subprocess.run(['/bin/bash', '-c', 'mpirun --oversubscribe -np 96 postProcess -dict system/fieldMetricsDict -field U -time 0 -parallel']) # It runs the functionObject added in 1) and the output is stored in processor*/0/magUscaled
-    # subprocess.run(['/bin/bash', '-c', 'mpirun --oversubscribe -np 96 spatialPdf -parallel -field magUscaled -time 0 -logbin -nbins 50']) # It runs the spatialPdf post processing utility and stores the output in postProcessing/png/0/magUscaled-none_
-    # col = ['0.0', '0.2', '0.4', '0.6']
-    # lab = ['0.4', '0.6', '0.8', '1.0']
-    # minYaxis = 1e-3
-    # with open(Path(os.path.join(homeFolder, 'postProcessing/pdf/0/magUscaled-none_'))) as magUscaled:
-    #     next(magUscaled)
-    #     for index, line in enumerate(magUscaled):
-    #         U[i].append(float(line.split()[0]))
-    #         f[i].append(float(line.split()[2]))
-    #         uf[i].append(U[i][index]*f[i][index])
-    # plt.loglog(U[i], uf[i], color="%s" % col[i], label='Lx=%s' % lab[i])
-    # plt.axis([np.compress(np.array(uf[i])>minYaxis, U[i])[0], max(U[i]), minYaxis, max(uf[i])]) # np.compress = Pythonic way to slice list using boolean condition
-    # # plt.legend(loc="best")
-    # plt.xlabel("$V^*_x$")
-    # plt.ylabel("$p(V^*_x)$")
-    # plt.grid(True, which="both")
-    # plt.tight_layout()
+    os.chdir(homeFolder)
+    # N.M.FUCKING B.: FOR SOME UNKNOWN REASON IF NUMBER OF "PHYSICAL PROCESSOR < mpirun -np" THE postProcessing AND spatialPdf FUNCTIONS NEED TO BE RUN MANUALLY FROM THE TERMINAL!!
+    # functionObject and spatialPdf yield the PDF of the velocity spatial field
+    subprocess.run(['/bin/bash', '-c', 'mpirun --oversubscribe -np 96 postProcess -func magScaled -dict system/fieldMetricsDict -field U -time 0 -parallel']) # It runs the functionObject added in 1) and the output is stored in processor*/0/magUscaled
+    subprocess.run(['/bin/bash', '-c', 'mpirun --oversubscribe -np 96 spatialPdf -parallel -field magUscaled -time 0 -logbin -nbins 50']) # It runs the spatialPdf post processing utility and stores the output in postProcessing/png/0/magUscaled-none_
+    col = ['0.0', '0.2', '0.4', '0.6']
+    lab = ['0.4', '0.6', '0.8', '1.0']
+    minYaxis = 1e-3
+    with open(Path(os.path.join(homeFolder, 'postProcessing/pdf/0/magUscaled-none_'))) as magUscaled:
+        next(magUscaled)
+        for index, line in enumerate(magUscaled):
+            U[i].append(float(line.split()[0]))
+            f[i].append(float(line.split()[2]))
+            uf[i].append(U[i][index]*f[i][index])
+    plt.loglog(U[i], uf[i], color="%s" % col[i], label='Lx=%s' % lab[i])
+    plt.axis([np.compress(np.array(uf[i])>minYaxis, U[i])[0], max(U[i]), minYaxis, max(uf[i])]) # np.compress = Pythonic way to slice list using boolean condition
+    # plt.legend(loc="best")
+    plt.xlabel("$V^*_x$")
+    plt.ylabel("$p(V^*_x)$")
+    plt.grid(True, which="both")
+    plt.tight_layout()
     # plt.savefig(os.path.join(latexFolderPath, "images/magUscaledHerten.png"))
     
 # 3b) Plot joint spatial pdf with Python
-    os.chdir(homeFolder)
-    # functionObject and spatialPdf are run to obtain the conditional PDF of the spatial velocity fields given a facies permeability
-    subprocess.run(['/bin/bash', '-c', 'mpirun --oversubscribe -np 96 postProcess -func \'(magScaled c)\' -dict system/fieldMetricsDict -fields \'(U c)\' -time 100000 -parallel']) # It runs the functionObject added in 1) and the output is stored in processor*/0/magUscaled
-    # subprocess.run(['/bin/bash', '-c', 'mpirun --oversubscribe -np 96 postProcess -func \'(magScaled Kxx)\' -dict system/fieldMetricsDict -fields \'(U K)\' -time 0 -parallel']) # It runs the functionObject added in 1) and the output is stored as Kx and magUscaled in processor*/0/
-    subprocess.run(['/bin/bash', '-c', 'mpirun --oversubscribe -np 96 spatialPdf -parallel -field magUscaled -time 100000 -logbin -nbins 50 -joint c'])
-    # subprocess.run(['/bin/bash', '-c', 'mpirun --oversubscribe -np 96 spatialPdf -parallel -field magUscaled -time 0 -logbin -nbins 50 -joint Kx']) # It runs the spatialPdf post processing utility with a weight function and stores the output in postProcessing/pdf/0/magUscaled-Kx_
-    # NB: THE FIRST 4 "IF" ARE THOUGHT FOR HIGH PERMEABILITY CONTRAST WHILE THE SECOND 4 "IF" ARE NEEDED FOR LOW CONTRAST PERMEABILITY 
-    # Labels for the paper
-    # PermX = ['1e-10', '1e-11', '1e-12', '1e-13']    
-    # PermX = ['1e-9', '1e-11', '1e-13', '1e-15']
-    # Labels for Herten
-    PermX = ['1.18e-8', '8.62e-9', '2.36e-9', '2.09e-9', '2.09e-10', '2.27e-11', '2.09e-11', '1.27e-11', '5.53e-12', '3.90e-12', '5.44e-14']
-    # col = ['0.0', '0.2', '0.4', '0.6']
-    col = ['0.0', '0.1', '0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9']
-    minYaxis = 1e-3
-    # N.M.B.: Select the right time (likely 0 for joint (U K) and 100000 for joint (U c))
-    with open(Path(os.path.join(homeFolder, 'postProcessing/pdf/100000/magUscaled-none_'))) as magUscaled:
-    # with open(Path(os.path.join(homeFolder, 'postProcessing/pdf/0/magUscaled-none_'))) as magUscaled:
-        next(magUscaled)
-        for index, line in enumerate(magUscaled):
-            if float(line.split()[2])!=0:            
-                U[i].append(float(line.split()[0]))
-                Kxx[i].append(float(line.split()[1]))
-                f[i].append(float(line.split()[2]))
+    # os.chdir(homeFolder)
+    # # functionObject and spatialPdf are run to obtain the conditional PDF of the spatial velocity fields given a facies permeability
+    # subprocess.run(['/bin/bash', '-c', 'mpirun --oversubscribe -np 96 postProcess -funcs \'(magScaled c)\' -dict system/fieldMetricsDict -fields \'(U c)\' -time 100000 -parallel']) # It runs the functionObject added in 1) and the output is stored in processor*/0/magUscaled
+    # # subprocess.run(['/bin/bash', '-c', 'mpirun --oversubscribe -np 96 postProcess -funcs \'(magScaled Kxx)\' -dict system/fieldMetricsDict -fields \'(U K)\' -time 0 -parallel']) # It runs the functionObject added in 1) and the output is stored as Kx and magUscaled in processor*/0/
+    # subprocess.run(['/bin/bash', '-c', 'mpirun --oversubscribe -np 96 spatialPdf -parallel -field magUscaled -time 100000 -logbin -nbins 50 -joint c'])
+    # # subprocess.run(['/bin/bash', '-c', 'mpirun --oversubscribe -np 96 spatialPdf -parallel -field magUscaled -time 0 -logbin -nbins 50 -joint Kx']) # It runs the spatialPdf post processing utility with a weight function and stores the output in postProcessing/pdf/0/magUscaled-Kx_
+    # # NB: THE FIRST 4 "IF" ARE THOUGHT FOR HIGH PERMEABILITY CONTRAST WHILE THE SECOND 4 "IF" ARE NEEDED FOR LOW CONTRAST PERMEABILITY 
+    # # Labels for the paper
+    # # PermX = ['1e-10', '1e-11', '1e-12', '1e-13']    
+    # # PermX = ['1e-9', '1e-11', '1e-13', '1e-15']
+    # # Labels for Herten
+    # PermX = ['1.18e-8', '8.62e-9', '2.36e-9', '2.09e-9', '2.09e-10', '2.27e-11', '2.09e-11', '1.27e-11', '5.53e-12', '3.90e-12', '5.44e-14']
+    # # col = ['0.0', '0.2', '0.4', '0.6']
+    # col = ['0.0', '0.1', '0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9']
+    # minYaxis = 1e-3
+    # # N.M.B.: Select the right time (likely 0 for joint (U K) and 100000 for joint (U c))
+    # with open(Path(os.path.join(homeFolder, 'postProcessing/pdf/100000/magUscaled-none_'))) as magUscaled:
+    # # with open(Path(os.path.join(homeFolder, 'postProcessing/pdf/0/magUscaled-none_'))) as magUscaled:
+    #     next(magUscaled)
+    #     for index, line in enumerate(magUscaled):
+    #         if float(line.split()[2])!=0:            
+    #             U[i].append(float(line.split()[0]))
+    #             Kxx[i].append(float(line.split()[1]))
+    #             f[i].append(float(line.split()[2]))
 ###########################################################
 # Bins for Herten     
     # for index, x in enumerate(Kxx[i]):
@@ -278,25 +279,25 @@ for i in range(0, sim, interval):
 # plt.savefig(os.path.join(latexFolderPath, "images/jointPdfHerten.png"))
 ###########################################################
 # Bins for joint distribution (V, c)
-    # cClasses = np.linspace(min(Kxx[0]), max(Kxx[0]), num=nClass+1)
-    cClasses = np.logspace(math.log10(min(Kxx[0])), math.log10(max(Kxx[0])), num=nClass+1)
-    for index, x in enumerate(Kxx[i]):
-        for j in range(nClass):
-            if cClasses[j] < x <= cClasses[j+1]:
-                Ux[j].append(U[i][index])
-                c[j].append(x)
-                F[j].append(f[i][index]*Ux[j][-1]*x)                
+#     # cClasses = np.linspace(min(Kxx[0]), max(Kxx[0]), num=nClass+1)
+#     cClasses = np.logspace(math.log10(min(Kxx[0])), math.log10(max(Kxx[0])), num=nClass+1)
+#     for index, x in enumerate(Kxx[i]):
+#         for j in range(nClass):
+#             if cClasses[j] < x <= cClasses[j+1]:
+#                 Ux[j].append(U[i][index])
+#                 c[j].append(x)
+#                 F[j].append(f[i][index]*Ux[j][-1]*x)                
 
-ax = plt.gca()
-for j in range(0, len(Ux)):  
-    ax.scatter(Ux[j], F[j]) #, s=F[j]) #, color="%s" % col[j], label='Kxx=%s' % PermX[j])
-plt.xlabel('$V^*_x$')
-plt.ylabel('$p(c, V^*_x)$')
-ax.set_yscale('log')
-ax.set_xscale('log')
-plt.grid(True, which="both")
-plt.tight_layout()
-# plt.savefig(os.path.join(latexFolderPath, "images/jointUcPdf.png"))
+# ax = plt.gca()
+# for j in range(0, len(Ux)):  
+#     ax.scatter(Ux[j], F[j]) #, s=F[j]) #, color="%s" % col[j], label='Kxx=%s' % PermX[j])
+# plt.xlabel('$V^*_x$')
+# plt.ylabel('$p(c, V^*_x)$')
+# ax.set_yscale('log')
+# ax.set_xscale('log')
+# plt.grid(True, which="both")
+# plt.tight_layout()
+# # plt.savefig(os.path.join(latexFolderPath, "images/jointUcPdf.png"))
 ############################################################
 # import seaborn as sns
     # for j in range (0, len(U[i])):       
