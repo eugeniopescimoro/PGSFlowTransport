@@ -72,10 +72,10 @@ for i in range(0, sim, interval):
     # saveFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/', simPath))
     # homeFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/', simPath))
     
-    simPath = ['realismDegree/Herten7_Stochastic', 'realismDegree/Herten8_Ephesia', 'realismDegree/Herten9_Comunian']
+    # simPath = ['realismDegree/Herten7_Stochastic', 'realismDegree/Herten8_Ephesia', 'realismDegree/Herten9_Comunian']
     # simPath = ['varMecDisp/varMecDisp1e0alpha', 'varMecDisp/varMecDisp1e-1alpha', 'varMecDisp/varMecDisp1e-2alpha', 'varMecDisp/varMecDisp1e-3alpha']
     # simPath = ['varMecDispTran/varMecDisp1e-1alphaT', 'varMecDispTran/varMecDisp1e-2alphaT', 'varMecDispTran/varMecDisp1e-3alphaT', 'varMecDispTran/varMecDisp1e-4alphaT']
-    # simPath = ['varPeclet/lowPeclet', 'varPeclet/mediumPeclet', 'varPeclet/highPeclet']
+    simPath = ['varPeclet/lowPeclet', 'varPeclet/mediumPeclet', 'varPeclet/highPeclet']
     # simPath = ['injectionArea/localInjection', 'injectionArea/wellInjection', 'injectionArea/wallInjection']
     saveFolderPath = Path(os.path.join('/Users/pmxep5/Git/Hub/OpenFOAM/PGSFlowTransport/tutorials/Herten/', simPath[i]))
     latexFolderPath = Path('/Users/pmxep5/Git/Overleaf/Thesis/')
