@@ -72,10 +72,10 @@ for i in range(0, sim, interval):
     # saveFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/', simPath))
     # homeFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/', simPath))
     
-    # simPath = ['realismDegree/Herten7_Stochastic', 'realismDegree/Herten8_Ephesia', 'realismDegree/Herten9_Comunian']
+    simPath = ['realismDegree/Herten7_Stochastic', 'realismDegree/Herten8_Ephesia', 'realismDegree/Herten9_Comunian']
     # simPath = ['varMecDisp/varMecDisp1e0alpha', 'varMecDisp/varMecDisp1e-1alpha', 'varMecDisp/varMecDisp1e-2alpha', 'varMecDisp/varMecDisp1e-3alpha']
     # simPath = ['varMecDispTran/varMecDisp1e-1alphaT', 'varMecDispTran/varMecDisp1e-2alphaT', 'varMecDispTran/varMecDisp1e-3alphaT', 'varMecDispTran/varMecDisp1e-4alphaT']
-    simPath = ['varPeclet/lowPeclet', 'varPeclet/mediumPeclet', 'varPeclet/highPeclet']
+    # simPath = ['varPeclet/Dm1e-7alpha1e-5/', 'varPeclet/Dm1e-8alpha1e-4/', 'varPeclet/lowPeclet', 'varPeclet/mediumPeclet', 'varPeclet/highPeclet']
     # simPath = ['injectionArea/localInjection', 'injectionArea/wellInjection', 'injectionArea/wallInjection']
     saveFolderPath = Path(os.path.join('/Users/pmxep5/Git/Hub/OpenFOAM/PGSFlowTransport/tutorials/Herten/', simPath[i]))
     latexFolderPath = Path('/Users/pmxep5/Git/Overleaf/Thesis/')
@@ -202,12 +202,12 @@ plt.rc('font', **font)
 # # plt.show()
 
 plt.figure(figsize=(14, 9))
-lin = ['-', '-.', '--', ':','-', '-', '-', '-', '-', '-']
+lin = ['-', '-.', '--', ':', (0, (5, 2, 1, 2)), '-', '-', '-', '-', '-']
 
 lab = ['stochastic', 'conditioned', 'real']
 # lab = ['1e0alpha', '1e-1alpha', '1e-2alpha', '1e-3alpha']
 # lab = ['1e-1alphaT', '1e-2alphaT', '1e-3alphaT', '1e-4alphaT']
-# lab = ['low Pe', 'medium Pe', 'high Pe']
+# lab = ['Dm1e-7alpha1e-5', 'Dm1e-8alpha1e-4', 'low Pe', 'medium Pe', 'high Pe']
 # lab = ['local', 'well', 'wall']
 
 # lab = ['mesh05cm', 'mesh1cm', 'mesh2cm']
@@ -217,21 +217,21 @@ lab = ['stochastic', 'conditioned', 'real']
 # lab = ['Low Péclet', 'Medium Péclet', 'High Péclet', 'VarMecDisp']
 # lab = ['Low k contrast', 'High k contrast']
 # lab = ['Dmec = constant', 'Dmec = alpha*V']
-col = ['blue', 'orange', 'green', 'red']
+col = ['blue', 'orange', 'green', 'red', 'yellow']
 # col = ['0.1', '0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1.0']
 # col = ['0.0', '0.3', '0.6', '0.9']
 # col = ['0.3', '0.6', '0.9']
 # col = ['0.15', '0.75']
 # col = ['green', 'red']
 for j in range(0, sim, interval):
-    plt.plot(tLS[j], dcLS[j], ls="%s" % lin[j], color="%s" % col[j], lw=4, label="%s" % lab[j])
+    plt.plot(tLS[j], dcLS[j], ls=lin[j], color="%s" % col[j], lw=4, label="%s" % lab[j])
     plt.axis([0, 2, 0, max(max(dcLS, key=max))+0.05*max(max(dcLS, key=max))])
     plt.xlabel("T [-]")
     plt.ylabel("$d\overline{c}/dT$ [-]")
     plt.legend()
 for j in range(0, sim, interval):
     zoom = plt.axes([.45, .3, .4, .4])
-    zoom.plot(tLS[j], dcLS[j], ls="%s" % lin[j], color="%s" % col[j], lw=2)
+    zoom.plot(tLS[j], dcLS[j], ls=lin[j], color="%s" % col[j], lw=2)
     zoom.axis([-0.02*max(max(tLS, key=max)), max(max(tLS, key=max)), 0, max(max(dcLS, key=max))+0.05*max(max(dcLS, key=max))])
 os.makedirs(os.path.join(saveFolderPath, "../images"), exist_ok = True)
 # plt.savefig(os.path.join(saveFolderPath, "../images/PDF.png"))
@@ -245,12 +245,12 @@ for j in range(0, sim, interval):
     dcBoolean = np.array(dcLS[j])>1e-6
     tLSinterval.append([val for j, val in enumerate(tLS[j]) if dcBoolean[j]])
     dcLSinterval.append([val for j, val in enumerate(dcLS[j]) if dcBoolean[j]])
-    plt.loglog(tLS[j], dcLS[j], ls="%s" % lin[j], color="%s" % col[j], lw=4, label="%s" % lab[j])
+    plt.loglog(tLS[j], dcLS[j], ls=lin[j], color="%s" % col[j], lw=4, label="%s" % lab[j])
     plt.legend(loc="best", fontsize=30)
-    # plt.axis([0.1, max(max(tLS, key=max)), 1e-3, max(max(dcLS, key=max))+0.5*max(max(dcLS, key=max))])
-    plt.xlabel("t [s]")
-    plt.ylabel("$d\overline{c}/dT$ [-]")
-    plt.grid(True, which="both")
+# plt.axis([0.1, max(max(tLS, key=max)), 1e-3, max(max(dcLS, key=max))+0.5*max(max(dcLS, key=max))])
+plt.xlabel("t [s]")
+plt.ylabel("$d\overline{c}/dT$ [-]")
+plt.grid(True, which="both")
 plt.tight_layout()
 plt.axis([min(min(tLSinterval, key=min)), max(max(tLSinterval, key=max)), min(min(dcLSinterval, key=min)), max(max(dcLSinterval, key=max))])
 os.makedirs(os.path.join(saveFolderPath, "../images"), exist_ok = True)
@@ -279,7 +279,7 @@ dcLSave = []
 tLSave = []
 plt.figure(figsize=(14, 9))
 for j in range(0, sim, interval):
-    plt.loglog(tLS[j], dcLS[j], ls="%s" % lin[j], color="gray", lw=0.5)
+    plt.loglog(tLS[j], dcLS[j], ls=lin[j], color="gray", lw=0.5)
     plt.axis([0.1, max(max(tLS, key=max)), 1e-3, max(max(dcLS, key=max))+0.5*max(max(dcLS, key=max))])
     plt.xlabel("T [-]")
     plt.ylabel("$d\overline{c}/dT$ [-]")    
@@ -294,25 +294,29 @@ os.makedirs(os.path.join(saveFolderPath, "../images"), exist_ok = True)
 # plt.savefig(os.path.join(saveFolderPath, "../images/logConstVarMecDisp.png"))
 # plt.show()
 
+tThrs = []
+cThrs = []
 plt.figure(figsize=(14, 9))
 for j in range(0, sim, interval):
     # cBoolean = np.logical_and(np.array(dc[j])>1e-3, np.array(dc[j])<1)
     cBoolean = np.logical_and(np.array(c[j]/c[j][-1])>1e-3, np.array(c[j])<1)
-    tThrs = [val for z, val in enumerate(tt[j][:-s]) if cBoolean[z]] # it selects the time only if cBoolean is True
-    cThrs = [val/c[j][-1] for z, val in enumerate(c[j][:-s]) if cBoolean[z]]
-    plt.loglog(tThrs, cThrs, ls="%s" % lin[j], color="%s" % col[j], lw=4, label="%s" % lab[j])
+    tThrs.append([val for z, val in enumerate(tt[j][:-s]) if cBoolean[z]]) # it selects the time only if cBoolean is True
+    cThrs.append([(c[j][-1]-val)/c[j][-1] for z, val in enumerate(c[j][:-s]) if cBoolean[z]])
+    plt.loglog(tThrs[j], cThrs[j], ls=lin[j], color="%s" % col[j], lw=4, label="%s" % lab[j])
     plt.legend(loc="best", fontsize=30)
-    plt.xlabel("t [s]")
-    plt.ylabel("$\overline{c} [-]$")
-    plt.grid(True, which="both")
+plt.xlabel("t [s]") # Comment line 24 and uncomment line 25 of Process.py
+# plt.xlabel("T [-]") # Comment line 25 and uncomment line 24 of Process.py
+plt.ylabel("$1 - \overline{c} [-]$")
+plt.grid(True, which="both")
 plt.tight_layout()
 os.makedirs(os.path.join(saveFolderPath, "../images"), exist_ok = True)
+plt.axis([min(min(tThrs, key=min)), max(max(tThrs, key=max)), 1e-3, max(max(cThrs, key=max))])
 
 # plt.savefig(os.path.join(latexFolderPath, "images/lowHighCcdf.png"))
 # plt.savefig(os.path.join(saveFolderPath, "../images/HertenBTCdifferentK.png"))
 
-# plt.savefig(os.path.join(saveFolderPath, "../images/realismDegreeDimensionalT.png"))
-# plt.savefig(os.path.join(latexFolderPath, "images/realismDegreeDimensionalT.png"))
+plt.savefig(os.path.join(saveFolderPath, "../images/realismDegreeDimensionalT.png"))
+plt.savefig(os.path.join(latexFolderPath, "images/realismDegreeDimensionalT.png"))
 # plt.savefig(os.path.join(saveFolderPath, "../images/realismDegree.png"))
 # plt.savefig(os.path.join(latexFolderPath, "images/realismDegree.png"))
 # plt.savefig(os.path.join(saveFolderPath, "../images/varMecDisp.png"))

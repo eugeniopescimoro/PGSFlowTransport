@@ -1,0 +1,79 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | foam-extend: Open Source CFD                    |
+|  \\    /   O peration     | Version:     4.0                                |
+|   \\  /    A nd           | Web:         http://www.foam-extend.org         |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      fieldMetricsDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+functions
+{
+    permeabilityMetrics
+    {
+        type        fieldMetrics;
+        libs        ("libfieldMetricsFunctionObject.so");
+        operations  ("mean" "twoPointCorrelation");
+        nRadii      100;
+        maxDist     1.0;
+        fieldName   K;
+    }
+    concentrationMetrics
+    {
+        type        fieldMetrics;
+        libs        ("libfieldMetricsFunctionObject.so");
+        operations  ("mean" "meanConc");
+        nRadii      100;
+        maxDist     1.0;
+        fieldName   c;
+    }
+    magScaled
+    {
+        // Load the library containing the 'coded' functionObject
+        functionObjectLibs ("libutilityFunctionObjects.so");
+        
+        type coded;        
+        // Name of on-the-fly generated functionObject
+        name UmagScaled;
+        
+        redirectType magScaled;
+        
+        codeExecute
+        #{
+            Info<< "Looking up filed U\n" << endl;
+            // Lookup U
+            const volVectorField& U = mesh().lookupObject<volVectorField>("U"); 
+            scalar vol(gSum(mesh().V()));
+            volScalarField magU(mag(U));
+            volScalarField magUscaled("magUscaled", magU/gSum(magU.primitiveField()*mesh().V())*vol);
+            magUscaled.write();
+        #};
+    }
+    Kxx
+    {
+        // Load the library containing the 'coded' functionObject
+        functionObjectLibs ("libutilityFunctionObjects.so");
+        
+        type coded;        
+        // Name of on-the-fly generated functionObject
+        name symmTensorXXcomponent;
+        
+        redirectType Kxx;
+        
+        codeExecute
+        #{
+            Info<< "Looking up filed K\n" << endl;
+            // Lookup K
+            const volSymmTensorField& K = mesh().lookupObject<volSymmTensorField>("K");
+            volScalarField Kx("Kx", K.component(tensor::XX));
+            Kx.write();
+        #};
+    }
+}
