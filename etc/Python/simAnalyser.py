@@ -19,7 +19,7 @@ from InvGau import invGaussianCDF, invGauVG
 from statistics import mean
 
 # INITIALIZATION ##############################################################
-sim = 3 # Number of simulations to be analysed 
+sim = 4 # Number of simulations to be analysed 
 FS = 1 # Number of the First Simulation to analyse
 interval = 1 # Interval between increasing simulations
 s = 1 # Moving average window size -> smoothness factor
@@ -49,6 +49,29 @@ kvol = []
 kval = []
 n = 1 # Derivative smoothing factor
 
+# LINE STYLES, LEGEND LABELS, LINE COLOURS ####################################
+lin = ['-', '-.', '--', ':', (0, (5, 2, 1, 2)), '-', '-', '-', '-', '-']
+
+# lab = ['stochastic', 'conditioned', 'real']
+# lab = [r'$\alpha=1$', r'$\alpha=10^{-1}$', r'$\alpha=10^{-2}$', r'$\alpha=10^{-3}$']
+lab = [r'$\alpha_L=1$', r'$\alpha_L=10^{-1}$', r'$\alpha_L=10^{-2}$', r'$\alpha_L=10^{-3}$']
+# lab = ['Dm1e-7alpha1e-5', 'Dm1e-8alpha1e-4', 'low Pe', 'medium Pe', 'high Pe']
+# lab = ['local', 'well', 'wall']
+# lab = ['mesh05cm', 'mesh1cm', 'mesh2cm']
+# lab = ['mesh1mm', 'mesh 0.5cm', 'mesh 1cm', 'mesh 2cm']
+# lab = ['TS1', 'TS2', 'TS3', 'TS4', 'TS5', 'TS6', 'TS7', 'TS8', 'TS9', 'TS10']
+# lab = ['Lx = 0.4', 'Lx = 0.6', 'Lx = 0.8', 'Lx = 1.0']
+# lab = ['Low Péclet', 'Medium Péclet', 'High Péclet', 'VarMecDisp']
+# lab = ['Low k contrast', 'High k contrast']
+# lab = ['Dmec = constant', 'Dmec = alpha*V']
+
+col = ['blue', 'orange', 'green', 'red', 'yellow']
+# col = ['0.1', '0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1.0']
+# col = ['0.0', '0.3', '0.6', '0.9']
+# col = ['0.3', '0.6', '0.9']
+# col = ['0.15', '0.75']
+# col = ['green', 'red']
+
 # LOOP THROUGH THE SIMULATIONS ################################################    
 for i in range(0, sim, interval):
 # Paths
@@ -72,10 +95,10 @@ for i in range(0, sim, interval):
     # saveFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/', simPath))
     # homeFolderPath = Path(os.path.join('/data/pmxep5-8/PGSFlowTransport/tutorials/RESULTS/', simPath))
     
-    simPath = ['realismDegree/Herten7_Stochastic', 'realismDegree/Herten8_Ephesia', 'realismDegree/Herten9_Comunian']
+    # simPath = ['realismDegree/Herten7_Stochastic', 'realismDegree/Herten8_Ephesia', 'realismDegree/Herten9_Comunian']
     # simPath = ['varMecDisp/varMecDisp1e0alpha', 'varMecDisp/varMecDisp1e-1alpha', 'varMecDisp/varMecDisp1e-2alpha', 'varMecDisp/varMecDisp1e-3alpha']
-    # simPath = ['varMecDispTran/varMecDisp1e-1alphaT', 'varMecDispTran/varMecDisp1e-2alphaT', 'varMecDispTran/varMecDisp1e-3alphaT', 'varMecDispTran/varMecDisp1e-4alphaT']
-    # simPath = ['varPeclet/Dm1e-7alpha1e-5/', 'varPeclet/Dm1e-8alpha1e-4/', 'varPeclet/lowPeclet', 'varPeclet/mediumPeclet', 'varPeclet/highPeclet']
+    simPath = ['varMecDispTran/varMecDisp1e-1alphaT', 'varMecDispTran/varMecDisp1e-2alphaT', 'varMecDispTran/varMecDisp1e-3alphaT', 'varMecDispTran/varMecDisp1e-4alphaT']
+    # simPath = ['varPeclet/lowPeclet', 'varPeclet/mediumPeclet', 'varPeclet/highPeclet', 'varPeclet/Dm1e-7alpha1e-5/', 'varPeclet/Dm1e-8alpha1e-4/']
     # simPath = ['injectionArea/localInjection', 'injectionArea/wellInjection', 'injectionArea/wallInjection']
     saveFolderPath = Path(os.path.join('/Users/pmxep5/Git/Hub/OpenFOAM/PGSFlowTransport/tutorials/Herten/', simPath[i]))
     latexFolderPath = Path('/Users/pmxep5/Git/Overleaf/Thesis/')
@@ -202,27 +225,6 @@ plt.rc('font', **font)
 # # plt.show()
 
 plt.figure(figsize=(14, 9))
-lin = ['-', '-.', '--', ':', (0, (5, 2, 1, 2)), '-', '-', '-', '-', '-']
-
-lab = ['stochastic', 'conditioned', 'real']
-# lab = ['1e0alpha', '1e-1alpha', '1e-2alpha', '1e-3alpha']
-# lab = ['1e-1alphaT', '1e-2alphaT', '1e-3alphaT', '1e-4alphaT']
-# lab = ['Dm1e-7alpha1e-5', 'Dm1e-8alpha1e-4', 'low Pe', 'medium Pe', 'high Pe']
-# lab = ['local', 'well', 'wall']
-
-# lab = ['mesh05cm', 'mesh1cm', 'mesh2cm']
-# lab = ['mesh1mm', 'mesh 0.5cm', 'mesh 1cm', 'mesh 2cm']
-# lab = ['TS1', 'TS2', 'TS3', 'TS4', 'TS5', 'TS6', 'TS7', 'TS8', 'TS9', 'TS10']
-# lab = ['Lx = 0.4', 'Lx = 0.6', 'Lx = 0.8', 'Lx = 1.0']
-# lab = ['Low Péclet', 'Medium Péclet', 'High Péclet', 'VarMecDisp']
-# lab = ['Low k contrast', 'High k contrast']
-# lab = ['Dmec = constant', 'Dmec = alpha*V']
-col = ['blue', 'orange', 'green', 'red', 'yellow']
-# col = ['0.1', '0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1.0']
-# col = ['0.0', '0.3', '0.6', '0.9']
-# col = ['0.3', '0.6', '0.9']
-# col = ['0.15', '0.75']
-# col = ['green', 'red']
 for j in range(0, sim, interval):
     plt.plot(tLS[j], dcLS[j], ls=lin[j], color="%s" % col[j], lw=4, label="%s" % lab[j])
     plt.axis([0, 2, 0, max(max(dcLS, key=max))+0.05*max(max(dcLS, key=max))])
@@ -267,8 +269,8 @@ os.makedirs(os.path.join(saveFolderPath, "../images"), exist_ok = True)
 # plt.savefig(os.path.join(latexFolderPath, "images/realismDegreeDC.png"))
 # plt.savefig(os.path.join(saveFolderPath, "../images/varMecDispDC.png"))
 # plt.savefig(os.path.join(latexFolderPath, "images/varMecDispDC.png"))
-# plt.savefig(os.path.join(saveFolderPath, "../images/varMecDispTranDC.png"))
-# plt.savefig(os.path.join(latexFolderPath, "images/varMecDispTranDC.png"))
+plt.savefig(os.path.join(saveFolderPath, "../images/varMecDispTranDC.png"))
+plt.savefig(os.path.join(latexFolderPath, "images/varMecDispTranDC.png"))
 # plt.savefig(os.path.join(saveFolderPath, "../images/varPecletDC.png"))
 # plt.savefig(os.path.join(latexFolderPath, "images/varMecPecletDC.png"))
 # plt.savefig(os.path.join(latexFolderPath, "images/injectionAreaDC.png"))
@@ -304,8 +306,8 @@ for j in range(0, sim, interval):
     cThrs.append([(c[j][-1]-val)/c[j][-1] for z, val in enumerate(c[j][:-s]) if cBoolean[z]])
     plt.loglog(tThrs[j], cThrs[j], ls=lin[j], color="%s" % col[j], lw=4, label="%s" % lab[j])
     plt.legend(loc="best", fontsize=30)
-plt.xlabel("t [s]") # Comment line 24 and uncomment line 25 of Process.py
-# plt.xlabel("T [-]") # Comment line 25 and uncomment line 24 of Process.py
+# plt.xlabel("t [s]") # Comment line 24 and uncomment line 25 of Process.py
+plt.xlabel("T [-]") # Comment line 25 and uncomment line 24 of Process.py
 plt.ylabel("$1 - \overline{c} [-]$")
 plt.grid(True, which="both")
 plt.tight_layout()
@@ -315,8 +317,8 @@ plt.axis([min(min(tThrs, key=min)), max(max(tThrs, key=max)), 1e-3, max(max(cThr
 # plt.savefig(os.path.join(latexFolderPath, "images/lowHighCcdf.png"))
 # plt.savefig(os.path.join(saveFolderPath, "../images/HertenBTCdifferentK.png"))
 
-plt.savefig(os.path.join(saveFolderPath, "../images/realismDegreeDimensionalT.png"))
-plt.savefig(os.path.join(latexFolderPath, "images/realismDegreeDimensionalT.png"))
+# plt.savefig(os.path.join(saveFolderPath, "../images/realismDegreeDimensionalT.png"))
+# plt.savefig(os.path.join(latexFolderPath, "images/realismDegreeDimensionalT.png"))
 # plt.savefig(os.path.join(saveFolderPath, "../images/realismDegree.png"))
 # plt.savefig(os.path.join(latexFolderPath, "images/realismDegree.png"))
 # plt.savefig(os.path.join(saveFolderPath, "../images/varMecDisp.png"))

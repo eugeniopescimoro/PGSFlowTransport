@@ -21,8 +21,8 @@ def processConc(path, dd, mvel, c, t, Xbox, s, D, Y, dCnorm, dc, tt, Tadv, tLS, 
     Tadv.append(np.array(tadv))
     T = [val/tadv for j, val in enumerate(t) if cBoolean[j]] # it selects the time only if cBoolean is True
     ndT = [val/tadv for j, val in enumerate(t)]
-    # tt.append(np.array(ndT)) # Non-dimensional times !!
-    tt.append(t) # Dimensional times !!
+    tt.append(np.array(ndT)) # Non-dimensional times !!
+    # tt.append(t) # Dimensional times !!
     
     # CONCENTRATION TIME DERIVATIVE OPTIONS
     sdc = np.array([(c[j+n]-c[j])/(ndT[j+n]-ndT[j]) for j, val in enumerate(c[:-n])]) # Smooth derivative of the concentration every "n" data
