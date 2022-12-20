@@ -16,7 +16,7 @@ import math
 FS = 1
 sim = 1
 interval = 1
-nClass = 50 # Number of classes for the fields (k, U, c) to be divided into (e.g. lowContrast=4, highContrast=4, joint(K, U) for Herten=10, joint(c, U) for Herten=4)
+nClass = 50 # Number of classes for the fields (k, U, c) to be divided into (e.g. lowContrast=4, highContrast=4, joint(K, U) for Herten=10, joint(c, U) for Herten=Number of concentration classes)
 U = [[] for i in range(sim)]
 f = [[] for i in range(sim)] # Frequency or normalised probability
 uf = [[] for i in range(sim)]
@@ -127,30 +127,6 @@ for i in range(0, sim, interval):
 # reread
 # # subprocess.run(['/bin/bash', '-c', 'gnuplot plotPdf'])
 
-# # 3a) Plot spatial pdf with Python
-#     os.chdir(homeFolder)
-#     # N.M.FUCKING B.: FOR SOME UNKNOWN REASON IF NUMBER OF "PHYSICAL PROCESSOR < mpirun -np" THE postProcessing AND spatialPdf FUNCTIONS NEED TO BE RUN MANUALLY FROM THE TERMINAL!!
-#     # functionObject and spatialPdf yield the PDF of the velocity spatial field
-#     subprocess.run(['/bin/bash', '-c', 'mpirun --oversubscribe -np 96 postProcess -func magScaled -dict system/fieldMetricsDict -field U -time 0 -parallel']) # It runs the functionObject added in 1) and the output is stored in processor*/0/magUscaled
-#     subprocess.run(['/bin/bash', '-c', 'mpirun --oversubscribe -np 96 spatialPdf -parallel -field magUscaled -time 0 -logbin -nbins 50']) # It runs the spatialPdf post processing utility and stores the output in postProcessing/png/0/magUscaled-none_
-#     col = ['0.0', '0.2', '0.4', '0.6']
-#     lab = ['0.4', '0.6', '0.8', '1.0']
-#     minYaxis = 1e-3
-#     with open(Path(os.path.join(homeFolder, 'postProcessing/pdf/0/magUscaled-none_'))) as magUscaled:
-#         next(magUscaled)
-#         for index, line in enumerate(magUscaled):
-#             U[i].append(float(line.split()[0]))
-#             f[i].append(float(line.split()[2]))
-#             uf[i].append(U[i][index]*f[i][index])
-#     plt.loglog(U[i], uf[i], color="%s" % col[i], label='Lx=%s' % lab[i])
-#     plt.axis([np.compress(np.array(uf[i])>minYaxis, U[i])[0], max(U[i]), minYaxis, max(uf[i])]) # np.compress = Pythonic way to slice list using boolean condition
-#     # plt.legend(loc="best")
-#     plt.xlabel("$V^*_x$")
-#     plt.ylabel("$p(V^*_x)$")
-#     plt.grid(True, which="both")
-#     plt.tight_layout()
-#     # plt.savefig(os.path.join(latexFolderPath, "images/magUscaledHerten.png"))
-    
 # 3b) Plot joint spatial pdf with Python
     os.chdir(homeFolder)
     # functionObject and spatialPdf are run to obtain the conditional PDF of the spatial velocity fields given a facies permeability
@@ -176,108 +152,7 @@ for i in range(0, sim, interval):
                 U[i].append(float(line.split()[0]))
                 Kxx[i].append(float(line.split()[1]))
                 f[i].append(float(line.split()[2]))
-###########################################################
-# Bins for Herten     
-    # for index, x in enumerate(Kxx[i]):
-    #     if 1.18e-8 >= x > 8.62e-9:
-    #         K[0].append(x)
-    #         Ux[0].append(U[i][index])
-    #         F[0].append(f[i][index]*Ux[0][-1]*x)
-    #     else:
-    #         if 8.62e-9 >= x > 2.36e-9:
-    #             K[1].append(x)
-    #             Ux[1].append(U[i][index])
-    #             F[1].append(f[i][index]*Ux[1][-1]*x)
-    #         else:
-    #             if 2.36e-9 >= x > 2.09e-10:
-    #                 K[2].append(x)
-    #                 Ux[2].append(U[i][index])
-    #                 F[2].append(f[i][index]*Ux[2][-1]*x)
-    #             else:
-    #                 if 2.09e-10 >= x > 2.27e-11:
-    #                     K[3].append(x)
-    #                     Ux[3].append(U[i][index])
-    #                     F[3].append(f[i][index]*Ux[3][-1]*x)
-    #                 else:
-    #                     if 2.27e-11 >= x > 2.09e-11:
-    #                         K[4].append(x)
-    #                         Ux[4].append(U[i][index])
-    #                         F[4].append(f[i][index]*Ux[4][-1]*x)
-    #                     else:
-    #                         if 2.09e-11 >= x > 1.27e-11:
-    #                             K[5].append(x)
-    #                             Ux[5].append(U[i][index])
-    #                             F[5].append(f[i][index]*Ux[5][-1]*x)
-    #                         else:
-    #                             if 1.27e-11 >= x > 5.53e-12:
-    #                                 K[6].append(x)
-    #                                 Ux[6].append(U[i][index])
-    #                                 F[6].append(f[i][index]*Ux[6][-1]*x)
-    #                             else:
-    #                                 if 5.53e-12 >= x > 3.90e-12:
-    #                                     K[7].append(x)
-    #                                     Ux[7].append(U[i][index])
-    #                                     F[7].append(f[i][index]*Ux[7][-1]*x)
-    #                                 else:
-    #                                     if 3.90e-12 >= x > 5.44e-14:
-    #                                         K[8].append(x)
-    #                                         Ux[8].append(U[i][index])
-    #                                         F[8].append(f[i][index]*Ux[8][-1]*x)
-    #                                     else:
-    #                                         if 5.44e-14 >= x:
-    #                                             K[9].append(x)
-    #                                             Ux[9].append(U[i][index])
-    #                                             F[9].append(f[i][index]*Ux[9][-1]*x)                                        
-############################################################   
-# Bins for high contrast         
-        # if x >= 1e-9:
-        #     K[0].append(x)
-        #     Ux[0].append(U[i][index])
-        #     F[0].append(f[i][index]*Ux[0][-1]*x)
-        # if 1e-10 >= x >= 1e-12:
-        #     K[1].append(x)
-        #     Ux[1].append(U[i][index])
-        #     F[1].append(f[i][index]*Ux[1][-1]*x)
-        # if 1e-12 >= x >= 1e-14:
-        #     K[2].append(x)
-        #     Ux[2].append(U[i][index])
-        #     F[2].append(f[i][index]*Ux[2][-1]*x)
-        # if x <= 1e-14:
-        #     K[3].append(x)
-        #     Ux[3].append(U[i][index])
-        #     F[3].append(f[i][index]*Ux[3][-1]*x)
-############################################################
-# Bins for low contrast
-        # if x >= 1e-10:
-        #     K[0].append(x)
-        #     Ux[0].append(U[i][index])
-        #     F[0].append(f[i][index]*Ux[0][-1]*x)
-        # if 1e-10 > x >= 1e-11:
-        #     K[1].append(x)
-        #     Ux[1].append(U[i][index])
-        #     F[1].append(f[i][index]*Ux[1][-1]*x)
-        # if 1e-11 > x >= 1e-12:
-        #     K[2].append(x)
-        #     Ux[2].append(U[i][index])
-        #     F[2].append(f[i][index]*Ux[2][-1]*x)
-        # if x < 1e-12:
-        #     K[3].append(x)
-        #     Ux[3].append(U[i][index])
-        #     F[3].append(f[i][index]*Ux[3][-1]*x)        
-############################################################
-# Plot joint (k, U)
-# for j in range(0, len(Ux)):
-#     Ux[j] = Ux[j] or [0] # If list is empty it sets it to 0 otherwise error in the min/max function
-#     F[j] = F[j] or [0] # If list is empty it sets it to 0 otherwise error in the min/max function
-#     plt.loglog(Ux[j], F[j], color="%s" % col[j], label='Kxx=%s' % PermX[j])
-# plt.axis([min(min(Ux, key=min)), max(max(Ux, key=max)), minYaxis, max(max(F, key=max))]) # np.compress = Pythonic way to slice list using boolean condition
-# # plt.legend(loc="best")
-# plt.xlabel("$V^*_x$")
-# plt.ylabel("$p(V^*_x, Kxx)$")
-# plt.tight_layout()
-# plt.grid(True, which="both")
-# plt.savefig(os.path.join(latexFolderPath, "images/jointPdfHerten.png"))
-###########################################################
+
 # Bins for joint distribution (V, c)
     # cClasses = np.linspace(min(Kxx[0]), max(Kxx[0]), num=nClass+1)
     cClasses = np.logspace(math.log10(min(Kxx[0])), math.log10(max(Kxx[0])), num=nClass+1)
@@ -298,19 +173,3 @@ ax.set_xscale('log')
 plt.grid(True, which="both")
 plt.tight_layout()
 # plt.savefig(os.path.join(latexFolderPath, "images/jointUcPdf.png"))
-############################################################
-# import seaborn as sns
-    # for j in range (0, len(U[i])):       
-    #     uf[i].append(f[i][j]*U[i][j]*Kxx[i][j])
-    # UKjointPdf = sns.jointplot(U[i], Kxx[i], uf[i], kind="hist")
-
-    # for j in range (0, len(U[i])):       
-    #     uf[i].append(U[i][j]*f[i][j])
-    #     kf[i].append(Kxx[i][j]*f[i][j])
-    # UKjointPdf = sns.jointplot(uf[i], kf[i], f[i], kind="hist")
-    
-    # UKjointPdf = sns.jointplot(U[i], Kxx[i], f[i], kind="hist")
-    # UKjointPdf = sns.jointplot(np.log10(U[i]), np.log10(Kxx[i]), np.log10(f[i]), kind="hist")
-    # UKjointPdf.set_axis_labels('log(U/Uave)', 'log(Kxx)', fontsize=24)
-    # sns.jointplot(U[i], Kxx[i], f[i], kind="hist")
-    # UKjointPdf.savefig(os.path.join(latexFolderPath, "images/jointUKpdfHC.png"))

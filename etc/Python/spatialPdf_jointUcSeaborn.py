@@ -174,114 +174,13 @@ for i in range(0, sim, interval):
         for index, line in enumerate(magUscaled):
             if float(line.split()[2])!=0:            
                 U[i].append(float(line.split()[0]))
-                Kxx[i].append(float(line.split()[1]))
+                c[i].append(float(line.split()[1]))
                 f[i].append(float(line.split()[2]))
-###########################################################
-# Bins for Herten     
-    # for index, x in enumerate(Kxx[i]):
-    #     if 1.18e-8 >= x > 8.62e-9:
-    #         K[0].append(x)
-    #         Ux[0].append(U[i][index])
-    #         F[0].append(f[i][index]*Ux[0][-1]*x)
-    #     else:
-    #         if 8.62e-9 >= x > 2.36e-9:
-    #             K[1].append(x)
-    #             Ux[1].append(U[i][index])
-    #             F[1].append(f[i][index]*Ux[1][-1]*x)
-    #         else:
-    #             if 2.36e-9 >= x > 2.09e-10:
-    #                 K[2].append(x)
-    #                 Ux[2].append(U[i][index])
-    #                 F[2].append(f[i][index]*Ux[2][-1]*x)
-    #             else:
-    #                 if 2.09e-10 >= x > 2.27e-11:
-    #                     K[3].append(x)
-    #                     Ux[3].append(U[i][index])
-    #                     F[3].append(f[i][index]*Ux[3][-1]*x)
-    #                 else:
-    #                     if 2.27e-11 >= x > 2.09e-11:
-    #                         K[4].append(x)
-    #                         Ux[4].append(U[i][index])
-    #                         F[4].append(f[i][index]*Ux[4][-1]*x)
-    #                     else:
-    #                         if 2.09e-11 >= x > 1.27e-11:
-    #                             K[5].append(x)
-    #                             Ux[5].append(U[i][index])
-    #                             F[5].append(f[i][index]*Ux[5][-1]*x)
-    #                         else:
-    #                             if 1.27e-11 >= x > 5.53e-12:
-    #                                 K[6].append(x)
-    #                                 Ux[6].append(U[i][index])
-    #                                 F[6].append(f[i][index]*Ux[6][-1]*x)
-    #                             else:
-    #                                 if 5.53e-12 >= x > 3.90e-12:
-    #                                     K[7].append(x)
-    #                                     Ux[7].append(U[i][index])
-    #                                     F[7].append(f[i][index]*Ux[7][-1]*x)
-    #                                 else:
-    #                                     if 3.90e-12 >= x > 5.44e-14:
-    #                                         K[8].append(x)
-    #                                         Ux[8].append(U[i][index])
-    #                                         F[8].append(f[i][index]*Ux[8][-1]*x)
-    #                                     else:
-    #                                         if 5.44e-14 >= x:
-    #                                             K[9].append(x)
-    #                                             Ux[9].append(U[i][index])
-    #                                             F[9].append(f[i][index]*Ux[9][-1]*x)                                        
-############################################################   
-# Bins for high contrast         
-        # if x >= 1e-9:
-        #     K[0].append(x)
-        #     Ux[0].append(U[i][index])
-        #     F[0].append(f[i][index]*Ux[0][-1]*x)
-        # if 1e-10 >= x >= 1e-12:
-        #     K[1].append(x)
-        #     Ux[1].append(U[i][index])
-        #     F[1].append(f[i][index]*Ux[1][-1]*x)
-        # if 1e-12 >= x >= 1e-14:
-        #     K[2].append(x)
-        #     Ux[2].append(U[i][index])
-        #     F[2].append(f[i][index]*Ux[2][-1]*x)
-        # if x <= 1e-14:
-        #     K[3].append(x)
-        #     Ux[3].append(U[i][index])
-        #     F[3].append(f[i][index]*Ux[3][-1]*x)
-############################################################
-# Bins for low contrast
-        # if x >= 1e-10:
-        #     K[0].append(x)
-        #     Ux[0].append(U[i][index])
-        #     F[0].append(f[i][index]*Ux[0][-1]*x)
-        # if 1e-10 > x >= 1e-11:
-        #     K[1].append(x)
-        #     Ux[1].append(U[i][index])
-        #     F[1].append(f[i][index]*Ux[1][-1]*x)
-        # if 1e-11 > x >= 1e-12:
-        #     K[2].append(x)
-        #     Ux[2].append(U[i][index])
-        #     F[2].append(f[i][index]*Ux[2][-1]*x)
-        # if x < 1e-12:
-        #     K[3].append(x)
-        #     Ux[3].append(U[i][index])
-        #     F[3].append(f[i][index]*Ux[3][-1]*x)        
-############################################################
-# Plot joint (k, U)
-# for j in range(0, len(Ux)):
-#     Ux[j] = Ux[j] or [0] # If list is empty it sets it to 0 otherwise error in the min/max function
-#     F[j] = F[j] or [0] # If list is empty it sets it to 0 otherwise error in the min/max function
-#     plt.loglog(Ux[j], F[j], color="%s" % col[j], label='Kxx=%s' % PermX[j])
-# plt.axis([min(min(Ux, key=min)), max(max(Ux, key=max)), minYaxis, max(max(F, key=max))]) # np.compress = Pythonic way to slice list using boolean condition
-# # plt.legend(loc="best")
-# plt.xlabel("$V^*_x$")
-# plt.ylabel("$p(V^*_x, Kxx)$")
-# plt.tight_layout()
-# plt.grid(True, which="both")
-# plt.savefig(os.path.join(latexFolderPath, "images/jointPdfHerten.png"))
-###########################################################
+
 # Bins for joint distribution (V, c)
-    # cClasses = np.linspace(min(Kxx[0]), max(Kxx[0]), num=nClass+1)
-    cClasses = np.logspace(math.log10(min(Kxx[0])), math.log10(max(Kxx[0])), num=nClass+1)
-    for index, x in enumerate(Kxx[i]):
+    # cClasses = np.linspace(min(c[0]), max(c[0]), num=nClass+1)
+    cClasses = np.logspace(math.log10(min(c[0])), math.log10(max(c[0])), num=nClass+1)
+    for index, x in enumerate(c[i]):
         for j in range(nClass):
             if cClasses[j] < x <= cClasses[j+1]:
                 Ux[j].append(U[i][index])
@@ -290,7 +189,7 @@ for i in range(0, sim, interval):
 
 ax = plt.gca()
 for j in range(0, len(Ux)):  
-    ax.scatter(Ux[j], F[j]) #, s=F[j]) #, color="%s" % col[j], label='Kxx=%s' % PermX[j])
+    ax.scatter(Ux[j], F[j]) #, s=F[j]) #, color="%s" % col[j], label='c=%s' % PermX[j])
 plt.xlabel('$V^*_x$')
 plt.ylabel('$p(c, V^*_x)$')
 ax.set_yscale('log')
@@ -298,19 +197,29 @@ ax.set_xscale('log')
 plt.grid(True, which="both")
 plt.tight_layout()
 # plt.savefig(os.path.join(latexFolderPath, "images/jointUcPdf.png"))
+
+import seaborn as sns
+Uave = [np.mean(Ui) for Ui in Ux]
+Cave = [np.mean(ci) for ci in c]
+Fi = [sum(Fi) for Fi in F]
+UcJointPdf = sns.jointplot(Uave, Cave, Fi, kind="hist")
+UcJointPdf.ax_joint.set_xscale('log')
+UcJointPdf.ax_joint.set_yscale('log')
+plt.grid(True, which="both")
+UcJointPdf.set_axis_labels('U*', 'c', fontsize=24)
 ############################################################
 # import seaborn as sns
     # for j in range (0, len(U[i])):       
-    #     uf[i].append(f[i][j]*U[i][j]*Kxx[i][j])
-    # UKjointPdf = sns.jointplot(U[i], Kxx[i], uf[i], kind="hist")
+    #     uf[i].append(f[i][j]*U[i][j]*c[i][j])
+    # UKjointPdf = sns.jointplot(U[i], c[i], uf[i], kind="hist")
 
     # for j in range (0, len(U[i])):       
     #     uf[i].append(U[i][j]*f[i][j])
-    #     kf[i].append(Kxx[i][j]*f[i][j])
+    #     kf[i].append(c[i][j]*f[i][j])
     # UKjointPdf = sns.jointplot(uf[i], kf[i], f[i], kind="hist")
     
-    # UKjointPdf = sns.jointplot(U[i], Kxx[i], f[i], kind="hist")
-    # UKjointPdf = sns.jointplot(np.log10(U[i]), np.log10(Kxx[i]), np.log10(f[i]), kind="hist")
-    # UKjointPdf.set_axis_labels('log(U/Uave)', 'log(Kxx)', fontsize=24)
-    # sns.jointplot(U[i], Kxx[i], f[i], kind="hist")
+    # UKjointPdf = sns.jointplot(U[i], c[i], f[i], kind="hist")
+    # UKjointPdf = sns.jointplot(np.log10(U[i]), np.log10(c[i]), np.log10(f[i]), kind="hist")
+    # UKjointPdf.set_axis_labels('log(U/Uave)', 'log(c)', fontsize=24)
+    # sns.jointplot(U[i], c[i], f[i], kind="hist")
     # UKjointPdf.savefig(os.path.join(latexFolderPath, "images/jointUKpdfHC.png"))
