@@ -12,11 +12,13 @@ import subprocess
 import matplotlib.pyplot as plt
 import numpy as np
 import math
+from itertools import islice
 
 FS = 1
 sim = 1
 interval = 1
 nClass = 50 # Number of classes for the fields (k, U, c) to be divided into (e.g. lowContrast=4, highContrast=4, joint(K, U) for Herten=10, joint(c, U) for Herten=4)
+c = [[] for i in range(sim)]
 U = [[] for i in range(sim)]
 f = [[] for i in range(sim)] # Frequency or normalised probability
 uf = [[] for i in range(sim)]
@@ -25,11 +27,11 @@ Kxx = [[] for i in range(sim)]
 K = [[] for i in range(nClass)]
 Ux = [[] for i in range(nClass)]
 F = [[] for i in range(nClass)]
-c = [[] for i in range(nClass)]
+C = [[] for i in range(nClass)]
 
 font = {'size': 30}
 plt.rc('font', **font)
-plt.figure(figsize=(14, 9)) # UNCOMMENT WHEN USING 3b OPTION
+# plt.figure(figsize=(14, 9)) # UNCOMMENT WHEN USING 3b OPTION
 simPath = ['lowPeclet', 'mediumPeclet', 'highPeclet']
 
 subprocess.run(['/bin/bash', '-c', '. /opt/openfoam8/etc/bashrc']) # It loads the environment variable OpenFOAM
@@ -153,73 +155,47 @@ for i in range(0, sim, interval):
     
 # 3b) Plot joint spatial pdf with Python
     os.chdir(homeFolder)
-    # functionObject and spatialPdf are run to obtain the conditional PDF of the spatial velocity fields given a facies permeability
-    subprocess.run(['/bin/bash', '-c', 'mpirun --oversubscribe -np 96 postProcess -funcs \'(magScaled c)\' -dict system/fieldMetricsDict -fields \'(U c)\' -time 100000 -parallel']) # It runs the functionObject added in 1) and the output is stored in processor*/0/magUscaled
+    # functionObject and spatialPdf are run to obtain the conditional PDF of the spatial velocity fields given a facies permeability or the concentration field
+    # FOR -np > number  of physical processors, the following command needs to be run manually: mpirun --oversubscribe -np 96 postProcess -funcs '(magScaled c)' -dict system/fieldMetricsDict -fields '(U c)' -time 100000 -parallel
+    # subprocess.run(['/bin/bash', '-c', 'mpirun --oversubscribe -np 96 postProcess -funcs \'(magScaled c)\' -dict system/fieldMetricsDict -fields \'(U c)\' -time 100000 -parallel']) # It runs the functionObject added in 1) and the output is stored in processor*/0/magUscaled
     # subprocess.run(['/bin/bash', '-c', 'mpirun --oversubscribe -np 96 postProcess -funcs \'(magScaled Kxx)\' -dict system/fieldMetricsDict -fields \'(U K)\' -time 0 -parallel']) # It runs the functionObject added in 1) and the output is stored as Kx and magUscaled in processor*/0/
-    subprocess.run(['/bin/bash', '-c', 'mpirun --oversubscribe -np 96 spatialPdf -parallel -field magUscaled -time 100000 -logbin -nbins 50 -joint c'])
+    # FOR -np > number  of physical processors, the following command needs to be run manually: mpirun --oversubscribe -np 96 spatialPdf -parallel -field magUscaled -time 100000 -logbin -nbins 50 -joint c
+    # subprocess.run(['/bin/bash', '-c', 'mpirun --oversubscribe -np 96 spatialPdf -parallel -field magUscaled -time 100000 -logbin -nbins 50 -joint c'])
     # subprocess.run(['/bin/bash', '-c', 'mpirun --oversubscribe -np 96 spatialPdf -parallel -field magUscaled -time 0 -logbin -nbins 50 -joint Kx']) # It runs the spatialPdf post processing utility with a weight function and stores the output in postProcessing/pdf/0/magUscaled-Kx_
-    # NB: THE FIRST 4 "IF" ARE THOUGHT FOR HIGH PERMEABILITY CONTRAST WHILE THE SECOND 4 "IF" ARE NEEDED FOR LOW CONTRAST PERMEABILITY 
-    # Labels for the paper
-    # PermX = ['1e-10', '1e-11', '1e-12', '1e-13']    
-    # PermX = ['1e-9', '1e-11', '1e-13', '1e-15']
-    # Labels for Herten
-    PermX = ['1.18e-8', '8.62e-9', '2.36e-9', '2.09e-9', '2.09e-10', '2.27e-11', '2.09e-11', '1.27e-11', '5.53e-12', '3.90e-12', '5.44e-14']
-    # col = ['0.0', '0.2', '0.4', '0.6']
-    col = ['0.0', '0.1', '0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9']
-    minYaxis = 1e-2
-    # N.M.B.: Select the right time (likely 0 for joint (U K) and 100000 for joint (U c))
+
     with open(Path(os.path.join(homeFolder, 'postProcessing/pdf/100000/magUscaled-none_'))) as magUscaled:
-    # with open(Path(os.path.join(homeFolder, 'postProcessing/pdf/0/magUscaled-none_'))) as magUscaled:
         next(magUscaled)
         for index, line in enumerate(magUscaled):
-            if float(line.split()[2])!=0:            
+            # if float(line.split()[2])!=0:            
                 U[i].append(float(line.split()[0]))
                 c[i].append(float(line.split()[1]))
                 f[i].append(float(line.split()[2]))
 
-# Bins for joint distribution (V, c)
-    # cClasses = np.linspace(min(c[0]), max(c[0]), num=nClass+1)
-    cClasses = np.logspace(math.log10(min(c[0])), math.log10(max(c[0])), num=nClass+1)
-    for index, x in enumerate(c[i]):
-        for j in range(nClass):
-            if cClasses[j] < x <= cClasses[j+1]:
-                Ux[j].append(U[i][index])
-                c[j].append(x)
-                F[j].append(f[i][index]*Ux[j][-1]*x)                
+#         for index, line in enumerate(magUscaled):
+#             f[i].append(float(line.split()[2]))                
+# length_to_split = [50 for i in range(nClass)]
+# Inputt = iter(f[i])
+# Output = [list(islice(Inputt, elem)) for elem in length_to_split]
 
-ax = plt.gca()
-for j in range(0, len(Ux)):  
-    ax.scatter(Ux[j], F[j]) #, s=F[j]) #, color="%s" % col[j], label='c=%s' % PermX[j])
-plt.xlabel('$V^*_x$')
-plt.ylabel('$p(c, V^*_x)$')
-ax.set_yscale('log')
-ax.set_xscale('log')
-plt.grid(True, which="both")
-plt.tight_layout()
-# plt.savefig(os.path.join(latexFolderPath, "images/jointUcPdf.png"))
+# # Bins for joint distribution (V, c)
+#     # cClasses = np.linspace(min(c[0]), max(c[0]), num=nClass+1)
+#     cClasses = np.logspace(math.log10(min(c[0])), math.log10(max(c[0])), num=nClass+1)
+#     for index, x in enumerate(c[i]):
+#         for j in range(nClass):
+#             if cClasses[j] < x <= cClasses[j+1]:
+#                 Ux[j].append(U[i][index])
+#                 C[j].append(x)
+#                 F[j].append(f[i][index]*Ux[j][-1]*x)                
+# Uave = [np.mean(Ui) for Ui in Ux]
+# Cave = [np.mean(ci) for ci in C]
+# Fi = [sum(Fi) for Fi in F]
 
 import seaborn as sns
-Uave = [np.mean(Ui) for Ui in Ux]
-Cave = [np.mean(ci) for ci in c]
-Fi = [sum(Fi) for Fi in F]
-UcJointPdf = sns.jointplot(Uave, Cave, Fi, kind="hist")
+# sns.heatmap(Output)
+# UcJointPdf = sns.jointplot(Uave, Cave, Fi, kind="hist")
+UcJointPdf = sns.jointplot(U[0], c[0], f[0], kind="hist")
 UcJointPdf.ax_joint.set_xscale('log')
 UcJointPdf.ax_joint.set_yscale('log')
 plt.grid(True, which="both")
-UcJointPdf.set_axis_labels('U*', 'c', fontsize=24)
-############################################################
-# import seaborn as sns
-    # for j in range (0, len(U[i])):       
-    #     uf[i].append(f[i][j]*U[i][j]*c[i][j])
-    # UKjointPdf = sns.jointplot(U[i], c[i], uf[i], kind="hist")
-
-    # for j in range (0, len(U[i])):       
-    #     uf[i].append(U[i][j]*f[i][j])
-    #     kf[i].append(c[i][j]*f[i][j])
-    # UKjointPdf = sns.jointplot(uf[i], kf[i], f[i], kind="hist")
-    
-    # UKjointPdf = sns.jointplot(U[i], c[i], f[i], kind="hist")
-    # UKjointPdf = sns.jointplot(np.log10(U[i]), np.log10(c[i]), np.log10(f[i]), kind="hist")
-    # UKjointPdf.set_axis_labels('log(U/Uave)', 'log(c)', fontsize=24)
-    # sns.jointplot(U[i], c[i], f[i], kind="hist")
-    # UKjointPdf.savefig(os.path.join(latexFolderPath, "images/jointUKpdfHC.png"))
+UcJointPdf.set_axis_labels('U*', 'c', fontsize=30)
+plt.savefig(os.path.join(latexFolderPath, "images/jointUcColourMap.png"))
